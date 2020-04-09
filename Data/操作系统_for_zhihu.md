@@ -5,7 +5,7 @@
 工作原理和实现方法
 技术含量最高的系统软件
 
-![001](操作系统/001.jpg)
+![001](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/001.jpg)
 
 将硬件的复杂性与程序员分离开
 定义：系统软件， 程序模块的集合，资源管理和用户接口功能
@@ -62,11 +62,11 @@ shell 、GUI
 多线程和多核芯片 书1p13
 
 I/O：控制器+设备本身    device driver
-![002](操作系统/002.jpg)
+![002](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/002.jpg)
 * 实现I/O的三种方式
 轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）
 
-中断系统的两大组成部分: 硬件中断装置和软件中断处理程序 (中断设备的设备驱动程序的一部分)![005](操作系统/005.jpg)
+中断系统的两大组成部分: 硬件中断装置和软件中断处理程序 (中断设备的设备驱动程序的一部分)![005](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/005.jpg)
 
 启动计算机：主板BIOS
 进程、地址空间、进程间通信
@@ -89,7 +89,7 @@ system_call() 	sys_call_table
 系统调用与内核函数（即服务例程，e.g. sys_getpid()）
 封装例程     ppt2-p56
 
-![006](操作系统/006.jpg)
+![006](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/006.jpg)
 
 用于进程管理、文件管理、目录管理 书1p32
     UID、GID、PID
@@ -102,7 +102,7 @@ system_call() 	sys_call_table
 
 WIN32 API: 
 
-![003](操作系统/003.jpg)
+![003](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/003.jpg)
 #### 4.操作系统结构
 * 单体系统（模块组合结构）
 * 层次式系统
@@ -110,7 +110,7 @@ WIN32 API:
 * 微内核
 * 虚拟机结构: VM/370
 会话监控系统CMS
-![004](操作系统/004.jpg)
+![004](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/004.jpg)
 这是1型超级监控程序（cons：用户态不能陷入）
 2型：VMWare，主机/客户操作系统
 * 微内核结构：运行在核心态的内核􏰁供最基本的操作系统功 能，包括中断处理、处理机调度、进程间通信。这些部 分只􏰁供了一个很小的功能集合，通常称为微内核
@@ -118,7 +118,7 @@ WIN32 API:
 微内核结构的变体：客户-服务器模型
 客户进程与服务器进程之间使用消息进行通信
 
-![Windows内核结构](操作系统/004.jpg)
+![Windows内核结构](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/004.jpg)
 
 
 
