@@ -22,108 +22,109 @@
 
 1. 批处理操作系统
 
-	改进主存和I/O设备之间的吞吐量
-	特征：用户脱机使用，无法交互
+	改进主存和I/O设备之间的吞吐量<br/>
+	特征：用户脱机使用，无法交互<br/>
 
 2. 多道程序设计 multiprogramming
-	需要硬件保护
-	宏观上并行，微观上串行
+	需要硬件保护<br/>
+	宏观上并行，微观上串行<br/>
 3. 系列机思想与IBM System/360系统
-	统一的体系结构、指令集 -> 软件危机
+	统一的体系结构、指令集 -> 软件危机<br/>
 4. 分时系统：轮流使用time slice
-	unix操作系统：多用户、多任务、分时
-	unic前身是MULTICS系统，内外环设计
+	unix操作系统：多用户、多任务、分时<br/>
+	unic前身是MULTICS系统，内外环设计<br/>
 5. 大规模集成电路时代
-	分布式、嵌入式
+	分布式、嵌入式<br/>
 
 #### 2.操作系统的硬件环境
 
 **寄存器分类：**
-- 用户可见寄存器: 高级语言编译器通过算法分配并使用之，以减少程序访问主存次数
-  数据寄存器、地址寄存器、条件码寄存器（溢出、符号）
+- 用户可见寄存器: 高级语言编译器通过算法分配并使用之，以减少程序访问主存次数<br/>
+  数据寄存器、地址寄存器、条件码寄存器（溢出、符号）<br/>
 
-- 控制和状态寄存器: 用于控制处理器的操作，由OS的特权代码使用, 以控制其他程序的执行
-  PC、IR、PSW(program status word)
-  PSW中有一位CPU的状态工作码, PSW在系统调用和I/O中很重要
+- 控制和状态寄存器: 用于控制处理器的操作，由OS的特权代码使用, 以控制其他程序的执行<br/>
+  PC、IR、PSW(program status word)<br/>
+  PSW中有一位CPU的状态工作码, PSW在系统调用和I/O中很重要<br/>
 
-**核心态=管态、用户态=目态**
+**核心态=管态、用户态=目态**<br/>
+<br/>
+I/O不在用户态内<br/>
+用户态->核心态: trap	核心态->用户态：修改PSW<br/>
+e.g. x86: R0 R1 R2 R3<br/>
 
-I/O不在用户态内
-用户态->核心态: trap	核心态->用户态：修改PSW
-e.g. x86: R0 R1 R2 R3
+**层次化存储体系结构** ～ 容量、速度、成本<br/>
 
-**层次化存储体系结构** ～ 容量、速度、成本
+存储访问局部性原理<br/>
+cpu访问寄存器不存在延时，操作系统不访问cache<br/>
+磁带光盘价格极其低廉，作为磁盘的备份<br/>
 
-存储访问局部性原理
-cpu访问寄存器不存在延时，操作系统不访问cache
-磁带光盘价格极其低廉，作为磁盘的备份
+shell 、GUI<br/>
+多线程和多核芯片 书1p13<br/>
 
-shell 、GUI
-多线程和多核芯片 书1p13
-
-I/O：控制器+设备本身    device driver
+I/O：控制器+设备本身    device driver<br/>
 ![002](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/002.jpg)
-* 实现I/O的三种方式
-轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）
+* 实现I/O的三种方式<br/>
+轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）<br/>
+<br/>
+中断系统的两大组成部分: 硬件中断装置和软件中断处理程序 (中断设备的设备驱动程序的一部分)<br/>
+![005](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/005.jpg)
 
-中断系统的两大组成部分: 硬件中断装置和软件中断处理程序 (中断设备的设备驱动程序的一部分)![005](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/005.jpg)
-
-启动计算机：主板BIOS
-进程、地址空间、进程间通信
-虚拟内存
-UNIX：特殊文件、管道
-rwx r-x --x     p25
-
-**“个体重复系统发育”**，很深刻
+启动计算机：主板BIOS<br/>
+进程、地址空间、进程间通信<br/>
+虚拟内存<br/>
+UNIX：特殊文件、管道<br/>
+rwx r-x --x     p25<br/>
+<br/>
+**“个体重复系统发育”**，很深刻<br/>
 
 #### 3.系统调用
 
-1.6 系统调用~执行“trap”			功能号和参数
-大多采用在内存中开辟专用堆栈区来传递参数
+1.6 系统调用~执行“trap”			功能号和参数<br/>
+大多采用在内存中开辟专用堆栈区来传递参数<br/>
 
-**linux系统调用**： 
-system_call() 	sys_call_table
+**linux系统调用**： <br/>
+system_call() 	sys_call_table<br/>
 
 > Linux系统调用利用了x86体系结构中的软件中断，即调用了int $0x80汇编指令。这条汇编指令将产生向量为128的软件中断， CPU被切换到内核态，并将控制权交给系统调用过程的起点system_call()处理函数
 
-系统调用与内核函数（即服务例程，e.g. sys_getpid()）
-封装例程     ppt2-p56
+系统调用与内核函数（即服务例程，e.g. sys_getpid()）<br/>
+封装例程     ppt2-p56<br/>
 
 ![006](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/006.jpg)
 
-用于进程管理、文件管理、目录管理 书1p32
-    UID、GID、PID
-    PID～fork，waitpid指令
-        fork不可继承的有:进程标识符，父进程标识符
-[execve](https://my.oschina.net/u/3857782/blog/1854572)：替换一个进程的核心映像
+用于进程管理、文件管理、目录管理 书1p32<br/>
+    UID、GID、PID<br/>
+    PID～fork，waitpid指令<br/>
+        fork不可继承的有:进程标识符，父进程标识符<br/>
+[execve](https://my.oschina.net/u/3857782/blog/1854572)：替换一个进程的核心映像<br/>
 
-**POSIX过程调用** ：进程管理(fork, execve, waitpid, exit(status) )、文件管理(open, ...)、目录管理（mkdir, rmdir, ..., umount, unlink）、其它([chmod](https://blog.csdn.net/pythonw/article/details/80263428), kill, chdir, time)
-<-> 
-
-WIN32 API: 
+**POSIX过程调用** ：进程管理(fork, execve, waitpid, exit(status) )、文件管理(open, ...)、目录管理（mkdir, rmdir, ..., umount, unlink）、其它([chmod](https://blog.csdn.net/pythonw/article/details/80263428), kill, chdir, time)<br/>
+<-> <br/>
+<br/>
+WIN32 API: <br/>
 
 ![003](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/003.jpg)
-#### 4.操作系统结构
+#### 4.操作系统结构<br/>
 * 单体系统（模块组合结构）
 * 层次式系统
 
-分层：全序、偏序、半序
+分层：全序、偏序、半序<br/>
 * 微内核
 * 虚拟机结构: VM/370
 
-会话监控系统CMS
+会话监控系统CMS<br/>
 ![004](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/004.jpg)
-这是1型超级监控程序（cons：用户态不能陷入）
+这是1型超级监控程序（cons：用户态不能陷入）<br/>
 
-2型：VMWare，主机/客户操作系统
+2型：VMWare，主机/客户操作系统<br/>
 
-* 微内核结构：运行在核心态的内核􏰁提供最基本的操作系统功能，包括中断处理、处理机调度、进程间通信。这些部 分只􏰁供了一个很小的功能集合，通常称为微内核
+* 微内核结构：运行在核心态的内核􏰁提供最基本的操作系统功能，包括中断处理、处理机调度、进程间通信。这些部 分只􏰁供了一个很小的功能集合，通常称为微内核<br/><br/>
 
-特点：Mechanism和policy分离=>使内核更小
+特点：Mechanism和policy分离=>使内核更小<br/>
 
-微内核结构的变体：客户-服务器模型
+微内核结构的变体：客户-服务器模型<br/>
 
-客户进程与服务器进程之间使用消息进行通信
+客户进程与服务器进程之间使用消息进行通信<br/>
 
 ![Windows内核结构](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/004.jpg)
 
