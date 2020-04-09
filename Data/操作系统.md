@@ -1,4 +1,4 @@
-## 操作系统
+## 操作系统（本科课程笔记）
 [toc]
 书1：现代操作系统，答案 http://www.docin.com/p-1064801733.html?docfrom=rrela
 ### chpt1 引论
