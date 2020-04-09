@@ -92,10 +92,10 @@ system_call() 	sys_call_table<br/>
 
 ![006](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/006.jpg)
 
-用于进程管理、文件管理、目录管理 书1p32<br/>
-    UID、GID、PID<br/>
-    PID～fork，waitpid指令<br/>
-        fork不可继承的有:进程标识符，父进程标识符<br/>
+用于进程管理、文件管理、目录管理         书1p32<br/>
+UID、GID、PID<br/>
+PID～fork，waitpid指令<br/>
+fork不可继承的有:进程标识符，父进程标识符<br/>
 [execve](https://my.oschina.net/u/3857782/blog/1854572)：替换一个进程的核心映像<br/>
 
 **POSIX过程调用** ：进程管理(fork, execve, waitpid, exit(status) )、文件管理(open, ...)、目录管理（mkdir, rmdir, ..., umount, unlink）、其它([chmod](https://blog.csdn.net/pythonw/article/details/80263428), kill, chdir, time)<br/>
