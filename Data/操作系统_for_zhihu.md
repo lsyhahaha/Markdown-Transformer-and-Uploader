@@ -6,7 +6,7 @@
 
 技术含量最高的系统软件
 
-![001](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/001.jpg)
+![001](操作系统/001.jpg)
 
 将硬件的复杂性与程序员分离开
 
@@ -71,13 +71,13 @@ shell 、GUI<br/>
 多线程和多核芯片 书1p13<br/>
 
 I/O：控制器+设备本身    device driver<br/>
-![002](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/002.jpg)
+![002](操作系统/002.jpg)
 * 实现I/O的三种方式<br/>
 轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）<br/>
 <br/>
 中断系统的两大组成部分: 硬件中断装置和软件中断处理程序 (中断设备的设备驱动程序的一部分)
 
-![005](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/005.jpg)
+![005](操作系统/005.jpg)
 
 启动计算机：主板BIOS<br/>
 进程、地址空间、进程间通信<br/>
@@ -100,7 +100,7 @@ system_call() 	sys_call_table<br/>
 系统调用与内核函数（即服务例程，e.g. sys_getpid()）<br/>
 封装例程     ppt2-p56<br/>
 
-![006](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/006.jpg)
+![006](操作系统/006.jpg)
 
 用于进程管理、文件管理、目录管理         书1p32<br/>
 UID、GID、PID<br/>
@@ -108,12 +108,13 @@ PID～fork，waitpid指令<br/>
 fork不可继承的有:进程标识符，父进程标识符<br/>
 [execve](https://my.oschina.net/u/3857782/blog/1854572)：替换一个进程的核心映像<br/>
 
-**POSIX过程调用** ：进程管理(fork, execve, waitpid, exit(status) )、文件管理(open, ...)、目录管理（mkdir, rmdir, ..., umount, unlink）、其它([chmod](https://blog.csdn.net/pythonw/article/details/80263428), kill, chdir, time)<br/>
-<-> <br/>
-<br/>
+**POSIX过程调用** ：进程管理(fork, execve, waitpid, exit(status) )、文件管理(open, ...)、目录管理（mkdir, rmdir, ..., umount, unlink）、其它([chmod](https://blog.csdn.net/pythonw/article/details/80263428), kill, chdir, time)
+
+<-> 
+
 WIN32 API: <br/>
 
-![003](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/003.jpg)
+![003](操作系统/003.jpg)
 #### 4.操作系统结构
 * 单体系统（模块组合结构）
 * 层次式系统
@@ -123,7 +124,7 @@ WIN32 API: <br/>
 * 虚拟机结构: VM/370
 
 会话监控系统CMS<br/>
-![004](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/004.jpg)
+![004](操作系统/004.jpg)
 这是1型超级监控程序（cons：用户态不能陷入）<br/>
 
 2型：VMWare，主机/客户操作系统<br/>
@@ -136,10 +137,237 @@ WIN32 API: <br/>
 
 客户进程与服务器进程之间使用消息进行通信<br/>
 
-![Windows内核结构](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/007.jpg)
+![Windows内核结构](操作系统/007.jpg)
+
+### chpt2 进程与线程
+
+顺序进程模型
+* 有时须考虑严格的实时要求
+
+并发：次序不是事先确定的
+
+**进程** 是具有独立功能的程序在某个数据集合上的一次运行活动，是系统进行资源分配和调度的独立单位
+* 资源分组处理与执行
+* 进程的组成:程序+数据+PCB进程控制块+堆栈
+
+守护进程daemon
+
+windows没有进程层次的概念 书p51
+
+运行态、就绪态、阻塞态
+* suspend状态，进程映像在磁盘上，不占用内存空间
+* 激活的概念：阻塞挂起->阻塞, 就绪挂起->就绪
+* 进程控制：原语
+
+shell p26
+
+调度进程： 进程表=PCB表 p53
+* 并发度：PCB表的大小
+* 链表结构、索引结构
+    多道（内存层面）!=系统并发度（OS层面）
+![012](操作系统/012.jpg)
+
+
+中断向量    中断向量表IVT
+
+![008](操作系统/008.jpg)
+
+windows进程无状态，只是宿主，真正运行的是线程
+
+1-p^n     内存与吞吐量
+
+传统进程与多线程
+线程：并行实体共享同一地址空间和所有可用数据，线程比进程更容易创建和撤销
+    轻量级进程=Lightweight process=LWP
+    TCB与PCB
+e.g. p56 三线程、文字处理
+
+在支持线程的操作系统中，进程只作为资源分配单位，而线程则作为CPU调度单位
+线程可读取全局变量来实现通信，比进程间通信简单不少，无需调用内核
+
+服务器与cache，分派线程、工作线程，c代码
+    线程改善了web服务器的性能
+
+有限状态机实现，非阻塞系统调用<->顺序进程模型的保留 p57
+
+![009](操作系统/009.jpg)
+
+pthread_yield
+
+在用户空间／内核中实现线程
+
+用户空间：阻塞系统问题、缺页中断问题
+    run-time system
+    线程没有时间中断=>只能用非抢占式
+     当线程调用系统调用(阻塞式)时，整个进程阻塞
+    不可轮转调度
+内核实现：
+    线程管理代价大
+    时间片分配给线程，所以多线程的进程获得更 多CPU时间
+混合实现 solaris
+    ULTyingshedao
+
+调度程序激活机制：上行调用
+
+“阻塞”与"非阻塞"与"同步"与“异步”：
+https://www.cnblogs.com/skying555/p/5028167.html
+
+2.3 进程间通信
+
+进程间关系：互斥、同步、通信
+
+spooler directory p67
+    race condition 竞争条件
+临界区    临界资源
+
+进入区、临界区、退出区、剩余区
+
+忙等待的互斥
+    屏蔽中断
+    锁变量    <-> Murphy’s law    
+    严格轮换法：忙等待、自旋锁
+    Peterson解法：丢失则进入临界区
+    TSL指令：硬件支持 p73详细解释该命令 test and set lock
+    
+睡眠与唤醒
+    原语 sleep wakeup
+
+    dijkstra:信号量、原子操作    
+    s.count     s.queue
+    成对使用P、V原语
+        同步P操作在互斥P操作前
+
+管程
+    规定唤醒是最后操作
+    入口等待队列、紧急等待队列
+
+* 与互斥锁不同，条件变量是用来等待而不是用来上锁的
+
+条件变量
+    wait signal
+https://www.cnblogs.com/qiangxia/p/4293088.html
+
+mutex互斥锁,适用于用户级线程包
+快速用户区互斥量futex p76
+
+![010](操作系统/010.jpg)
+
+有名信号量、基于内存的无名信号量
+    有名：保存在文件中，sem_open代替sem_init，共享sem_wait sem_post
+
+BSD则跳过了该限制，形成了基于套接字(Socket)的进程间通信机制
+
+
+2.3.8 消息传递            
+消息传递接口MPI    “会合”的概念
+屏障barrier：
+    e.g. 大型矩阵运算的分治
+避免锁：读-复制-更新    RCU
 
 
 
+2.4 调度    
+    处理机调度
+
+非抢先式／抢先式（时间片、中断）
+
+I/O活动的含义：阻塞 p85
+I/O密集型～多道程序设计
+批处理／交互式／实时
+
+系统需要“平衡” p87        公平、平衡、策略强制执行
+
+批处理系统的调度
+    FCFS
+    最短作业优先
+    最短剩余时间优先
+
+轮转调度～上下文切换
+https://baike.baidu.com/item/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/4842616
+    时间片长度：进程切换用时～响应时间，通常设为20-50ms
+
+关键：衡量指标，用户公平／进程公平／随机／最短进程／CTSS
+
+实时系统的可调度条件 p92
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/011.jpg" alt="011" style="zoom:20%;" />
+
+
+速率单调调度RMS
+最早截止时限优先EDF
+最小裕度算法 laxity
+
+将调度策略（用户态）和调度机制（内核态）分离：参数化
+
+
+
+windows：实时优先级线程、可变优先级线程
+https://blog.csdn.net/zhiquan/article/details/4240400
+
+线程时间配额 ppt p58
+
+Linux将线程分为三类：
+* 实时FIFO
+* 实时轮转
+* 分时
+
+runqueue 自旋锁 查找O(n)
+
+O(1)调度    亲和性 多核->负载均衡
+楼梯调度    抛弃了动态优先级的概念，完全公平
+RSDL调度算法
+旋转楼梯最终时限调度 (The Rotating Staircase Deadline Schedule)
+CFS    Completely Fair Schedule(完全公平调度)
+
+2.5
+哲学家就餐问题 starvation
+读者-写者问题
+
+unix早期的进程间通信：信号和管道
+管道pipe：在进程间以字节流方式传送信息的通信通道
+    两个file结构指向同一个VFS索引节点，再指向物理页
+    无名、有名管道
+        命名管道=FIFO
+命名管道可通过mknod系统调用建立:指定mode为S_IFIFO
+int mknod(const char *path, mode, dev_t dev);
+
+system V：消息队列、信号量、共享内存
+    linux：seemed_ds表示IPC信号量
+    IPC对象、引用标识符、访问键
+消息队列，客户-服务器模型，微内核
+    msgid_ds
+linux共享内存shm通过访问键访问
+    虚拟    页表项
+
+虚拟内存与交换空间
+https://blog.csdn.net/u014753393/article/details/50196825https://blog.csdn.net/u014753393/article/details/50196825
+
+套接字socket
+通信模式：client-server/peer to peer
+tcp/ip协议、socket
+
+
+
+对于windows
+共享内存：文件映射机制
+管道
+邮件槽mailslot
+套接字winsoc
+
+死锁问题
+发生原因：对互斥资源的共享、并发执行顺序不当
+与不可抢占资源有关
+
+
+
+处理死锁问题的四种方法：
+
+* 鸵鸟算法
+* 死锁预防
+* 死锁检测
+* 死锁避免
+
+银行家算法  书p258
 
 
 
