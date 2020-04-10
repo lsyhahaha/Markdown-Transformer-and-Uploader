@@ -170,9 +170,10 @@ shell p26
 
 中断向量    中断向量表IVT
 
-![008](操作系统/008.jpg)
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/008.jpg" alt="008" style="zoom:30%;" />
 
-windows进程无状态，只是宿主，真正运行的是线程
+* windows进程无状态，只是宿主，真正运行的是线程（调度单位）
+* UNIX中，OS作为进程的一部分
 
 1-p^n     内存与吞吐量
 
