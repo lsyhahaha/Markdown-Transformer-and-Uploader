@@ -194,7 +194,7 @@ NOTE：
 * suspend（挂起）状态（七状态）：进程映像在磁盘上，不占用内存空间
 * 激活的概念：阻塞挂起->阻塞, 就绪挂起->就绪
 
-<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/008.jpg" alt="阻塞和唤醒"  width="300"/>
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/008.jpg" alt="阻塞和唤醒"  width="375"/>
 
 <img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/014.jpg" alt="linux进程状态" style="zoom:40%;" />
 
