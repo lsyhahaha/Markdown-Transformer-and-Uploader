@@ -391,7 +391,9 @@ void main() {
 
 #### 5.POSIX线程
 
-![009](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/009.jpg)
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/009.jpg" alt="pthread调用" style="zoom:30%;" />
+
+* pthread_yield阻塞线程
 
 ```c++
 #define _REENTRANT
@@ -442,7 +444,8 @@ void *sleeping(void* arg)
 int flag;
 void *test(void *arg)
 {
-    int childnum;flag = 1;
+    int childnum;
+  	flag = 1;
     childnum = *(int *)arg;
     printf("Thread %d work cycle\n", childnum);
     sleep(3);
@@ -470,8 +473,7 @@ int main()
     }
     else
     { //we're in main
-        while (flag == 0)
-            ;
+        while (flag == 0); //利用全局变量进行Linux线程间通信
         printf("Just created thread %d\n", pid);
     }
     test(&mainnum);
@@ -480,13 +482,6 @@ int main()
     return 0;
 }
 ```
-
-
-
-
-
-
-调度程序激活机制：上行调用
 
 
 
