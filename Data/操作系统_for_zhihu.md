@@ -73,9 +73,11 @@ shell 、GUI<br/>
 I/O：控制器+设备本身    device driver<br/>
 ![002](操作系统/002.jpg)
 * 实现I/O的三种方式<br/>
-轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）<br/>
-<br/>
+轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）
+
 中断系统的两大组成部分: 硬件中断装置和软件中断处理程序 (中断设备的设备驱动程序的一部分)
+
+中断向量    中断向量表IVT
 
 ![005](操作系统/005.jpg)
 
@@ -141,67 +143,181 @@ WIN32 API: <br/>
 
 ### chpt2 进程与线程
 
+#### 1.进程
+
 顺序进程模型
+
 * 有时须考虑严格的实时要求
 
 并发：次序不是事先确定的
 
-**进程** 是具有独立功能的程序在某个数据集合上的一次运行活动，是系统进行资源分配和调度的独立单位
+**进程**是具有独立功能的程序在某个数据集合上的一次运行活动，是系统进行资源分配和调度的独立单位
+
 * 资源分组处理与执行
 * 进程的组成:程序+数据+PCB进程控制块+堆栈
 
-守护进程daemon
+NOTE：
 
-windows没有进程层次的概念 书p51
-
-运行态、就绪态、阻塞态
-* suspend状态，进程映像在磁盘上，不占用内存空间
-* 激活的概念：阻塞挂起->阻塞, 就绪挂起->就绪
-* 进程控制：原语
-
-shell p26
+* 守护进程daemon
+* windows没有进程层次的概念 书p51
+* shell p26
 
 调度进程： 进程表=PCB表 p53
 * 并发度：PCB表的大小
 * 链表结构、索引结构
-    多道（内存层面）!=系统并发度（OS层面）
+* 多道（内存层面）!=系统并发度（OS层面）
+
 ![012](操作系统/012.jpg)
-
-
-中断向量    中断向量表IVT
-
-<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/008.jpg" alt="008" style="zoom:30%;" />
 
 * windows进程无状态，只是宿主，真正运行的是线程（调度单位）
 * UNIX中，OS作为进程的一部分
 
-1-p^n     内存与吞吐量
+##### e.g. Linux进程控制块
+* struct task_struct	双向循环链表
+* 调度针对就绪进程	run_list
 
-传统进程与多线程
-线程：并行实体共享同一地址空间和所有可用数据，线程比进程更容易创建和撤销
-    轻量级进程=Lightweight process=LWP
-    TCB与PCB
-e.g. p56 三线程、文字处理
 
-在支持线程的操作系统中，进程只作为资源分配单位，而线程则作为CPU调度单位
-线程可读取全局变量来实现通信，比进程间通信简单不少，无需调用内核
 
-服务器与cache，分派线程、工作线程，c代码
-    线程改善了web服务器的性能
+##### 进程的状态
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/013.jpg" alt="008" style="zoom:30%;" />
+* 运行->阻塞：OS、I/O、资源、IPC（其它进程输入）
+* 运行->就绪：时间片用完、因为高优先级进程就绪而中断
+* 就绪->运行：调度程序
+* 阻塞->就绪
 
-有限状态机实现，非阻塞系统调用<->顺序进程模型的保留 p57
+其它：
+* initial和final（五状态）：
+  * initial态：等待资源；
+  * final态（在UNIX称作zombie state）和return 0联系，parent进程 wait()子进程
+  * 表格和其它信息暂时由辅助程序保留，例如为处理用户帐单而累计资源使用情况的财务
+程序
+* suspend（挂起）状态（七状态）：进程映像在磁盘上，不占用内存空间
+* 激活的概念：阻塞挂起->阻塞, 就绪挂起->就绪
 
-![009](操作系统/009.jpg)
 
-pthread_yield
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/008.jpg" alt="阻塞和唤醒" style="zoom:30%;" />
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/014.jpg" alt="linux进程状态" style="zoom:40%;" />
+
+#### 2.进程控制
+
+* 进程控制原语：创建、撤销、阻塞、唤醒
+  * 系统调用不一定是原语：两进程，read()重入
+
+##### e.g. POSIX进程控制
+* 创建进程
+  * fork——创建新进程，复制现有进程上下文
+  * exec——加载新程序并覆盖自身
+* 可继承(inherit):子进程可以从父进程中继承用户标识符、环境变量、打开文件、 文件系统的当前目录、控制终端、已经连接的共享存储区、信号处理例程入口表等
+* 不可继承:进程标识符，父进程标识符
+* exit：exit()向父进程给出一个退出码(8位的整数)，父进程终止时如何影响子进程:
+  * 子进程从父进程继承了进程组ID和终端组ID(控制终端)，因此子进程对发给该进程组或终端组的信号敏感。终端关闭时，以该终端为控制终端的所有进程都收到SIGHUP信号。
+  * 子进程终止时，向父进程发送SIGCHLD信号，父进 程截获此信号并通过wait()系统调用来释放子进程PCB
+* wait() waitpid() waitid()等待子进程修改状态
+
+##### e.g. Linux进程控制
+
+```c++
+#include <cstdlib>
+#include <iostream>
+#include <sys/types.h>
+#include<sys/wait.h>
+#include <unistd.h>
+#include <vector>
+using namespace std;
+
+int main(){
+    int pid;
+    for (int i = 0; i < 3; i++){
+        pid = fork();
+        if (pid == 0){ //子进程
+            cout << "pid=" << pid << getpid() << ", hello world" << endl;
+            return 0;
+        }
+        else{
+            cout << "pid=" << pid << " forked" << endl;
+        }
+    }
+    int ret = 0;
+    while (ret!=-1){
+        ret = wait(NULL);
+        cout << "pid=" << ret << " exited" << endl;
+    };
+    return 0;
+}
+```
+
+##### e.g. Windows进程控制
+```c++
+/*
+BOOL CreateProcess(
+LPCWSTR pszImageName, LPCWSTR pszCmdLine, LPSECURITY_ATTRIBUTES psaProcess, LPSECURITY_ATTRIBUTES psaThread, BOOL fInheritHandles,
+DWORD fdwCreate, LPVOID pvEnvironment, LPWSTR pszCurDir,
+LPSTARTUPINFOW psiStartInfo, LPPROCESS_INFORMATION pProcInfo
+);
+*/
+#include <stdio.h> 
+#include <windows.h>
+int main() {
+	TCHAR szCmdLine[]={TEXT("C:\\oscourse\\test.exe")}; 
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+	memset(&si, 0, sizeof(STARTUPINFO));
+	si.cb = sizeof(STARTUPINFO); 
+  si.dwFlags = STARTF_USESHOWWINDOW; 
+  si.wShowWindow = SW_SHOW;
+  if(!CreateProcess(NULL, szCmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+	{
+		printf("Create process fail!\n");
+		ExitProcess(1);
+	} 
+  else {
+    printf("Create process success!\n"); 
+    ExitProcess(0);
+	} 
+}
+```
+
+
+
+#### 3.线程模型
+进程是资源分配单位	～ 并发执行
+  * 1-p^n     内存与吞吐量
+
+线程是CPU调度单位  ～  时空开销
+  * 多线程Multithreading
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/015.jpg" alt="015" style="zoom:50%;" />
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/016.jpg" alt="016" style="zoom:50%;" />
+
+  * 线程：并行实体共享同一地址空间和所有可用数据，线程比进程更容易创建和撤销
+  * 轻量级进程=Lightweight process=LWP
+  * TCB与PCB
+  * e.g. 书p56 三线程、文字处理
+  * 在支持线程的操作系统中，进程只作为资源分配单位，而线程则作为CPU调度单位，可读取全局变量来实现通信，比进程间通信简单不少，无需调用内核
+
+NOTE：
+
+* 服务器与cache，分派线程、工作线程，c代码
+* 线程改善了web服务器的性能
+* 有限状态机实现，非阻塞系统调用<->顺序进程模型的保留 书p57
+* [“阻塞非阻塞"与"同步异步”](
+  https://www.cnblogs.com/skying555/p/5028167.html): 线程可以异步，因为有状态共享；同步是两个对象之间的关系，而阻塞是一个对象的状态。
+
+#### 4.线程的实现机制
 
 在用户空间／内核中实现线程
 
-用户空间：阻塞系统问题、缺页中断问题
+##### 用户级线程（ULT）
+* 线程库（运行时系统）：POSIX的pthread
+![009](操作系统/009.jpg)
+	阻塞系统问题、缺页中断问题
     run-time system
     线程没有时间中断=>只能用非抢占式
      当线程调用系统调用(阻塞式)时，整个进程阻塞
     不可轮转调度
+
 内核实现：
     线程管理代价大
     时间片分配给线程，所以多线程的进程获得更 多CPU时间
@@ -210,8 +326,11 @@ pthread_yield
 
 调度程序激活机制：上行调用
 
-“阻塞”与"非阻塞"与"同步"与“异步”：
-https://www.cnblogs.com/skying555/p/5028167.html
+
+
+
+
+pthread_yield
 
 2.3 进程间通信
 
