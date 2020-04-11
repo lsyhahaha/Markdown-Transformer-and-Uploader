@@ -6,7 +6,7 @@
 
 技术含量最高的系统软件
 
-![001](操作系统/001.jpg)
+![001](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/001.jpg)
 
 将硬件的复杂性与程序员分离开
 
@@ -71,7 +71,7 @@ shell 、GUI<br/>
 多线程和多核芯片 书1p13<br/>
 
 I/O：控制器+设备本身    device driver<br/>
-![002](操作系统/002.jpg)
+![002](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/002.jpg)
 * 实现I/O的三种方式<br/>
 轮询、中断、DMA芯片（总线竞争、大量I/O数据传送）
 
@@ -79,7 +79,7 @@ I/O：控制器+设备本身    device driver<br/>
 
 中断向量    中断向量表IVT
 
-![005](操作系统/005.jpg)
+![005](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/005.jpg)
 
 启动计算机：主板BIOS<br/>
 进程、地址空间、进程间通信<br/>
@@ -102,7 +102,7 @@ system_call() 	sys_call_table<br/>
 系统调用与内核函数（即服务例程，e.g. sys_getpid()）<br/>
 封装例程     ppt2-p56<br/>
 
-![006](操作系统/006.jpg)
+![006](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/006.jpg)
 
 用于进程管理、文件管理、目录管理         书1p32<br/>
 UID、GID、PID<br/>
@@ -116,7 +116,7 @@ fork不可继承的有:进程标识符，父进程标识符<br/>
 
 WIN32 API: <br/>
 
-![003](操作系统/003.jpg)
+![003](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/003.jpg)
 #### 4.操作系统结构
 * 单体系统（模块组合结构）
 * 层次式系统
@@ -126,7 +126,7 @@ WIN32 API: <br/>
 * 虚拟机结构: VM/370
 
 会话监控系统CMS<br/>
-![004](操作系统/004.jpg)
+![004](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/004.jpg)
 这是1型超级监控程序（cons：用户态不能陷入）<br/>
 
 2型：VMWare，主机/客户操作系统<br/>
@@ -139,7 +139,7 @@ WIN32 API: <br/>
 
 客户进程与服务器进程之间使用消息进行通信<br/>
 
-![Windows内核结构](操作系统/007.jpg)
+![Windows内核结构](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/007.jpg)
 
 ### chpt2 进程与线程
 
@@ -167,7 +167,7 @@ NOTE：
 * 链表结构、索引结构
 * 多道（内存层面）!=系统并发度（OS层面）
 
-![012](操作系统/012.jpg)
+![012](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/012.jpg)
 
 * windows进程无状态，只是宿主，真正运行的是线程（调度单位）
 * UNIX中，OS作为进程的一部分
@@ -311,7 +311,7 @@ NOTE：
 
 ##### 用户级线程（ULT）
 * 线程库（运行时系统）：POSIX的pthread
-![009](操作系统/009.jpg)
+![009](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/009.jpg)
 	阻塞系统问题、缺页中断问题
     run-time system
     线程没有时间中断=>只能用非抢占式
