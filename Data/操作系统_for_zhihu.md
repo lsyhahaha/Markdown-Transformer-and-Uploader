@@ -309,19 +309,182 @@ NOTE：
 在用户空间／内核中实现线程
 
 ##### 用户级线程（ULT）
-* 线程库（运行时系统）：POSIX的pthread
-![009](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/009.jpg)
-	阻塞系统问题、缺页中断问题
-    run-time system
-    线程没有时间中断=>只能用非抢占式
-     当线程调用系统调用(阻塞式)时，整个进程阻塞
-    不可轮转调度
+* 线程库（运行时系统 run-time system）：POSIX的pthread
+* pros：
+  * 线程切换不调用操作系统内核，性能良好
+  * 调度是应用程序特定的，可针对应用优化
+  * ULT可运行在任何操作系统上 (仅需线程库)
+* cons:
+  * 调度通常采用非抢先式和更简单的规则（线程没有时间中断=>只能用非抢占式）
+  * 阻塞系统、缺页中断，进程中所有线程将被阻塞
+  * 操作系统内核只将处理器分配给进程，同一进程中的两个线程不能同时运行于两个处理器上
 
-内核实现：
-    线程管理代价大
-    时间片分配给线程，所以多线程的进程获得更 多CPU时间
-混合实现 solaris
-    ULTyingshedao
+##### 内核级线程（KLT）
+* pros：
+  * 对于多处理器，内核可以同时调度同一进程的多个线程
+  * 阻塞是在线程一级完成
+  * 内核例程是多线程的
+* cons：
+  * 线程管理代价大：在同一进程内的线程切换调用内核，导致速度下降
+  * 时间片分配给线程，所以多线程的进程获得更多CPU时间
+
+##### 混合实现
+Solaris
+
+在线程的混合实现机制中，线程创建、调度、 同步在用户级线程中完成，应用程序的多个ULT将被映射到一些KLT上
+    
+#### 4.Windows的线程
+* KLT
+* 惰性进程，必须有一个线程（自动创建主线程）
+* Windows线程由执行体线程块ETHREAD表示，即线程对象，其中包含内核线程块 KTHREAD，即线程控制块TCB
+
+```c++
+#include <windows.h>
+#include <stdio.h>
+#define MAX_THREADS 3
+typedef struct _MyData {
+	int val1;
+	int val2;
+} MYDATA, *PMYDATA;
+
+DWORD WINAPI ThreadProc(LPVOID lpParam){
+	PMYDATA pData;
+	pData = (PMYDATA)lpParam;
+	printf("This is thread %d, the parameter is %d\n", pData->val1, pData->val2);
+	// Free the memory allocated by the caller for the thread
+	// data structure.
+	HeapFree(GetProcessHeap(), 0, pData);
+	return 0; 
+}
+
+void main() {
+	PMYDATA pData;
+	DWORD dwThreadId[MAX_THREADS]; //线程ID
+	HANDLE hThread[MAX_THREADS]; //线程句柄 int i;
+	// Create MAX_THREADS worker threads.
+	for( i=0; i<MAX_THREADS; i++ ) {
+	// Allocate memory for thread data.
+		pData = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(MYDATA));
+    if( pData == NULL ) ExitProcess(2);
+    // Generate unique data for each thread.
+    pData->val1 = i; 
+    pData->val2 = i+100; 
+    hThread[i] = CreateThread(
+                NULL,              // default security attributes
+                0,                 // use default stack size
+                ThreadProc,        // thread function
+                pData,             // argument to thread function
+                0,                 // use default creation flags
+                &dwThreadId[i]);   // returns the thread identifier
+
+    // Check the return value for success.
+    if (hThread[i] == NULL) {
+      ExitProcess(i);
+    }
+	}
+// Wait until all threads have terminated. WaitForMultipleObjects(MAX_THREADS, hThread, TRUE, INFINITE); // Close all thread handles upon completion.
+	for(i=0; i<MAX_THREADS; i++) {
+		CloseHandle(hThread[i]);
+	}
+}
+```
+
+#### 5.POSIX线程
+
+![009](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/009.jpg)
+
+```c++
+#define _REENTRANT
+#include <pthread.h>
+#include <stdio.h>
+#include <unistd.h>
+#define NUM_THREADS 5
+#define SLEEP_TIME 10
+void *sleeping(void *); /* thread routine */
+int i;
+pthread_t tid[NUM_THREADS]; /* array of thread IDs */
+
+int main()
+{
+    int sleep_time = SLEEP_TIME;
+    for (i = 0; i < NUM_THREADS; i++)
+        pthread_create(&tid[i], NULL, sleeping, (void *)&sleep_time);
+    for (i = 0; i < NUM_THREADS; i++)
+        pthread_join(tid[i], NULL); //逐个等待线程结束
+    printf("main() reporting that all %d threads have terminated\n", i);
+    return (0);
+} /* main */
+
+void *sleeping(void* arg)
+{
+    int sleep_time = *(int *)arg;
+    printf("thread %u sleeping %d seconds ...\n", pthread_self(), sleep_time);
+    sleep(sleep_time);
+    printf("\nthread %u awakening\n", pthread_self());
+    pthread_exit(0);
+}
+```
+
+#### 6.Linux的线程
+* 从内核的角度，Linux只有进程而没有线程的概念，Linux没有准备特别的调度算法或定义特别的数据结构来表征线程
+* 在Linux中，线程仅仅被视为使用某些共享资源的进程，每个线程都拥有自己的task_struct，所以在内核看来它就是一个普通的进程，但是该进程与其他进程共享某些资源，例如地址空间
+* Linux下的pthread_create是通过clone系统调用实现的
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/017.jpg" alt="017" style="zoom:50%;" />
+
+```c++
+#define _GNU_SOURCE
+#include <stdio.h> 
+#include <errno.h> 
+#include <sched.h> 
+#include <sys/types.h>
+#define STACK_SIZE 4096 //4k 
+int flag;
+void *test(void *arg)
+{
+    int childnum;flag = 1;
+    childnum = *(int *)arg;
+    printf("Thread %d work cycle\n", childnum);
+    sleep(3);
+}
+int main()
+{
+    pid_t pid;
+    int childno = 1, mainnum = 0;
+    void *csp, *tcsp;
+    csp = (char *)malloc(STACK_SIZE);
+    if (csp)
+    {
+        tcsp = csp + STACK_SIZE;
+    }
+    else
+    {
+        exit(errno);
+    }
+    flag = 0;
+    childno = 1;
+    if ((pid = clone((void *)&test, tcsp, CLONE_VM, (void *)&childno)) < 0)
+    {
+        printf("Couldn't create new thread!\n");
+        exit(1);
+    }
+    else
+    { //we're in main
+        while (flag == 0)
+            ;
+        printf("Just created thread %d\n", pid);
+    }
+    test(&mainnum);
+    sleep(3);
+    printf("Main program is now shutting down\n\n");
+    return 0;
+}
+```
+
+
+
+
+
 
 调度程序激活机制：上行调用
 
@@ -486,7 +649,7 @@ tcp/ip协议、socket
 * 死锁检测
 * 死锁避免
 
-银行家算法  书p258
+银行家算法（书p258）：核心是在试探性分配之前进行安全性检查
 
 
 
