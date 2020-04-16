@@ -122,10 +122,7 @@ WIN32 API: <br/>
 #### 4.操作系统结构
 * 单体系统（模块组合结构）
 * 层次式系统
-
-  分层：全序、偏序、半序
-
-* 微内核
+  * 分层：全序、偏序、半序
 * 虚拟机结构: VM/370
 
 会话监控系统CMS<br/>
@@ -134,13 +131,11 @@ WIN32 API: <br/>
 
 2型：VMWare，主机/客户操作系统<br/>
 
-* 微内核结构：运行在核心态的内核􏰁提供最基本的操作系统功能，包括中断处理、处理机调度、进程间通信。这些部分只􏰁供了一个很小的功能集合，通常称为微内核<br/><br/>
-
-特点：Mechanism和policy分离=>使内核更小<br/>
-
-微内核结构的变体：客户-服务器模型<br/>
-
-客户进程与服务器进程之间使用消息进行通信<br/>
+* 微内核结构：
+  * 运行在核心态的内核􏰁提供最基本的操作系统功能，包括中断处理、处理机调度、进程间通信。这些部分只􏰁供了一个很小的功能集合，通常称为微内核
+  * 特点：Mechanism和policy分离=>使内核更小
+  * 微内核结构的变体：客户-服务器模型
+  * 客户进程与服务器进程之间使用消息进行通信
 
 ![Windows内核结构](https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/007.jpg)
 
@@ -157,7 +152,20 @@ WIN32 API: <br/>
 **进程**是具有独立功能的程序在某个数据集合上的一次运行活动，是系统进行资源分配和调度的独立单位
 
 * 资源分组处理与执行
+
 * 进程的组成:程序+数据+PCB进程控制块+堆栈
+
+* 进程上下文
+  * 用户级上下文:进程的用户地址空间(包括用户栈各层次)，包括用户正文(code)段、用户数据段和用户栈;
+  * 寄存器级上下文:程序寄存器、处理机状态寄存器、栈指针、通用寄存器的值;
+  * 系统级上下文:
+    * 静态部分(PCB和资源表格)
+    * 动态部分:核心栈 (核心过程的栈结构，不同进程在调用相同核心过程时有不同核心栈)
+
+* 注意有两种register saves/restores:
+  * timer interrupt: 用hardware，kernel stack，implicitly，存user registers
+  * OS switch：用software，process structure，explicitly，存kernel registers
+
 
 NOTE：
 
@@ -794,13 +802,302 @@ DWORD WaitForMultipleObjects(
 
 #### 14.Linux的进程间通信
 
+Unix早期的进程间通信机制:信号和管道
+##### 信号：通知异步事件，软中断
+* e.g. 键盘中断，硬件条件（浮点溢出，segmeatation fault），软件条件（如Socket中有加急数据到达），Shell向子进程发送作业控制命令
+* [linux与进程控制相关的命令](https://www.cnblogs.com/mfryf/archive/2012/09/24/2700042.html)：&, ctrl-z, fg, bg, ...
+* 进程也可以忽略指定的信号(SIG_IGN),SIGKILL信号(无条件终止进程)和SIGSTOP(使进程暂停)不能被忽略（不能被相关的系统调用阻塞）
+* 由内核执行与该信号相关的默认处理例程(SIG_DFL)
+* 信号的实现：整型，一个字，32位，32种信号，信号是1-index（SIGINT编号是1）
+* task_struct:利用两个字分别记录当前未决的信号(signal)以及当前阻塞的信号(blocked)，[917行](https://elixir.bootlin.com/linux/latest/source/include/linux/sched.h#L629),sigaction存储处理方式
+
+```c++
+/* Signal handlers: */
+	struct signal_struct		*signal;
+	struct sighand_struct __rcu		*sighand;
+	sigset_t			blocked;
+	sigset_t			real_blocked;
+	/* Restored if set_restore_sigmask() was used: */
+	sigset_t			saved_sigmask;
+	struct sigpending		pending;
+	unsigned long			sas_ss_sp;
+	size_t				sas_ss_size;
+	unsigned int			sas_ss_flags;
+```
+捕捉signal的实例：
+```c++
+#include <signal.h>
+void catchint(int signo) {
+	printf("\n CATCHINT; signo=%d;", signo); 
+	printf("CATCHINT returning\n");
+}
+void main() {
+  int i;
+  signal(SIGINT, catchint);
+  for(i=0; i<5; i++) {
+    // 修改sigaction结构
+    printf("Sleep call #%d\n", i);
+    sleep(5); 
+  }
+  printf("Exiting.\n");
+}
+```
+##### 管道(pipe)
+* 管道类型：pipe、named pipe(还允许无亲缘关系进程通信)
+* 适合数据量大的情况
+* 通过将两个file结构指向同一个临时的VFS索引节点，而 VFS索引节点又指向同一个物理页而实现管道
+* 内核必须利用一定的机制同步对管道的访问， 为此，内核使用了锁、等待队列和信号
+* int pipe(int fildes[2]);   fildes[0]是读端，fildes[1]是写端
+* 只适用于父子进程之间; 或父进程安排的各个子进程之间 （其它情况用命名管道）
+
+```c++
+#include <stdio.h> 
+#include <unistd.h> 
+#include <stdlib.h> 
+#include <string.h>
+int main(int argc, char *argv[])
+{
+    int f_des[2];
+    static char message[BUFSIZ];
+    if (argc != 2)
+    {
+        fprintf(stderr, "Usage: %s message\n", *argv);
+        exit(1);
+    }
+    if (pipe(f_des) == -1)
+    {
+        perror("pipe");
+        exit(2);
+    }
+    switch (fork())
+    {
+        case -1:
+            perror("fork");
+            exit(3);
+        case 0: // 子进程
+            close(f_des[1]);
+            if (read(f_des[0], message, BUFSIZ) != -1)
+            {
+                printf("Message received by child:[%s]\n", message);
+                fflush(stdout);
+            }
+            else
+            {
+                perror("read");
+                exit(4);
+            }
+            break;
+        default: // 父进程
+            close(f_des[0]);
+            strcpy(message, argv[1]);
+            if (write(f_des[1], message, BUFSIZ) != -1)
+            {
+                printf("Message sent by parent:[%s]\n", argv[1]);
+                fflush(stdout);
+            }
+            else
+            {
+                perror("write");
+                exit(5);
+            }
+    }
+}
+```
+
+* 命名管道：FIFO，和匿名管道的区别在于它是文件实体而不是匿名对象
+  * 命名管道可通过mknod系统调用建立：指定mode为S_IFIFO
+  * `int mknod(const char *path, mode_t mode, dev_t dev);`
+
+##### UNIX System V：消息队列、信号量、共享内存
+* IPC对象（访问必须经过类似文件访问的许可检验）、引用标识符、访问键（定位引用标识符）
+  * ipc_perm结构：包含了作为对象所有者和创建者的进程之用户标识符和组标识符，以及对象的 访问模式和对象的访问键。
+  
+* 消息队列
+  * 客户/服务器模型，微内核结构，克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺点
+  * Linux 为系统中所有的消息队列维护一个msgque链表，该链表中的每个指针指向一个msgid_ds结构，该结构完整描述一个消息队列。当建立一个消息队列时，系统从内存中分配一个msgid_ds结构并将指针添加到msgque链表
+  * 与消息队列相关的系统调用
+    * msgget——依据用户给出的键值key，创建新消息队列或打开现有消息队列，返回一个消息队列ID
+    * msgsnd——发送消息;
+		* msgrcv——接收消息，可以指定消息类型;没有消息时，返回-1
+		* msgctl——对消息队列进行控制，如删除消息队列
+	* 消息队列不随创建它的进程的终止而自动撤销，须调用 msgctl(msgqid, IPC_RMID, 0)
+
+* snd.c
+```c++
+#include <stdlib.h> 
+#include <stdio.h> 
+#include <string.h> 
+#include <errno.h> 
+#include <unistd.h> 
+#include <sys/msg.h> 
+#define MAX_TEXT 512 
+#define TRUE 1
+struct msgbuf
+{
+    long int msgtype;
+    char msgtext[MAX_TEXT];
+};
+int main()
+{
+    struct msgbuf msgdata;
+    int msgid;
+    char buffer[MAX_TEXT];
+    if ((msgid = msgget((key_t)1234, 0666 | IPC_CREAT)) == -1)
+    {
+        fprintf(stderr, "msgget failed with error: %d\n", errno);
+        exit(EXIT_FAILURE);
+    }
+    printf("msgid = %d\n", msgid);
+    while (TRUE)
+    {
+        printf("Enter message text: ");
+        fgets(buffer, MAX_TEXT, stdin);
+        msgdata.msgtype = 1;
+        strcpy(msgdata.msgtext, buffer);
+        if (msgsnd(msgid, (void *)&msgdata, MAX_TEXT, 0) == -1)
+        {
+            fprintf(stderr, "msgsnd failed\n");
+            exit(EXIT_FAILURE);
+        }
+        if (strncmp(buffer, "end", 3) == 0)
+        {
+            break;
+        }
+    }
+    exit(EXIT_SUCCESS);
+}
+```
+
+rcv.c
+```c++
+#include <stdlib.h> 
+#include <stdio.h> 
+#include <string.h> 
+#include <errno.h> 
+#include <unistd.h> 
+#include <sys/msg.h> 
+#define MAX_TEXT 512 
+#define TRUE 1
+
+struct msgbuf
+{
+    long int msgtype;
+    char msgtext[MAX_TEXT];
+};
+int main()
+{
+    int msgid;
+    struct msgbuf msgdata;
+    if ((msgid = msgget((key_t)1234, 0666 | IPC_CREAT)) == -1)
+    {
+        fprintf(stderr, "msgget failed with error: %d\n", errno);
+        exit(EXIT_FAILURE);
+    }
+    printf("msgid = %d\n", msgid);
+    while (TRUE)
+    {
+        if (msgrcv(msgid, (void *)&msgdata, MAX_TEXT, 0, 0) == -1)
+        {
+            fprintf(stderr, "msgrcv failed with error: %d\n", errno);
+            exit(EXIT_FAILURE);
+        }
+        printf("Received message: %s", msgdata.msgtext);
+        if (strncmp(msgdata.msgtext, "end", 3) == 0)
+        {
+            break;
+        }
+    }
+    if (msgctl(msgid, IPC_RMID, 0) == -1)
+    {
+        fprintf(stderr, "msgctl(IPC_RMID) failed\n");
+        exit(EXIT_FAILURE);
+    }
+    exit(EXIT_SUCCESS);
+}
+```
+
+* 信号量
+  * semid_ds 结构表示System V IPC信号量
+  * sem_base:信号量数组；系统调用参数：信号量索引、操作值和操作标志
+  * 操作：semget, semop, semctl
+  * 如果系统调用中指定的所有操作中有一个操作不能成功 时，则 Linux会挂起这一进程。但是，如果操作标志指定这种情况下不能挂起进程的话，系统调用返回并指明 信号量上的操作没有成功，而进程可以继续执行
+  * 如果进程被挂起，Linux必须保存信号量的操作状态并 将当前进程放入等待队列。为此，Linux在堆栈中建立一个sem_queue结构并填充该结构。新的sem_queue结构添加到信号量对象的等待队列中(利用 sem_pending 和sem_pending_last指针)。当前进程放入sem_queue结 构的等待队列中(sleeper)后调用调度程序选择其他的进程运行
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/操作系统/020.jpg" alt="semid_ds结构" style="zoom:50%;" />
+
+* 共享内存
+  * 对共享内存的访问同步需要由其他 IPC机制，例如信号量来实现
+  * 访问键，访问权限，锁定到物理内存
+  * 系统调用
+    * shmget——创建或打开共享内存:依据用户给出的整数值key，创建新内存区或打开现有内存区，返回 一个共享内存ID
+		* shmat——连接共享内存:连接共享内存到本进程的地址空间，可以指定虚拟地址或由系统分配，返回共享内存首地址。父进程已连接的共享内存可被fork 创建的子进程继承
+		* shmdt——拆除共享内存连接:拆除共享内存与本进 程地址空间的连接
+		* shmctl——共享内存控制:对共享内存进行控制。如共享内存的删除需要显式调用shmctl(shmid, IPC_RMID, 0)
+
+* 套接字（Socket）
+  * 套接字(Socket)是一种网络通信机制，它通过网 络在不同计算机上的进程间进行双向通信。套 接字所采用的数据格式可为可靠的字节流或不可靠的报文，通信模式可为client-server模式或 peer-to-peer模式
+  * UNIX套接字API(基于TCP/IP):send, sendto, recv, recvfrom
+
 #### 15.Windows的进程间通信
+* 信号量、互斥量、临界区
+* 共享内存：文件映射机制
+  * CreateFileMapping/OpenFileMapping
+  * MapViewOfFile
+  * FlushViewOfFile可把映射地址空间的内容写到物理文件中
+  * UnmapViewOfFile, CloseHandle
+* 管道
+  * Windows 提供了匿名管道和命名管道两种管道 机制
+  * 利用CreatePipe可创建匿名管道，得到两个读写句柄;利用ReadFile和WriteFile可进行匿名管道的读写
+  * 命名管道：一个服务器端与一个客户进程间的通信通道;可用于不同机器上进程通信；作为客户方(连接到一个命名管道实例的一方)时，可以是"\\serverName\pipe\pipename"；作为服务器方(创建命名管道的一方)时，只能取 serverName为\\.\pipe\PipeName，不能在其它机器上创建管道
+* 邮件槽mailslot（消息队列）：一种不定长、不可靠 的单向消息机制，通常采用client-server模式
+* 套接字Winsock: 实现了一个与协议独立的应用编程接口，可支持多种网络通信协议
 
 #### 16.死锁
-Unix早期的进程间通信机制:信号和管道
-* 信号：通知异步事件，软中断
-  * e.g. 键盘中断，硬件条件（浮点溢出，segmeatation fault），软件条件（如Socket中有加急数据到达），Shell向子进程发送作业控制命令
 
+死锁(Deadlock)是指系统中多个进程无限制地等待永远不会发生的条件
+
+死锁发生的原因: 与不可抢占资源有关
+* 对互斥资源的共享
+* 并发执行的顺序不当
+
+进程使用的资源分为可抢占资源和不可抢占资源两类
+* 可抢占资源(preemptable resource):可以从拥有它的进程中抢占而不会产生任何副作用
+的资源。例如 CPU、存储器
+* 不可抢占资源(nonpreemptable resource):在不引起相关的计算失败的情况下，无法把它从占有的进程抢占过来的资源。例如打印机
+
+死锁发生的必要条件
+* 互斥:任一时刻只允许一个进程使用资源
+* 请求和保持:进程在请求其余资源时，不主动释放已经占用的资源
+* 非剥夺:进程已经占用的资源，不会被强制剥夺
+* 环路等待:环路中的每一条边是进程在请求另一进程已经占有的资源(充分条件)
+
+
+处理死锁问题的四种方法：
+* 鸵鸟算法：大多数操作系统忽略死锁
+* 死锁预防：预先静态分配法，有序资源使用法
+* 死锁检测：保存资源的请求和分配信息，利用某种算法对这些信息加以检查，以判断是否存在死锁
+  * 资源分配图（有向图检测循环）
+* 死锁避免：分配资源时判断
+  * 银行家算法（书p258）：核心是在试探性分配之前进行安全性检查
+    * 允许互斥、部分分配和不可抢占，可提高资源利用率;
+    * 要求事先说明最大资源要求，在现实中很困难
+
+#### 17.处理机调度
+
+处理机调度要解决的问题
+* 按什么原则分配CPU——进程调度算法 
+* 何时分配CPU——进程调度的时机
+* 如何分配CPU——进程的上下文切换
+
+调度的开销
+* 从一个进程切换到另一个进程需一定的时间
+* 上下文切换之后，指令和数据高速缓存通常需要更新，执行速度降低 (缺失损失)
+
+#### 18.批处理系统中的调度
+
+#### 19.交互式系统中的调度
+
+#### 20.实时系统中的调度
 
 
 2.3.8 消息传递            
@@ -864,55 +1161,8 @@ RSDL调度算法
 旋转楼梯最终时限调度 (The Rotating Staircase Deadline Schedule)
 CFS    Completely Fair Schedule(完全公平调度)
 
-2.5
-哲学家就餐问题 starvation
-读者-写者问题
-
-unix早期的进程间通信：信号和管道
-管道pipe：在进程间以字节流方式传送信息的通信通道
-    两个file结构指向同一个VFS索引节点，再指向物理页
-    无名、有名管道
-        命名管道=FIFO
-命名管道可通过mknod系统调用建立:指定mode为S_IFIFO
-int mknod(const char *path, mode, dev_t dev);
-
-system V：消息队列、信号量、共享内存
-    linux：seemed_ds表示IPC信号量
-    IPC对象、引用标识符、访问键
-消息队列，客户-服务器模型，微内核
-    msgid_ds
-linux共享内存shm通过访问键访问
-    虚拟    页表项
-
-虚拟内存与交换空间
-https://blog.csdn.net/u014753393/article/details/50196825https://blog.csdn.net/u014753393/article/details/50196825
-
-套接字socket
-通信模式：client-server/peer to peer
-tcp/ip协议、socket
 
 
-
-对于windows
-共享内存：文件映射机制
-管道
-邮件槽mailslot
-套接字winsoc
-
-死锁问题
-发生原因：对互斥资源的共享、并发执行顺序不当
-与不可抢占资源有关
-
-
-
-处理死锁问题的四种方法：
-
-* 鸵鸟算法
-* 死锁预防
-* 死锁检测
-* 死锁避免
-
-银行家算法（书p258）：核心是在试探性分配之前进行安全性检查
 
 
 
