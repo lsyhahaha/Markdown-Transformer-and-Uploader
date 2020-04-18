@@ -120,6 +120,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.input is None:
         raise FileNotFoundError("Please input the file's path to start!")
+    # elif args.input == 'all':
+    #     for file in
+        
+    #     process_for_zhihu()
     else:
         args.input = Path(args.input)
         image_folder_path = args.input.parent/(args.input.stem)
