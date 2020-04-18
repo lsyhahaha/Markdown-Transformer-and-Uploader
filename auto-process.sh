@@ -3,7 +3,7 @@ demofun(){
 	do        
 		if test -f $file
         then
-			python zhihu-publisher.py --input="$file"
+			python zhihu-publisher.py --input="${file}"
 		fi
 	done
 }
