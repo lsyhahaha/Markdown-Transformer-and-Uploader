@@ -26,16 +26,16 @@ COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 def process_for_zhihu():
     if args.compress:
         reduce_image_size()
-    with open(str(args.input), 'rb') as f:
+    with open(str(curfile), 'rb') as f:
         s = f.read()
         chatest = chardet.detect(s)
     print(chatest)
-    with open(str(args.input),"r",encoding=chatest["encoding"]) as f:
+    with open(str(curfile),"r",encoding=chatest["encoding"]) as f:
         lines = f.read()
         lines = image_ops(lines)
         lines = formula_ops(lines)
         lines = table_ops(lines)
-        with open(args.input.parent/"Output"/(args.input.stem+".md"), "w+", encoding=chatest["encoding"]) as fw:
+        with open(curfile.parent/"Output"/(curfile.stem+".md"), "w+", encoding=chatest["encoding"]) as fw:
             fw.write(lines)
         git_ops()
 
@@ -83,7 +83,7 @@ def table_ops(_lines):
 # Reduce image size and compress. It the image is bigger than threshold, then resize, compress, and change it to jpg.
 def reduce_image_size():
     global image_folder_path
-    image_folder_new_path = args.input.parent/(args.input.stem+"_for_zhihu")
+    image_folder_new_path = curfile.parent/(curfile.stem+"_for_zhihu")
     if not os.path.exists(str(image_folder_new_path)): 
         os.mkdir(str(image_folder_new_path))
     for image_path in [i for i in list(image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
@@ -102,7 +102,7 @@ def reduce_image_size():
 # Push your new change to github remote end
 def git_ops():
     subprocess.run(["git","add","-A"])
-    subprocess.run(["git","commit","-m", "update file "+args.input.stem])
+    subprocess.run(["git", "commit", "-m", "update file "+curfile.stem])
     subprocess.run(["git","push", "-u", "origin", "master"])
 
 if __name__ == "__main__":
@@ -120,11 +120,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.input is None:
         raise FileNotFoundError("Please input the file's path to start!")
-    # elif args.input == 'all':
-    #     for file in
-        
-    #     process_for_zhihu()
+    elif args.input == 'all':
+        cwd=os.getcwd()+'/Data'
+        files = os.listdir(cwd)
+        files = [f for f in files if f.endswith(('md'))]
+        for file in files:
+            curfile="Data"/Path(file)
+            image_folder_path = curfile.parent/(curfile.stem)
+            process_for_zhihu()
     else:
-        args.input = Path(args.input)
-        image_folder_path = args.input.parent/(args.input.stem)
+        curfile = Path(args.input)
+        image_folder_path = curfile.parent/(curfile.stem)
         process_for_zhihu()
