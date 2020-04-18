@@ -9,6 +9,7 @@ import codecs
 import subprocess
 import chardet
 import functools
+import time
 
 from PIL import Image
 from pathlib2 import Path
@@ -127,7 +128,10 @@ if __name__ == "__main__":
         for file in files:
             curfile="Data"/Path(file)
             image_folder_path = curfile.parent/(curfile.stem)
-            process_for_zhihu()
+            mtime = os.stat(curfile).st_mtime
+            outputfile=Path(curfile.parent/"Output"/(curfile.stem+".md"))
+            if (not outputfile.is_file())or mtime > os.stat(outputfile).st_mtime:
+                process_for_zhihu()
     else:
         curfile = Path(args.input)
         image_folder_path = curfile.parent/(curfile.stem)
