@@ -132,6 +132,15 @@ int main(int argc, char *argv[])
   * simpler argument passing：`(void *)100, (void **)rvalue`
   * `(void **)value_ptr`，小心局部变量存在栈中，回传指针报错
 
+##### lock
+```c++
+pthread_mutex_t lock;
+pthread_mutex_lock(&lock);
+x = x + 1; // or whatever your critical section is
+pthread_mutex_unlock(&lock);
+```
+lack of proper initialization
+
 
 
 
