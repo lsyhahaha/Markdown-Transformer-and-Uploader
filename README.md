@@ -1,6 +1,6 @@
-# MarkdownTransformer
+# Markdown-Transformer-and-Uploader
 
-这是一个可以将您的Markdown文件一键转换为知乎编辑器支持模式的仓库。
+一键将markdown文件转换为知乎编辑器、github支持模式，并上传至仓库。
 
 它会自动的处理图片，行内公式，多行公式，以及对表格的部分支持。当图片过大时，您可以选择加上`--compress`选项，对超过大小阈值（这里约为500K）的图片进行自动压缩。如果您的md文件和其图片文件夹在Data文件夹下，您本地的图片会自动转换为github上的raw链接。
 上传知乎后一切都是那么美好。
