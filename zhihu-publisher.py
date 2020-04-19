@@ -120,7 +120,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.input is None:
         raise FileNotFoundError("Please input the file's path to start!")
-    elif args.input == 'all':
+    elif args.input == 'all' or 'updated':
         cwd=os.getcwd()+'/Data'
         files = os.listdir(cwd)
         files = [f for f in files if f.endswith(('md'))]
@@ -129,7 +129,7 @@ if __name__ == "__main__":
             image_folder_path = curfile.parent/(curfile.stem)
             mtime = os.stat(curfile).st_mtime
             outputfile=Path(curfile.parent/"Output"/(curfile.stem+".md"))
-            if (not outputfile.is_file())or mtime > os.stat(outputfile).st_mtime:
+            if args.input=='all'or ((not outputfile.is_file())or mtime > os.stat(outputfile).st_mtime):
                 process_for_zhihu()
     else:
         curfile = Path(args.input)
