@@ -23,7 +23,7 @@ one-pass hash table
 * 《剑指offer》第10题
 * 和0072.Edit-Space类似
 
-<img src="https://www.zhihu.com/equation?tex=d%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7D%0Ad%5Bi-1%5D%5Bj-1%5D%26%20p%5Bj%5D%3D%27.%27%5C%5C%0As%5Bi%5D%20%3D%3D%20p%5Bj%5D%5Cquad%20%5C%26%5C%26%20%5Cquad%20d%5Bi%20-%201%5D%5Bj%20-%201%5D%20%26%20p%5Bj%5D%3Da%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20d%5Bi-1%5D%5Bj%5D%20%26%20p%5Bj-1%3Aj%5D%3D%27.%2A%27%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20%28d%5Bi-1%5D%5Bj%5D%5Cquad%20%5C%26%5C%26%5Cquad%20s%5Bi%5D%3D%3Dp%5Bj-1%5D%29%20%20%20%20%20%20%26%20p%5Bj-1%3Aj%5D%3D%27a%2A%27%0A%5Cend%7Bcases%7D%0A%5Cnotag%0A%22 alt="d[i][j]=\begin{cases}
+<img src="https://www.zhihu.com/equation?tex=d%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7D%0Ad%5Bi-1%5D%5Bj-1%5D%26%20p%5Bj%5D%3D%27.%27%5C%5C%0As%5Bi%5D%20%3D%3D%20p%5Bj%5D%5Cquad%20%5C%26%5C%26%20%5Cquad%20d%5Bi%20-%201%5D%5Bj%20-%201%5D%20%26%20p%5Bj%5D%3Da%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20d%5Bi-1%5D%5Bj%5D%20%26%20p%5Bj-1%3Aj%5D%3D%27.%2A%27%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20%28d%5Bi-1%5D%5Bj%5D%5Cquad%20%5C%26%5C%26%5Cquad%20s%5Bi%5D%3D%3Dp%5Bj-1%5D%29%20%20%20%20%20%20%26%20p%5Bj-1%3Aj%5D%3D%27a%2A%27%0A%5Cend%7Bcases%7D%0A%5Cnotag%0A%22" alt="d[i][j]=\begin{cases}
 d[i-1][j-1]& p[j]='.'\\
 s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
 d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
@@ -116,7 +116,7 @@ bool isNumber(string s) {
 #### 0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance)  (hard)
 * 很漂亮的动态规划
 
-<img src="https://www.zhihu.com/equation?tex=D%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7DD%5Bi-1%5D%5Bj-1%5D%26A%5Bi%5D%3DB%5Bi%5D%5C%5Cmin%28D%5Bi-1%5D%5Bj-1%5D%2CD%5Bi-1%5D%5Bj%5D%2CD%5Bi%5D%5Bj-1%5D%29%2B1%26A%5Bi%5D%21%3DB%5Bi%5D%5C%5C%5Cend%7Bcases%7D%5Cnotag%0A%22 alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
+<img src="https://www.zhihu.com/equation?tex=D%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7DD%5Bi-1%5D%5Bj-1%5D%26A%5Bi%5D%3DB%5Bi%5D%5C%5Cmin%28D%5Bi-1%5D%5Bj-1%5D%2CD%5Bi-1%5D%5Bj%5D%2CD%5Bi%5D%5Bj-1%5D%29%2B1%26A%5Bi%5D%21%3DB%5Bi%5D%5C%5C%5Cend%7Bcases%7D%5Cnotag%0A%22" alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
 " class="ee_img tr_noresize" eeimg="1">
 
 #### 0079.word-search [单词搜索](https://leetcode-cn.com/problems/word-search)  (medium)
@@ -384,7 +384,7 @@ int findMin(vector<int>& numbers) {
 
 #### 0167.two-sum-ii-input-array-is-sorted [两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) (easy)
 
-<img src="https://www.zhihu.com/equation?tex=O%28log_%7B2%7DN%29%22 alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1">
+<img src="https://www.zhihu.com/equation?tex=O%28log_%7B2%7DN%29%22" alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1">
 
 #### 0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element) (easy)
 
