@@ -63,7 +63,7 @@ def formula_ops(_lines):
 
 
 def rename_image_ref1(m):
-    result = '<img src="https://www.zhihu.com/equation?tex='+quote(m.group(1))+' alt'
+    result = '<img src="https://www.zhihu.com/equation?tex='+quote(m.group(1))+'" alt'
     return result
 
 # The support function for image_ops. It will take in a matched object and make sure they are competible
