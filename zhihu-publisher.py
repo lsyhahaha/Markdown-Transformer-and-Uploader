@@ -50,7 +50,7 @@ def formula_ops(_lines):
     _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
                     ' <img src="https://www.zhihu.com/equation?tex=\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
     _lines = re.sub(
-        '<img src="https://www.zhihu.com/equation?tex=([\s\S]*?)', rename_image_ref1, _lines)
+        "< img src=https://www.zhihu.com/equation\?tex=(.*?)>", rename_image_ref1, _lines)
     # _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
     #                 '\n<img src="http://latex.codecogs.com/gif.latex?\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
     # _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
@@ -59,6 +59,7 @@ def formula_ops(_lines):
 
 
 def rename_image_ref1(m):
+    
     return m
 
 # The support function for image_ops. It will take in a matched object and make sure they are competible
