@@ -23,7 +23,7 @@ one-pass hash table
 * 《剑指offer》第10题
 * 和0072.Edit-Space类似
 
-<img src="http://latex.codecogs.com/gif.latex?d[i][j]=\begin{cases}
+<img src="https://www.zhihu.com/equation?tex=d[i][j]=\begin{cases}
 d[i-1][j-1]& p[j]='.'\\
 s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
 d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
@@ -123,7 +123,7 @@ bool isNumber(string s) {
 #### 0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance)  (hard)
 * 很漂亮的动态规划
 
-<img src="http://latex.codecogs.com/gif.latex?D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
+<img src="https://www.zhihu.com/equation?tex=D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
 " alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
 " class="ee_img tr_noresize" eeimg="1">
 
@@ -392,7 +392,7 @@ int findMin(vector<int>& numbers) {
 
 #### 0167.two-sum-ii-input-array-is-sorted [两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) (easy)
 
-<img src="http://latex.codecogs.com/gif.latex?O(log_{2}N)" alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1">
+<img src="https://www.zhihu.com/equation?tex=O(log_{2}N)" alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1">
 
 #### 0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element) (easy)
 
