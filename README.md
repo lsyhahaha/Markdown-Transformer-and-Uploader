@@ -17,7 +17,7 @@
 
 #### 使用方法
 
-1. 仿照本仓库建立一个类似的仓库，包括Data、Output文件夹与根目录下的`zhihu-publisher.py`，或者直接fork本仓库。
+1. 仿照本仓库建立一个类似的仓库，包括Data、Data/Output文件夹与根目录下的`zhihu-publisher.py`，或者直接fork本仓库。
 
 2. 打开`zhihu-publisher.py`文件，文件开头处`GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Data/"` 修改`huangrt01`为您自己的GitHub用户名，如果仓库名字有变化，也做出相应微调。
 
