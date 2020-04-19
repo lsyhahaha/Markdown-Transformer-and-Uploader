@@ -11,6 +11,8 @@ import chardet
 import functools
 import time
 
+from urllib.parse import quote
+
 from PIL import Image
 from pathlib2 import Path
 from shutil import copyfile

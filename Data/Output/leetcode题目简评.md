@@ -127,16 +127,8 @@ bool isNumber(string s) {
 #### 0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance)  (hard)
 * 很漂亮的动态规划
 
-<img src="https://www.zhihu.com/equation?tex=D[i][j]=\begin{cases}
-D[i-1][j-1]&  A[i]=B[i]\\
-min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&  A[i]!=B[i]
-\end{cases}
-\notag
-" alt="D[i][j]=\begin{cases}
-D[i-1][j-1]&  A[i]=B[i]\\
-min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&  A[i]!=B[i]
-\end{cases}
-\notag
+<img src="https://www.zhihu.com/equation?tex=D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
+" alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
 " class="ee_img tr_noresize" eeimg="1">
 
 #### 0079.word-search [单词搜索](https://leetcode-cn.com/problems/word-search)  (medium)
