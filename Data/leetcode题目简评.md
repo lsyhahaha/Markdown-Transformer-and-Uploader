@@ -24,12 +24,10 @@ one-pass hash table
 * 和0072.Edit-Space类似
 $$
 d[i][j]=\begin{cases}
-d[i-1][j-1] & p[j]='.'\\
+d[i-1][j-1]& p[j]='.'\\
 s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
 d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
 d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]='a*'
-
-
 \end{cases}
 \notag
 $$
