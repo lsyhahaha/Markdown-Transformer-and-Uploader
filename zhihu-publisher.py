@@ -135,3 +135,5 @@ if __name__ == "__main__":
         curfile = Path(args.input)
         image_folder_path = curfile.parent/(curfile.stem)
         process_for_zhihu()
+
+        
