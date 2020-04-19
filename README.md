@@ -6,7 +6,7 @@
 上传知乎后一切都是那么美好。
 
 #### 新增功能
-* `python zhihu-publisher.py --input=all`，支持一键push所有md格式文件
+* `python zhihu-publisher.py --input=all`，一键push所有md格式文件，根据修改日期判断是否上传。
 
 #### 未来功能
 * 整合目录生成模块
