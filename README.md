@@ -7,12 +7,11 @@
 
 #### 新增功能
 * `python zhihu-publisher.py --input=all`，一键push所有md格式文件；`--input=update`则根据修改日期判断是否上传。
+* latex行内公式转化，利用知乎的公式编辑器
 
 #### 未来功能（按重要性排序）
 
-* latex行内公式显示，利用[这个网站](https://blog.csdn.net/dta0502/article/details/92642634?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1)
 * 整合目录生成模块，把[toc]转化成目录，支持页内跳转，参照https://blog.csdn.net/Erice_s/article/details/80190859
-* 解决代码缩进问题
 * 图床支持
 
 #### 使用方法
