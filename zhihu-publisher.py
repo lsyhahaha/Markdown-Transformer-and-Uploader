@@ -19,7 +19,7 @@ from shutil import copyfile
 ## Please change the GITHUB_REPO_PREFIX value according to your own GitHub user name and relative directory. ##
 ###############################################################################################################
 # Your image folder remote link
-GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/MarkdownTransformer/master/Data/"
+GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Data/"
 COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 
 # The main function for this program
