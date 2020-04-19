@@ -17,12 +17,12 @@
 
 #### 使用方法
 
-1. 首先，您应当仿照本仓库建立一个类似的您自己的仓库，它包括一个Data文件夹与根目录下的`zhihu-publisher.py`。当然，您也可以选择直接folk本仓库到您自己的账号下。
+1. 仿照本仓库建立一个类似的仓库，包括Data、Output文件夹与根目录下的`zhihu-publisher.py`，或者直接fork本仓库。
 
-2. 然后，打开`zhihu-publisher.py`文件，在文件开头有这么一句：`GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/"`请修改`miracleyoo`为您自己的GitHub用户名，如果仓库名字也有变化，请做出相应微调。
+2. 打开`zhihu-publisher.py`文件，文件开头处`GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/MarkdownT ransformer/master/Data/"` 修改`huangrt01`为您自己的GitHub用户名，如果仓库名字有变化，也做出相应微调。
 
-3. 这里我们假设您的文件名为`一个测试文档.md`，并将其和同名图片文件夹放到`Data`目录下，接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
+3. 假设文件名为`test.md`，并将其和同名图片文件夹放到`Data`目录下，接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
 
-`python zhihu-publisher.py --input="./Data/一个测试文档.md"`
+`python zhihu-publisher.py --input="./Data/test.md"`
 
-4. OK，all set. 在`Data`目录下，你可以看到一个`一个测试文档_for_zhihu.md`的文件，将它上传至知乎编辑器即可。
+4. 在`Output`目录下，可以看到`test.md`的文件，将它上传至知乎编辑器或者复制链接到网站即可。
