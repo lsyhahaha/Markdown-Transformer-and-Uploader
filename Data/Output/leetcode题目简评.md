@@ -24,21 +24,17 @@ one-pass hash table
 * 和0072.Edit-Space类似
 
 <img src="http://latex.codecogs.com/gif.latex?d[i][j]=\begin{cases}
-d[i-1][j-1] & p[j]='.'\\
+d[i-1][j-1]& p[j]='.'\\
 s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
 d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
 d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]='a*'
-
-
 \end{cases}
 \notag
 " alt="d[i][j]=\begin{cases}
-d[i-1][j-1] & p[j]='.'\\
+d[i-1][j-1]& p[j]='.'\\
 s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
 d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
 d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]='a*'
-
-
 \end{cases}
 \notag
 " class="ee_img tr_noresize" eeimg="1">
@@ -128,7 +124,8 @@ bool isNumber(string s) {
 * 很漂亮的动态规划
 
 <img src="http://latex.codecogs.com/gif.latex?D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
-" alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag" class="ee_img tr_noresize" eeimg="1">
+" alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
+" class="ee_img tr_noresize" eeimg="1">
 
 #### 0079.word-search [单词搜索](https://leetcode-cn.com/problems/word-search)  (medium)
 * 经典回溯法
