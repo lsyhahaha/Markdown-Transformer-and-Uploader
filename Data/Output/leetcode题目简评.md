@@ -53,10 +53,10 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 * 《剑指offer》，经典题，引入一个头节点
 * 代码模版：
 ```c++
-	ListNode*head=new ListNode(0);
-  ListNode*p=head;
-  ...
-  return head->next;
+ListNode*head=new ListNode(0);
+ListNode*p=head;
+...
+return head->next;
 ```
 
 #### 0026.remove-duplicates-from-sorted-array [删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array)  (easy)
@@ -143,7 +143,7 @@ min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&  A[i]!=B[i]
 * 经典回溯法
 
 #### 0084.largest-rectangle-in-histogram [柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram) (hard)
-* 单调栈
+* 单调栈，[很好的文章](https://blog.csdn.net/lucky52529/article/details/89155694)
 
 ```c++
 int largestRectangleArea(vector<int> &heights)
@@ -165,6 +165,27 @@ int largestRectangleArea(vector<int> &heights)
         st.push(i);
     }
     return maxarea;
+}
+```
+* 单调栈模版
+```c++
+stack<int> st;
+//此处一般需要给数组最后添加结束标志符
+for (遍历这个数组)
+{
+	if (栈空 || 栈顶元素大于等于当前比较元素)
+	{
+		入栈;
+	}
+	else
+	{
+		while (栈不为空 && 栈顶元素小于当前元素)
+		{
+			栈顶元素出栈;
+			更新结果;
+		}
+		当前数据入栈;
+	}
 }
 ```
 

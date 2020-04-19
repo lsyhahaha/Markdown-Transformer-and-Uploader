@@ -44,10 +44,10 @@ $$
 * 《剑指offer》，经典题，引入一个头节点
 * 代码模版：
 ```c++
-	ListNode*head=new ListNode(0);
-  ListNode*p=head;
-  ...
-  return head->next;
+ListNode*head=new ListNode(0);
+ListNode*p=head;
+...
+return head->next;
 ```
 
 #### 0026.remove-duplicates-from-sorted-array [删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array)  (easy)

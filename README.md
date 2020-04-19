@@ -19,7 +19,7 @@
 
 1. 仿照本仓库建立一个类似的仓库，包括Data、Output文件夹与根目录下的`zhihu-publisher.py`，或者直接fork本仓库。
 
-2. 打开`zhihu-publisher.py`文件，文件开头处`GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/MarkdownT ransformer/master/Data/"` 修改`huangrt01`为您自己的GitHub用户名，如果仓库名字有变化，也做出相应微调。
+2. 打开`zhihu-publisher.py`文件，文件开头处`GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Data/"` 修改`huangrt01`为您自己的GitHub用户名，如果仓库名字有变化，也做出相应微调。
 
 3. 假设文件名为`test.md`，并将其和同名图片文件夹放到`Data`目录下，接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
 
