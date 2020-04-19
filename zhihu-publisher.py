@@ -42,18 +42,13 @@ def process_for_zhihu():
         git_ops()
 
 # Deal with the formula and change them into Zhihu original format
+# 也可以用https://www.zhihu.com/equation?tex=
 def formula_ops(_lines):
-    _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n', '\n<img src="https://www.zhihu.com/equation?tex=\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
-    _lines = re.sub('(\$)(?!\$)(.*?)(\$)', ' <img src="https://www.zhihu.com/equation?tex=\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
-    _lines = re.sub(r'((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
-                    functools.partial(rename_escape_character), _lines)
+    _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
+                    '\n<img src="http://latex.codecogs.com/gif.latex?\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
+    _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
+                    ' <img src="http://latex.codecogs.com/gif.latex?\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
     return _lines
-
-
-def rename_escape_character(m):
-    # 下面可以把上面的 '+' 变成 '-'
-    result = re.sub("\&", "%26",m)
-    return result
 
 
 # The support function for image_ops. It will take in a matched object and make sure they are competible

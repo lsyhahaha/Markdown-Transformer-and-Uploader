@@ -131,6 +131,10 @@ bool isNumber(string s) {
 " alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
 " class="ee_img tr_noresize" eeimg="1">
 
+https://www.zhihu.com/equation?tex=D[i][j]=\begin{cases}D[i-1][j-1]%26A[i]%3DB[i]\\min(D[i-1][j-1],D[i-1][j]%2CD[i][j-1])%2B1%26A[i]!%3DB[i]\\\end{cases}\notag
+
+https://www.zhihu.com/equation?tex=D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
+
 #### 0079.word-search [单词搜索](https://leetcode-cn.com/problems/word-search)  (medium)
 * 经典回溯法
 
