@@ -101,6 +101,7 @@ static bool cmp1(vector<int> &a, vector<int> &b){
 
 #### 0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number) (hard)
 * 《剑指offer》，书上的代码结构很简洁，值得学习
+* 也可以用有限状态机来做
 
 ```c++
 int pointer;
@@ -208,7 +209,7 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 
 
 #### 0121. best-time-to-buy-and-sell-stock-iii [买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/) (hard)
-* [超巧妙的方法](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/404387/Intuitive-Python-O(n)-Time-and-O(1)-Space)，先记录maxp的位置，
+* [超巧妙的方法](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/404387/Intuitive-Python-O(n)-Time-and-O(1)-Space)，本质上是贪心的思想，先记录maxp的位置，一定会取到股票的最大最小值high、low处，再做处理
 
 ```python
 class Solution:
@@ -241,69 +242,137 @@ class Solution:
 
 
 
-0125.valid palindrome
+#### 0125.valid-palindrome [验证回文串](https://leetcode-cn.com/problems/valid-palindrome) (easy)
 
+``` python
 def isPalindrome(self, s: str) -> bool:
+		s = ''.join(i for i in s if i.isalnum()).lower()
+		return s == s[::-1]
+```
 
-​    s = ''.join(i for i in s if i.isalnum()).lower()
-
-​    return s == s[::-1]
-
-0136.single number
+#### 0136.single-number [只出现一次的数字](https://leetcode-cn.com/problems/single-number) (easy)
 
 xor性质
 
-0137.single number II
+#### 0137.single-number-II [只出现一次的数字 II](https://leetcode-cn.com/problems/single-number-ii) (medium)
 
-非常巧妙的方法
+* 非常巧妙的方法，多设一个数记录状态，位运算与有限状态机的结合，本质上，位运算的意义在于将n位信息转化为O(1)
 
-多设一个数记录状态，位运算与有限状态机的结合
-
-本质上，位运算的意义在于，将n位信息转化为O(1)
-
-0145.Binary Tree Postorder Traversal
+#### 0145.binary-tree-postorder-traversal [二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal) (hard)
 
 两种方法：
 
-1）教科书：先一路向左，用tag记录节点的右子树是否遍历
+* 方法一：教科书，先一路向左，用tag记录节点的右子树是否遍历
 
-2）DFS根右左 倒过来=后序左右根
+```c++
+struct WTreeNode{TreeNode* TNode;bool tag;};
+vector<int> postorderTraversal(TreeNode* root) {
+    vector<int> ret;
+    stack<WTreeNode*>s;
+    TreeNode* p=root;
+    if(root==NULL) return ret;
+    WTreeNode* l;
+    while(!s.empty()||p){
+        if (p!=NULL){ //左子树不断入栈
+            l=new WTreeNode; 
+            l->TNode=p;l->tag=0;
+            s.push(l);
+            p=p->left;
+        }
+        else{
+            l=s.top();
+            s.pop();
+            if(l->tag==1){
+                ret.push_back(l->TNode->val);
+            }
+            else{   //右子树没输出
+                l->tag=1;
+                s.push(l);
+                p=l->TNode->right;
+            }
+        }  
+    }
+    return ret;
+}
+```
 
-0146.LRU Cache
+*引申：二叉树非递归遍历的模版
 
-双向链表+Map
+```c++
+while(!s.empty()||p){
+		if (p!=NULL){
+		}
+		else{
+		}
+}
+```
 
-  自己实现双向链表可以高效实现move to head操作
+* 方法二：后序遍历是左右根，倒过来是根右左，相当于左右遍历顺序相反的DFS，用栈即可，得到结果再reverse
 
-回忆STL里list和map的使用
+```c++
+vector<int> postorderTraversal1(TreeNode* root) {
+    vector<int> ret;
+    stack<TreeNode*>s;
+    vector<int>invert;
+    s.push(root);
+    while(!s.empty()){
+        TreeNode *p=s.top();s.pop();
+        if(p!=NULL){
+            invert.push_back(p->val);
+            s.push(p->left);
+            s.push(p->right);
+        }
+    }
+    reverse(invert.begin(),invert.end());
+    return invert;
+}
+```
 
-0153/0154  旋转数组
+#### 0146.lru-cache [LRU缓存机制](https://leetcode-cn.com/problems/lru-cache) (hard)
+* 双向链表+Map，自己实现双向链表可以高效实现move to head操作，也可以用STL的list
 
-  二分法，注意相等的情况
+#### 0153.find-minimum-in-rotated-sorted-array [寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array) (medium)
+* 二分法，注意相等的情况
 
-0155.min stack
+#### 0154.find-minimum-in-rotated-sorted-array-ii [寻找旋转排序数组中的最小值 II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii) (hard)
+* 如果有重复数字，则难以判断mid是在左边还是右边，r-=1是解决这一问题的关键代码
+```c++
+int findMin(vector<int>& numbers) {
+    //if(numbers.size()==0)return -1;
+    int l=0,r=numbers.size()-1;
+    int mid;
+    while(l<r){
+        if(r-l==1)
+            return (numbers[l]<=numbers[r])?numbers[l]:numbers[r];
+        mid=(l+r)/2;
+        if(numbers[mid]>numbers[r]) l=mid;
+        else if(numbers[mid]<numbers[l])r=mid;
+        else
+            r-=1;
+            //return minArraySeq(numbers,l,r);
+    }
+    return 1;
+}
+```
 
-记录min的变化值
+#### 0155.min-stack [最小栈](https://leetcode-cn.com/problems/min-stack) (easy)
 
-0161.One Edit Distance
+* 用另一个栈记录min的变化值
 
-0167.two sum II
+#### 0161.one-edit-distance [相隔为 1 的编辑距离](https://leetcode-cn.com/problems/one-edit-distance) (medium)
+* 遍历较短的数字，直到遇到第一个和长数组对应位置不等的元素，再做判断处理
 
-有序
+#### 0167.two-sum-ii-input-array-is-sorted [两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) (easy)
 
-可以先二分查找到中间，这样当N很大时时间复杂度近似O(log2N)
+<img src="https://www.zhihu.com/equation?tex=O(log_{2}N)" alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1">
 
-0169.Majority Element
+#### 0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element) (easy)
 
-1）hashmap
+* hashmap
 
-2）随机算法
+* 随机算法
 
-3）Boyer-Moore Voting Algorithm
-
-核心是利用这个数据的前缀特性，用军队打仗理解；每个非众数都会和一个数配对
-
-   https://zhuanlan.zhihu.com/p/85474828
+* Boyer-Moore Voting Algorithm：核心是利用这个数据的前缀特性，用军队打仗理解；每个非众数都会和一个数配对 https://zhuanlan.zhihu.com/p/85474828
 
 class Solution:
 
