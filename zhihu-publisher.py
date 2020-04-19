@@ -45,7 +45,7 @@ def process_for_zhihu():
 def formula_ops(_lines):
     _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n', '\n<img src="https://www.zhihu.com/equation?tex=\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
     _lines = re.sub('(\$)(?!\$)(.*?)(\$)', ' <img src="https://www.zhihu.com/equation?tex=\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
-    _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
+    _lines = re.sub(r'((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
                     functools.partial(rename_escape_character), _lines)
     return _lines
 
