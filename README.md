@@ -6,7 +6,7 @@
 上传知乎后一切都是那么美好。
 
 #### 新增功能
-* `python zhihu-publisher.py --input=all`，一键push所有md格式文件，根据修改日期判断是否上传。
+* `python zhihu-publisher.py --input=all`，一键push所有md格式文件；`--input=update`则根据修改日期判断是否上传。
 
 #### 未来功能（按重要性排序）
 
@@ -25,4 +25,5 @@
 
 `python zhihu-publisher.py --input="./Data/test.md"`
 
-4. 在`Output`目录下，可以看到`test.md`的文件，将它上传至知乎编辑器或者复制链接到网站即可。
+4. 在`Data/Output`目录下，可以看到新的`test.md`的文件，上传至知乎编辑器或者复制链接到网站即可。
+

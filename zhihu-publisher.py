@@ -120,7 +120,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.input is None:
         raise FileNotFoundError("Please input the file's path to start!")
-    elif args.input == 'all' or 'updated':
+    elif args.input == 'all' or 'update':
         cwd=os.getcwd()+'/Data'
         files = os.listdir(cwd)
         files = [f for f in files if f.endswith(('md'))]

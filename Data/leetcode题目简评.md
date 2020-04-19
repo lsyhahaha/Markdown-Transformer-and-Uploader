@@ -395,27 +395,32 @@ int findMin(vector<int>& numbers) {
 
 * 方法一：hashmap
 
-* 方法二：随机算法，先取再验证
+* 方法二：随机算法，先取再**验证**
 
-* 方法三：Boyer-Moore Voting Algorithm：核心是利用这个数据的前缀特性，用军队打仗理解；每个非众数都会和一个数配对 https://zhuanlan.zhihu.com/p/85474828
+* 方法三：[Boyer-Moore Voting Algorithm](https://zhuanlan.zhihu.com/p/85474828)：核心是利用这个数据的前缀特性，用军队打仗理解；每个非众数都会和一个数配对 
 
-class Solution:
+```c++
+int majorityElement(vector<int> nums) {
+    int solider = nums[0];
+    int count=0;
+    for(int i=0;i<nums.length();i++){
+        if(nums[i]==solider){       //队伍增加了同胞
+            count++;
+        }
+        else{       //没人去抵抗了
+            if(count==0){
+                solider=nums[i];
+                count++;
+            }else {
+                count--;        //抓住一个人
+            }  
+        }
+    }
+    return solider;   
+}
+```
 
-  def majorityElement(self, nums):
 
-​    count = 0
-
-​    candidate = None
-
-​    for num in nums:
-
-​      if count == 0:
-
-​        candidate = num
-
-​      count += (1 if num == candidate else -1)
-
-​    return candidate
 
 0170.two sum III - Data structure design
 
