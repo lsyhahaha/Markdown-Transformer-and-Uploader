@@ -11,7 +11,7 @@ import chardet
 import functools
 import time
 
-from urllib.parse import quote
+from urllib.parse import unquote
 
 from PIL import Image
 from pathlib2 import Path
@@ -45,7 +45,15 @@ def process_for_zhihu():
 def formula_ops(_lines):
     _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n', '\n<img src="https://www.zhihu.com/equation?tex=\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
     _lines = re.sub('(\$)(?!\$)(.*?)(\$)', ' <img src="https://www.zhihu.com/equation?tex=\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
+    _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n', rename_escape_character, _lines)
     return _lines
+
+
+def rename_escape_character(m):
+    # 下面可以把上面的 '+' 变成 '-'
+    result = re.sub("\&", "%26",m)
+    return result
+
 
 # The support function for image_ops. It will take in a matched object and make sure they are competible
 def rename_image_ref(m, original=True):
@@ -122,7 +130,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.input is None:
         raise FileNotFoundError("Please input the file's path to start!")
-    elif args.input == 'all' or 'update':
+    elif args.input == 'all' or args.input =='update':
         cwd=os.getcwd()+'/Data'
         files = os.listdir(cwd)
         files = [f for f in files if f.endswith(('md'))]
