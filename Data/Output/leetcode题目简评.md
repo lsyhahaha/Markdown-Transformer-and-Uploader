@@ -1,43 +1,6 @@
 ## leetcode题目简评
 
-- [leetcode题目简评](#leetcode----)
-    + [0000.资料](#0000--)
-    + [0001.two-sum [两数之和](https://leetcode-cn.com/problems/two-sum) (easy)](#0001two-sum--------https---leetcode-cncom-problems-two-sum---easy-)
-    + [0005.longest-palindromic-substring [最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring)  (medium)](#0005longest-palindromic-substring----------https---leetcode-cncom-problems-longest-palindromic-substring----medium-)
-    + [0010.regular-expression-matching [正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)  (hard)](#0010regular-expression-matching-----------https---leetcode-cncom-problems-regular-expression-matching----hard-)
-    + [0015.3sum [三数之和](https://leetcode-cn.com/problems/3sum)  (medium)](#00153sum--------https---leetcode-cncom-problems-3sum----medium-)
-    + [0020.valid-parentheses [有效的括号](https://leetcode-cn.com/problems/valid-parentheses) (easy)](#0020valid-parentheses---------https---leetcode-cncom-problems-valid-parentheses---easy-)
-    + [0021.merge-two-sorted-lists [合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists)  (easy)](#0021merge-two-sorted-lists------------https---leetcode-cncom-problems-merge-two-sorted-lists----easy-)
-    + [0026.remove-duplicates-from-sorted-array [删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array)  (easy)](#0026remove-duplicates-from-sorted-array---------------https---leetcode-cncom-problems-remove-duplicates-from-sorted-array----easy-)
-    + [0053.maximum-sum-subarray [最大子序和](https://leetcode-cn.com/problems/maximum-subarray)  (easy)](#0053maximum-sum-subarray---------https---leetcode-cncom-problems-maximum-subarray----easy-)
-    + [0054.spiral-matrix [螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix) (medium)](#0054spiral-matrix--------https---leetcode-cncom-problems-spiral-matrix---medium-)
-    + [0056.merge-intervals [合并区间](https://leetcode-cn.com/problems/merge-intervals)  (medium)](#0056merge-intervals--------https---leetcode-cncom-problems-merge-intervals----medium-)
-    + [0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number) (hard)](#0065valid-number--------https---leetcode-cncom-problems-valid-number---hard-)
-    + [0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance)  (hard)](#0072edit-distance--------https---leetcode-cncom-problems-edit-distance----hard-)
-    + [0079.word-search [单词搜索](https://leetcode-cn.com/problems/word-search)  (medium)](#0079word-search--------https---leetcode-cncom-problems-word-search----medium-)
-    + [0084.largest-rectangle-in-histogram [柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram) (hard)](#0084largest-rectangle-in-histogram-------------https---leetcode-cncom-problems-largest-rectangle-in-histogram---hard-)
-    + [0088.merge-sorted-array [合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array)  (easy)](#0088merge-sorted-array------------https---leetcode-cncom-problems-merge-sorted-array----easy-)
-    + [0101.symmetric-tree [对称二叉树](https://leetcode-cn.com/problems/symmetric-tree)  (easy)](#0101symmetric-tree---------https---leetcode-cncom-problems-symmetric-tree----easy-)
-    + [0102.binary-tree-level-order-traversal [二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal)  (medium)](#0102binary-tree-level-order-traversal------------https---leetcode-cncom-problems-binary-tree-level-order-traversal----medium-)
-    + [0103.binary-tree-zigzag-level-order-traversal [二叉树的锯齿形层次遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal)  (medium)](#0103binary-tree-zigzag-level-order-traversal---------------https---leetcode-cncom-problems-binary-tree-zigzag-level-order-traversal----medium-)
-    + [0104.maximum-depth-of-binary-tree [二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) (easy)](#0104maximum-depth-of-binary-tree------------https---leetcode-cncom-problems-maximum-depth-of-binary-tree----easy-)
-    + [0105. construct-binary-tree-from-preorder-and-inorder-traversal [从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) (medium)](#0105-construct-binary-tree-from-preorder-and-inorder-traversal-------------------https---leetcode-cncom-problems-construct-binary-tree-from-preorder-and-inorder-traversal----medium-)
-    + [0121. best-time-to-buy-and-sell-stock [买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/) (easy)](#0121-best-time-to-buy-and-sell-stock-------------https---leetcode-cncom-problems-best-time-to-buy-and-sell-stock----easy-)
-    + [0122. best-time-to-buy-and-sell-stock-ii [买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/) (easy)](#0122-best-time-to-buy-and-sell-stock-ii------------ii--https---leetcode-cncom-problems-best-time-to-buy-and-sell-stock-ii----easy-)
-    + [0121. best-time-to-buy-and-sell-stock-iii [买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/) (hard)](#0121-best-time-to-buy-and-sell-stock-iii------------iii--https---leetcode-cncom-problems-best-time-to-buy-and-sell-stock-iii----hard-)
-    + [0125.valid-palindrome [验证回文串](https://leetcode-cn.com/problems/valid-palindrome) (easy)](#0125valid-palindrome---------https---leetcode-cncom-problems-valid-palindrome---easy-)
-    + [0136.single-number [只出现一次的数字](https://leetcode-cn.com/problems/single-number) (easy)](#0136single-number------------https---leetcode-cncom-problems-single-number---easy-)
-    + [0137.single-number-II [只出现一次的数字 II](https://leetcode-cn.com/problems/single-number-ii) (medium)](#0137single-number-ii-----------ii--https---leetcode-cncom-problems-single-number-ii---medium-)
-    + [0145.binary-tree-postorder-traversal [二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal) (hard)](#0145binary-tree-postorder-traversal------------https---leetcode-cncom-problems-binary-tree-postorder-traversal---hard-)
-    + [0146.lru-cache [LRU缓存机制](https://leetcode-cn.com/problems/lru-cache) (hard)](#0146lru-cache--lru------https---leetcode-cncom-problems-lru-cache---hard-)
-    + [0153.find-minimum-in-rotated-sorted-array [寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array) (medium)](#0153find-minimum-in-rotated-sorted-array-----------------https---leetcode-cncom-problems-find-minimum-in-rotated-sorted-array---medium-)
-    + [0154.find-minimum-in-rotated-sorted-array-ii [寻找旋转排序数组中的最小值 II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii) (hard)](#0154find-minimum-in-rotated-sorted-array-ii----------------ii--https---leetcode-cncom-problems-find-minimum-in-rotated-sorted-array-ii---hard-)
-    + [0155.min-stack [最小栈](https://leetcode-cn.com/problems/min-stack) (easy)](#0155min-stack-------https---leetcode-cncom-problems-min-stack---easy-)
-    + [0161.one-edit-distance [相隔为 1 的编辑距离](https://leetcode-cn.com/problems/one-edit-distance) (medium)](#0161one-edit-distance------1--------https---leetcode-cncom-problems-one-edit-distance---medium-)
-    + [0167.two-sum-ii-input-array-is-sorted [两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) (easy)](#0167two-sum-ii-input-array-is-sorted-------ii-----------https---leetcode-cncom-problems-two-sum-ii-input-array-is-sorted---easy-)
-    + [0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element) (easy)](#0169-majority-element--------https---leetcode-cncom-problems-majority-element---easy-)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+[toc]
 
 #### 0000.资料
 [官网](https://leetcode.com/problemset/all/)
@@ -310,11 +273,30 @@ def isPalindrome(self, s: str) -> bool:
 
 #### 0136.single-number [只出现一次的数字](https://leetcode-cn.com/problems/single-number) (easy)
 
-xor性质
+* 位运算，xor性质
 
 #### 0137.single-number-II [只出现一次的数字 II](https://leetcode-cn.com/problems/single-number-ii) (medium)
 
 * 非常巧妙的方法，多设一个数记录状态，位运算与有限状态机的结合，本质上，位运算的意义在于将n位信息转化为O(1)
+
+```python
+def singleNumber(self, nums: List[int]) -> int:
+    seen_once = seen_twice = 0
+    for num in nums:
+        # first appearance: 
+        # add num to seen_once, don't add to seen_twice because of presence in seen_once
+
+        # second appearance: 
+        # remove num from seen_once, add num to seen_twice
+
+        # third appearance: 
+        # don't add to seen_once because of presence in seen_twice, remove num from seen_twice
+        
+        seen_once = ~seen_twice & (seen_once ^ num)
+        seen_twice = ~seen_once & (seen_twice ^ num)
+    return seen_once
+
+```
 
 #### 0145.binary-tree-postorder-traversal [二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal) (hard)
 
@@ -426,11 +408,11 @@ int findMin(vector<int>& numbers) {
 
 #### 0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element) (easy)
 
-* hashmap
+* 方法一：hashmap
 
-* 随机算法
+* 方法二：随机算法，先取再验证
 
-* Boyer-Moore Voting Algorithm：核心是利用这个数据的前缀特性，用军队打仗理解；每个非众数都会和一个数配对 https://zhuanlan.zhihu.com/p/85474828
+* 方法三：Boyer-Moore Voting Algorithm：核心是利用这个数据的前缀特性，用军队打仗理解；每个非众数都会和一个数配对 https://zhuanlan.zhihu.com/p/85474828
 
 class Solution:
 
