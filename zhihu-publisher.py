@@ -39,11 +39,19 @@ def process_for_zhihu():
         lines = table_ops(lines)
         with open(curfile.parent/"Output"/(curfile.stem+".md"), "w+", encoding=chatest["encoding"]) as fw:
             fw.write(lines)
-        git_ops()
+        if not args.only_generate:
+            git_ops()
 
 # Deal with the formula and change them into Zhihu original format
 # 也可以用https://www.zhihu.com/equation?tex=
 def formula_ops(_lines):
+     # _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
+    #                 '\n<img src="http://latex.codecogs.com/gif.latex?\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
+    # _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
+    #                 ' <img src="http://latex.codecogs.com/gif.latex?\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
+
+    # pattern=re.compile('')
+    # pattern.findall(_lines)
 
     _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
                     '\n<img src="https://www.zhihu.com/equation?tex=\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
@@ -51,13 +59,7 @@ def formula_ops(_lines):
                     ' <img src="https://www.zhihu.com/equation?tex=\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
     _lines = re.sub(
         '<img src="https://www.zhihu.com/equation\?tex=([\s\S]*?)" alt', rename_image_ref1, _lines)
-    # _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
-    #                 '\n<img src="http://latex.codecogs.com/gif.latex?\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
-    # _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
-    #                 ' <img src="http://latex.codecogs.com/gif.latex?\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
-    
-    # pattern=re.compile('')
-    # pattern.findall(_lines)
+   
     
     return _lines
 
@@ -138,10 +140,12 @@ if __name__ == "__main__":
         type=str,
         help='Path to the file you want to transfer.')
 
+    parser.add_argument('--only_generate', action='store_true', default=False)
+
     args = parser.parse_args()
     if args.input is None:
         raise FileNotFoundError("Please input the file's path to start!")
-    elif args.input == 'all' or args.input =='update':
+    elif args.input == 'all' or args.input =='update' :
         cwd=os.getcwd()+'/Data'
         files = os.listdir(cwd)
         files = [f for f in files if f.endswith(('md'))]

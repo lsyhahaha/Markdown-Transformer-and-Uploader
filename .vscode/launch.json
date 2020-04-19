@@ -8,7 +8,7 @@
             "name": "Python: 当前文件",
             "type": "python",
             "request": "launch",
-            "args": ["--input","Data/leetcode题目简评.md"],
+            "args": ["--input","Data/leetcode题目简评.md","--only_generate"],
             "program": "${file}",
             "console": "integratedTerminal"
         }
