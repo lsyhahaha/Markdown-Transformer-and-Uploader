@@ -91,7 +91,6 @@ static bool cmp1(vector<int> &a, vector<int> &b){
 
 #### 0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number)
 * 《剑指offer》，书上的代码结构很简洁，值得学习
-* 也可以用有限状态机来做
 
 ```c++
 int pointer;
@@ -113,8 +112,10 @@ bool isNumber(string s) {
 }
 ```
 
+* 也可以用有限状态机来做
 
 #### 0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance) 
+
 * 很漂亮的动态规划
 
 <img src="https://www.zhihu.com/equation?tex=D%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7DD%5Bi-1%5D%5Bj-1%5D%26A%5Bi%5D%3DB%5Bi%5D%5C%5Cmin%28D%5Bi-1%5D%5Bj-1%5D%2CD%5Bi-1%5D%5Bj%5D%2CD%5Bi%5D%5Bj-1%5D%29%2B1%26A%5Bi%5D%21%3DB%5Bi%5D%5C%5C%5Cend%7Bcases%7D%5Cnotag%0A" alt="D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
@@ -384,8 +385,7 @@ int findMin(vector<int>& numbers) {
 * 遍历较短的数字，直到遇到第一个和长数组对应位置不等的元素，再做判断处理
 
 #### 0167.two-sum-ii-input-array-is-sorted [两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) 
-
-<img src="https://www.zhihu.com/equation?tex=O%28log_%7B2%7DN%29" alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1">
+* 先二分查找到中间，再往两边扩散，这样当N很大时时间复杂度近似 <img src="https://www.zhihu.com/equation?tex=O%28log_%7B2%7DN%29" alt="O(log_{2}N)" class="ee_img tr_noresize" eeimg="1"> 
 
 #### 0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element)
 

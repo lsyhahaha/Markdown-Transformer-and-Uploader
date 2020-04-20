@@ -91,7 +91,6 @@ static bool cmp1(vector<int> &a, vector<int> &b){
 
 #### 0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number)
 * 《剑指offer》，书上的代码结构很简洁，值得学习
-* 也可以用有限状态机来做
 
 ```c++
 int pointer;
@@ -113,8 +112,10 @@ bool isNumber(string s) {
 }
 ```
 
+* 也可以用有限状态机来做
 
 #### 0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance) 
+
 * 很漂亮的动态规划
 $$
 D[i][j]=\begin{cases}D[i-1][j-1]&A[i]=B[i]\\min(D[i-1][j-1],D[i-1][j],D[i][j-1])+1&A[i]!=B[i]\\\end{cases}\notag
@@ -384,7 +385,7 @@ int findMin(vector<int>& numbers) {
 * 遍历较短的数字，直到遇到第一个和长数组对应位置不等的元素，再做判断处理
 
 #### 0167.two-sum-ii-input-array-is-sorted [两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) 
-* 先二分查找到中间，再往两边扩散，这样当N很大时时间复杂度近似$$O(log_{2}N)$$
+* 先二分查找到中间，再往两边扩散，这样当N很大时时间复杂度近似$O(log_{2}N)$
 
 #### 0169. majority-element [多数元素](https://leetcode-cn.com/problems/majority-element)
 
