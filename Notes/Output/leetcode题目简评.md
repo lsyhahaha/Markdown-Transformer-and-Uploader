@@ -125,7 +125,7 @@ bool isNumber(string s) {
 * 经典回溯法
 
 #### 0084.largest-rectangle-in-histogram [柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram) 
-* 单调栈，[很好的文章](https://blog.csdn.net/lucky52529/article/details/89155694)
+* 单调栈，[很好的文章，但有小错，纠正代码如下](https://blog.csdn.net/lucky52529/article/details/89155694)
 
 ```c++
 int largestRectangleArea(vector<int> &heights)
@@ -200,7 +200,7 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 #### 0104.maximum-depth-of-binary-tree [二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
 * 方法一：递归
 * 方法二：BFS，queue
-* 方法三：DFS，stack，[利用c++的pair](https://blog.csdn.net/sevenjoin/article/details/81937695)(https://blog.csdn.net/sevenjoin/article/details/81937695)，或者python的tuple
+* 方法三：DFS，stack，[利用c++的pair](https://blog.csdn.net/sevenjoin/article/details/81937695)，或者python的tuple
 
 #### 0105. construct-binary-tree-from-preorder-and-inorder-traversal [从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
 * 《剑指offer》第7题
