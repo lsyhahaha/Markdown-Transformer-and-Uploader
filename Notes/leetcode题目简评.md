@@ -422,7 +422,7 @@ int majorityElement(vector<int> nums) {
 * Hash表
 
 #### 0172.factorial-trailing-zeroes [阶乘后的零](https://leetcode-cn.com/problems/factorial-trailing-zeroes) 
-* n/5+n/5^2+n/5^3+… 递归即可
+* $n/5+n/5^2+n/5^3+…$ 递归即可
 
 #### 0190.reverse-bits [颠倒二进制位](https://leetcode-cn.com/problems/reverse-bits) 
 * 法一：位运算
