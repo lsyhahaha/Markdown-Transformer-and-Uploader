@@ -458,7 +458,7 @@ def reverseByte(byte):
 
 #### 0198.house-robber [打家劫舍](https://leetcode-cn.com/problems/house-robber) 
 
-动态规划
+* 简单DP
 
 #### 0203.remove-linked-list-elements [移除链表元素](https://leetcode-cn.com/problems/remove-linked-list-elements) 
 
@@ -597,43 +597,109 @@ void quick_sort(T*a, int l, int r) {//递归实现
 
 
 #### 0217.contains-duplicate [存在重复元素](https://leetcode-cn.com/problems/contains-duplicate) 
-* 预处理，先sort
+* 排序或者hash
 
 #### 0219.contains-duplicate-ii [存在重复元素 II](https://leetcode-cn.com/problems/contains-duplicate-ii) 
-* 是否有邻近的重复
-* 用HashMap
-* 有一种方法，用了JAVA的treeset: self-balancing Binary Search Tree (BST)
+* 本题关注点在于是否有邻近的重复，因此除了用hash，可以尝试利用数据的邻近特性，例如JAVA的treeset：self-balancing Binary Search Tree (BST)，C++的multiset
 
 #### 0220.contains-duplicate-iii [存在重复元素 III](https://leetcode-cn.com/problems/contains-duplicate-iii) 
 
-1)multiset C++ 平衡二叉树     
+* 方法一：[multiset]+滑窗法(https://blog.csdn.net/sodacoco/article/details/84798621)，利用[lower_bound](https://www.cnblogs.com/tocy/p/STL_lower_bound_intro.html)  
+```c++
+bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+    int size = nums.size(); if(size <= 1) return false;
+    if(k==0) return t==0;
+    multiset<long long> window;
+    //construct the first window
+    for(int i=0; i<min(size, k+1); i++) {
+        bool tmp = updateWindow(window, nums[i], t); if(tmp) return true;
+        window.insert(nums[i]);
+    }
+    //slide the wondow
+    for(int i=1; i+k<size; i++) {
+        auto itPrev = window.find(nums[i-1]); window.erase(itPrev);
+        bool tmp = updateWindow(window, nums[i+k], t); if(tmp) return true;
+        window.insert(nums[i+k]);
+    }
+    return false;
+}
+private:
+bool updateWindow(multiset<long long>& window, int val, int t) {
+    auto itlower = window.lower_bound(val);
+    if(itlower != window.end() && (*itlower)-val <= t) return true;
+    if(itlower != window.begin()) {
+        --itlower;
+        if(val - (*itlower) <= t) return true;
+    }
+    return false;
+}
+```
 
-https://blog.csdn.net/sodacoco/article/details/84798621
+* 方法二：巧妙的方法，注意到数据结构特点，要求没有邻近数，因此可以用bucket数据结构
+  * 引申：桶排序 =>[基数排序](https://blog.csdn.net/qq_41900081/article/details/86831408) 
+```java
+public class Solution {
+    // Get the ID of the bucket from element value x and bucket width w
+    // In Java, `-3 / 5 = 0` and but we need `-3 / 5 = -1`.
+    private long getID(long x, long w) {
+        return x < 0 ? (x + 1) / w - 1 : x / w;
+    }
 
-  lower_bound: https://www.cnblogs.com/tocy/p/STL_lower_bound_intro.html
-
-2）巧妙的方法，注意到数据结构特点，没有邻近数，因此可以用bucket数据结构
-
-  桶排序     =>基数排序 https://blog.csdn.net/qq_41900081/article/details/86831408
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (t < 0) return false;
+        Map<Long, Long> d = new HashMap<>();
+        long w = (long)t + 1;
+        for (int i = 0; i < nums.length; ++i) {
+            long m = getID(nums[i], w);
+            // check if bucket m is empty, each bucket may contain at most one element
+            if (d.containsKey(m))
+                return true;
+            // check the neighbor buckets for almost duplicate
+            if (d.containsKey(m - 1) && Math.abs(nums[i] - d.get(m - 1)) < w)
+                return true;
+            if (d.containsKey(m + 1) && Math.abs(nums[i] - d.get(m + 1)) < w)
+                return true;
+            // now bucket m is empty and no almost duplicate in neighbor buckets
+            d.put(m, (long)nums[i]);
+            if (i >= k) d.remove(getID(nums[i - k], w));
+        }
+        return false;
+    }
+}
+```
 
 #### 0226.invert-binary-tree [翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree) 
 
+[这个梗](https://twitter.com/mxcl/status/608682016205344768)
+
 #### 0229.majority-element-ii [求众数 II](https://leetcode-cn.com/problems/majority-element-ii) 
 
-* 很巧妙的方法 https://leetcode.com/problems/majority-element-ii/discuss/466876/Python-O(N)-time-O(1)-Space-Explanation-in-Comments 
+* Boyer-Moore，[代码](https://leetcode.com/problems/majority-element-ii/discuss/466876/Python-O(N)-time-O(1)-Space-Explanation-in-Comments )
 
 #### 0240.search-a-2d-matrix-ii [搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii) 
 
-《剑指offer》第4题
+* 《剑指offer》第4题，关键在于起点的选取，从左下角或者右上角开始
 
 #### 0343.integer-break [整数拆分](https://leetcode-cn.com/problems/integer-break) 
 
+* 简单DP
+
 #### 0653.two-sum-iv-input-is-a-bst [两数之和 IV - 输入 BST](https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst) 
+
+* 用BST减少运算量
 
 #### 0946.validate-stack-sequences [验证栈序列](https://leetcode-cn.com/problems/validate-stack-sequences) 
 
+* 建一个辅助栈模拟这一过程
+
 #### 0974.subarray-sums-divisible-by-k [和可被 K 整除的子数组](https://leetcode-cn.com/problems/subarray-sums-divisible-by-k) 
+
+* 记录前缀和数组v[i]，
+$$
+result=\sum_{i=0}^{i=K-1}\binom{v[i]}{2}\notag
+$$
 
 #### 1209.remove-all-adjacent-duplicates-in-string-ii [删除字符串中的所有相邻重复项 II](https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string-ii) 
 
-* 利用pair和栈
+* 利用pair存储当前连续字符数，建立栈模拟操作，符合条件则出栈
+
