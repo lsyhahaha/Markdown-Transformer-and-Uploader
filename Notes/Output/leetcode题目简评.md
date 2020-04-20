@@ -1,6 +1,6 @@
 ## leetcode题目简评
 
-##### 言简意赅，利于速览复习。有导航、有归纳、有代码、有细节、有引申。
+##### 言简意赅，持续更新，利于速览复习。有导航、有归纳、有代码、有细节、有引申。
 已记录题目编号：1, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343, 653, 946, 974, 1209
 
 #### 0000.资料
@@ -11,6 +11,8 @@
 [代码速查表](https://github.com/OUCMachineLearning/OUCML/tree/master/%E4%BB%A3%E7%A0%81%E9%80%9F%E6%9F%A5%E8%A1%A8)
 
 [图解leetcode](https://github.com/MisterBooo/LeetCodeAnimation)
+
+[生成这篇文章的一键md文件转换小工具，兼笔记管理](https://github.com/huangrt01/Markdown-Transformer-and-Uploader)
 
 #### 0001.two-sum [两数之和](https://leetcode-cn.com/problems/two-sum) 
 one-pass hash table
