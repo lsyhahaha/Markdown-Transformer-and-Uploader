@@ -7,7 +7,7 @@
 
 #### 新增功能
 * `python zhihu-publisher.py --input=all`，一键push所有md格式文件；`--input=update`则根据修改日期判断是否上传。
-* latex行内公式转化，利用知乎的公式编辑器，fork下来的原版本有bug，不可用，需要修改转义字符
+* latex行内公式转化，利用知乎的公式编辑器，本仓库的原版本有bug，问题已解决。
 
 #### 未来功能（按重要性排序）
 
