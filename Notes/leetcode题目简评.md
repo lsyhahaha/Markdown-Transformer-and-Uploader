@@ -1,21 +1,19 @@
 ## leetcode题目简评
 
-##### 言简意赅，持续更新，利于速览复习。有导航、有归纳、有代码、有细节、有引申。
+##### 言简意赅，持续更新，利于速览复习。有导航、有代码、有细节、有引申。
 已记录题目编号：1, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343, 653, 946, 974, 1209
 
 #### 0000.资料
-[官网](https://leetcode.com/problemset/all/)
-
 [leetcode精选题详解](https://github.com/azl397985856/leetcode)
 
 [代码速查表](https://github.com/OUCMachineLearning/OUCML/tree/master/%E4%BB%A3%E7%A0%81%E9%80%9F%E6%9F%A5%E8%A1%A8)
 
 [图解leetcode](https://github.com/MisterBooo/LeetCodeAnimation)
 
-[生成这篇文章的一键md文件转换小工具，兼笔记管理](https://github.com/huangrt01/Markdown-Transformer-and-Uploader)
+[生成这篇文章的一键md文件转换小玩具，兼笔记管理](https://github.com/huangrt01/Markdown-Transformer-and-Uploader)
 
 #### 0001.two-sum [两数之和](https://leetcode-cn.com/problems/two-sum) 
-one-pass hash table
+* one-pass hash table
 
 #### 0005.longest-palindromic-substring [最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring)
 * 法1:中心扩散
@@ -456,8 +454,7 @@ def reverseByte(byte):
 
 基本的优先级需要记住：
 指针最优，单目运算优于双目运算，如正负号。
-先算术运算，后移位运算，最后位运算。特别注意：1 << 3 + 2 & 7等价于 (1 << (3 + 2))&7.
-逻辑运算最后结合。
+先算术运算，后移位运算，最后位运算。1 << 3 + 2 & 7等价于 (1 << (3 + 2))&7，逻辑运算最后结合。
 
 #### 0198.house-robber [打家劫舍](https://leetcode-cn.com/problems/house-robber) 
 
@@ -607,7 +604,7 @@ void quick_sort(T*a, int l, int r) {//递归实现
 
 #### 0220.contains-duplicate-iii [存在重复元素 III](https://leetcode-cn.com/problems/contains-duplicate-iii) 
 
-* 方法一：[multiset]+滑窗法(https://blog.csdn.net/sodacoco/article/details/84798621)，利用[lower_bound](https://www.cnblogs.com/tocy/p/STL_lower_bound_intro.html)  
+* 方法一：[multiset](https://blog.csdn.net/sodacoco/article/details/84798621)+滑窗法，利用[lower_bound](https://www.cnblogs.com/tocy/p/STL_lower_bound_intro.html)  
 ```c++
 bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
     int size = nums.size(); if(size <= 1) return false;
