@@ -422,7 +422,7 @@ int majorityElement(vector<int> nums) {
 * Hash表
 
 #### 0172.factorial-trailing-zeroes [阶乘后的零](https://leetcode-cn.com/problems/factorial-trailing-zeroes) 
-* $n/5+n/5^2+n/5^3+…$ 递归即可
+* $n/5+n/5^2+n/5^3+…$ 递归即可
 
 #### 0190.reverse-bits [颠倒二进制位](https://leetcode-cn.com/problems/reverse-bits) 
 * 法一：位运算
@@ -697,7 +697,7 @@ public class Solution {
 
 * 记录前缀和数组v[i]，
 $$
-result=\sum_{i=0}^{i=K-1}\binom{v[i]}{2}\notag
+\rm{result}=\sum_{i=0}^{i=K-1}\binom{v[i]}{2}\notag
 $$
 
 #### 1209.remove-all-adjacent-duplicates-in-string-ii [删除字符串中的所有相邻重复项 II](https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string-ii) 

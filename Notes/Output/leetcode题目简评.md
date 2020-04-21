@@ -205,6 +205,14 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 #### 0105. construct-binary-tree-from-preorder-and-inorder-traversal [从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
 * 《剑指offer》第7题
 
+#### 0113. path-sum-ii [路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
+
+* 思维过程：路径～DFS～前序遍历
+* 总结：二叉树三大遍历的应用
+  * 前序遍历：目录结构（查找节点、输出或复制二叉树、比较两颗二叉树、交换二叉树所有子树）
+  * 中序遍历：表达式树
+  * 后序遍历：计算数据（求高度、统计结点个数），清空二叉树
+
 #### 0121. best-time-to-buy-and-sell-stock [买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/) 
 * O(n)遍历，记录之前的数组最小值
 
@@ -422,7 +430,7 @@ int majorityElement(vector<int> nums) {
 * Hash表
 
 #### 0172.factorial-trailing-zeroes [阶乘后的零](https://leetcode-cn.com/problems/factorial-trailing-zeroes) 
-*  <img src="https://www.zhihu.com/equation?tex=n/5%2Bn/5%5E2%2Bn/5%5E3%2B%E2%80%A6" alt="n/5+n/5^2+n/5^3+…" class="ee_img tr_noresize" eeimg="1">  递归即可
+*  <img src="https://www.zhihu.com/equation?tex=n/5%2Bn/5%5E2%2Bn/5%5E3%2B%E2%80%A6" alt="n/5+n/5^2+n/5^3+…" class="ee_img tr_noresize" eeimg="1">  递归即可
 
 #### 0190.reverse-bits [颠倒二进制位](https://leetcode-cn.com/problems/reverse-bits) 
 * 法一：位运算
@@ -676,6 +684,9 @@ public class Solution {
 #### 0229.majority-element-ii [求众数 II](https://leetcode-cn.com/problems/majority-element-ii) 
 
 * Boyer-Moore，[代码](https://leetcode.com/problems/majority-element-ii/discuss/466876/Python-O(N)-time-O(1)-Space-Explanation-in-Comments )
+
+#### 0234.palindrome-linked-list [回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+* O(n)时间复杂度，O(1)空间复杂度，翻转前半部分链表，再做比较即可。思考过程中想过是否可以用位运算保存之前的信息，发现不可行。
 
 #### 0240.search-a-2d-matrix-ii [搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii) 
 

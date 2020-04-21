@@ -156,6 +156,69 @@ Pthread_mutex_unlock(&lock);
 * [关于条件变量需要互斥量保护的问题](https://www.zhihu.com/question/53631897)
 * pthread_cond_wait内部先解锁再等待，之所以加锁是防止cond_wait内部解锁后时间片用完。https://blog.csdn.net/zrf2112/article/details/52287915
 
+HW:
+* main-race.c:
+  * `valgrind --tool=helgrind ./main-race`，结果给出了“Possible data race during write of size 4 at 0x30A014 by thread #1”
+  * 全局变量存放在数据段
+* 误判了main-deadlock-global-c，说明有瑕疵
+
+* main-signal-cv.c  条件变量的用法示例
+```c++
+#include <stdio.h>
+#include "mythreads.h"
+// 
+// simple synchronizer: allows one thread to wait for another
+// structure "synchronizer_t" has all the needed data
+// methods are:
+//   init (called by one thread)
+//   wait (to wait for a thread)
+//   done (to indicate thread is done)
+// 
+typedef struct __synchronizer_t {
+    pthread_mutex_t lock;
+    pthread_cond_t cond;
+    int done;
+} synchronizer_t;
+
+synchronizer_t s;
+
+void signal_init(synchronizer_t *s) {
+    Pthread_mutex_init(&s->lock, NULL);
+    Pthread_cond_init(&s->cond, NULL);
+    s->done = 0;
+}
+
+void signal_done(synchronizer_t *s) {
+    Pthread_mutex_lock(&s->lock);
+    s->done = 1;
+    Pthread_cond_signal(&s->cond);
+    Pthread_mutex_unlock(&s->lock);
+}
+
+void signal_wait(synchronizer_t *s) {
+    Pthread_mutex_lock(&s->lock);
+    while (s->done == 0) Pthread_cond_wait(&s->cond, &s->lock);
+    Pthread_mutex_unlock(&s->lock);
+}
+
+void* worker(void* arg) {
+    printf("this should print first\n");
+    signal_done(&s);
+    return NULL;
+}
+
+int main(int argc, char *argv[]) {
+    pthread_t p;
+    signal_init(&s);
+    Pthread_create(&p, NULL, worker, NULL);
+    signal_wait(&s);
+    printf("this should print last\n");
+
+    return 0;
+}
+
+```
+
 
 
 
