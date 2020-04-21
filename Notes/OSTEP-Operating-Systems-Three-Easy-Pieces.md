@@ -53,6 +53,135 @@ I hear and I forget. I see and I remember. I do and I understand.    其实是�
   * run-time stack; heap(malloc(),free())    
   * I/O setups; default file descriptors
 
+<img src="OSTEP-Operating-Systems-Three-Easy-Pieces/001.jpg" alt="进程状态转移" style="zoom:50%;" />
+* final态（在UNIX称作zombie state）等待子进程return 0，parent进程 wait()子进程
+
+* xv6 process structure
+```c++
+// the registers xv6 will save and restore
+// to stop and subsequently restart a process
+struct context {
+    int eip;int esp;
+    int ebx;int ecx;
+    int edx;int esi;
+    int edi;int ebp;
+};
+// the different states a process can be in
+enum proc_state { UNUSED, EMBRYO, SLEEPING,RUNNABLE, RUNNING, ZOMBIE };
+// the information xv6 tracks about each process
+// including its register context and state
+struct proc {
+    char*mem;                  // Start of process memory
+    uint sz;                    // Size of process memory
+    char*kstack;               // Bottom of kernel stack
+                               // for this process
+    enum proc_state state;      // Process state
+    int pid;                    // Process ID
+    struct proc*parent;        // Parent process
+    void*chan;                 // If !zero, sleeping on chan
+    int killed;                 // If !zero, has been killed
+    struct file*ofile[NOFILE]; // Open files
+    struct inode*cwd;          // Current directory
+    struct context context;     // Switch here to run process
+    struct trapframe*tf;       // Trap frame for the
+                                // current interrupt
+};
+```
+
+* Data Structure: process list，PCB(Process Control Block)
+
+* HW:process-run.py
+  * -I IO_RUN_IMMEDIATE      发生IO的进程接下来会有IO的概率大，所以这样高效
+
+#### 5.Interlude: Process API
+##### CRUX: how to create and control processes
+* #include <unistd.h>，getpid()，fork()    不从开头开始运行
+* scheduler的non-determinism，影响concurrency
+* p3.c    利用execvp执行子程序wc
+  * reinitialize the executable，transform原进程
+  * 不会return
+  * exec调用会把当前进程的机器指令都清除，因此前后的printf都不会执行
+* fork+exec的意义： it lets the shell run code after the call to fork() but before the call to exec(); this code can alter the environment of the about-to-be-run program, and thus enables a variety of interesting features to be readily built.
+
+* p4.c 
+```c++
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
+#include <assert.h>
+#include <sys/wait.h>
+
+int main(int argc, char *argv[])
+{
+    int rc = fork();
+  //  printf("STDOUT_FILENO的值是%d",STDOUT_FILENO);
+    if (rc < 0) {
+        // fork failed; exit
+        fprintf(stderr, "fork failed\n");
+        exit(1);
+    } else if (rc == 0) {
+	// child: redirect standard output to a file
+
+	close(STDOUT_FILENO); 
+	open("./p4.output", O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
+
+	// now exec "wc"...
+        char *myargs[3];
+        myargs[0] = strdup("wc");   // program: "wc" (word count)
+        myargs[1] = strdup("p4.c"); // argument: file to count
+        myargs[2] = NULL;           // marks end of array
+        execvp(myargs[0], myargs);  // runs word count
+    } else {
+        // parent goes down this path (original process)
+        int wc = wait(NULL);
+	assert(wc >= 0);
+    }
+    return 0;
+}
+
+```
+  * file descriptor的原理：按序搜索，因此需要close(STDOUT_FILENO); 
+  * 类似的应用：UNIX的pipe()特性，grep -o foo file | wc -l
+
+* 谁可以发送SIGINT信号给process=>signal(), process group, 引入user的概念
+* RTFM：read the fucking manual* 
+
+##### HW
+* 5.3 [用vfork()保证父进程后执行](https://www.cnblogs.com/zhangxuan/p/6387422.html)
+
+fork()和vfork()的区别：
+1. fork （）：子进程拷贝父进程的数据段，代码段
+  * vfork（ ）：子进程与父进程共享数据段
+2. fork （）父子进程的执行次序不确定
+  * vfork 保证子进程先运行，在调用exec 或exit之前与父进程数据是共享的,在它调用exec或exit 之后父进程才可能被调度运行。
+3. vfork （）保证子进程先运行，在她调用exec 或exit 之后父进程才可能被调度运行。如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁。 
+
+* 5.4 [不同的exec](https://en.wikipedia.org/wiki/Exec_(system_call)#C_language_prototypes)
+  * execvp，p的含义是寻找路径，v：vector
+* 5.5 如果child没有child，在child里用wait没有意义
+* 5.6 waitpid()    [wait和waitpid的区别](https://www.cnblogs.com/yusenwu/p/4655286.html)
+  * The pid parameter specifies the set of child processes for which to wait. If pid is -1, the call waits for any child process.  If pid is 0, the call waits for any child process in the process group of the caller.  If pid is greater than zero, the call waits for the process with process id pid.  If pid is less than -1, the call waits for any process whose process group id equals the absolute value of pid.
+* 5.8    [注意子进程返回0](https://blog.csdn.net/beautysleeper/article/details/52585224)
+
+#### 6.Mechanism: Limited Direct Execution
+##### CRUX: how to efficiently virtualize the cpu with control
+* limited direct execution
+##### CRUX: how to perform restricted operations
+* aside: open() read()这些系统调用是trap call，写好了汇编，参数和系统调用number都放入well-known locations
+  * 概念：trap into the kernel        return-from-trap        trap table    trap handler
+  * be wary of user inputs in secure systems
+* NOTE：
+  1. x86用per-process kernel stack，用于存进程的寄存器值，以便trap的时候寄存器够
+  2. 如何控制：set up trap table at boot time；直接进任何内核地址是very bad idea
+  3. user mode不能I/O request
+
+* system call，包括accessing the file system, creating and destroying processes, communicating with other processes, and allocating more memory（POSIX standard）
+	* protection: system call number ~ user code
+	* 告诉硬件trap table在哪也是privileged operation
+
+
 ### Concurrency
 
 #### 25.A Dialogue on Concurrency
