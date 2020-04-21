@@ -1,7 +1,7 @@
 ## leetcode题目简评
 
 ##### 言简意赅，持续更新，利于速览复习。有导航、有代码、有细节、有引申。
-已记录题目编号：1, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 113, 121, 122, 123, 125, 136, 137, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 234, 240, 343, 653, 946, 974, 1209
+已记录题目编号：1, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343, 653, 946, 974, 1209
 
 #### 0000.资料
 [leetcode精选题详解](https://github.com/azl397985856/leetcode)
@@ -40,7 +40,7 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 * 栈的使用  
 
 #### 0021.merge-two-sorted-lists [合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists)
-* 《剑指offer》第25题，经典题，引入一个头节点
+* 《剑指offer》，经典题，引入一个头节点
 * 代码模版：
 ```c++
 ListNode*head=new ListNode(0);
@@ -56,7 +56,7 @@ return head->next;
 * less is more，O(n)的简洁解法，也可用分治
 
 #### 0054.spiral-matrix [螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix)
-* 《剑指offer》第29题
+* 《剑指offer》
 * 简洁的写法
 ```c++
 vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -90,7 +90,7 @@ static bool cmp1(vector<int> &a, vector<int> &b){
 ```
 
 #### 0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number)
-* 《剑指offer》第20题，书上的代码结构很简洁，值得学习
+* 《剑指offer》，书上的代码结构很简洁，值得学习
 
 ```c++
 int pointer;
@@ -155,19 +155,12 @@ stack<int> st;
 //此处一般需要给数组最后添加结束标志符
 for (遍历这个数组)
 {
-	if (栈空 || 栈顶元素大于等于当前比较元素)
-	{
-		入栈;
-	}
-	else
-	{
-		while (栈不为空 && 栈顶元素小于当前元素)
-		{
-			栈顶元素出栈;
-			更新结果;
-		}
-		当前数据入栈;
-	}
+  while (栈不为空 && 栈顶元素小于当前元素)
+  {
+    栈顶元素出栈;
+    更新结果;
+  }
+  当前数据入栈;
 }
 ```
 
@@ -204,14 +197,6 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 
 #### 0105. construct-binary-tree-from-preorder-and-inorder-traversal [从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
 * 《剑指offer》第7题
-
-#### 0113. path-sum-ii [路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
-
-* 思维过程：路径～DFS～前序遍历
-* 总结：二叉树三大遍历的应用
-  * 前序遍历：目录结构（查找节点、输出或复制二叉树、比较两颗二叉树、交换二叉树所有子树）
-  * 中序遍历：表达式树
-  * 后序遍历：计算数据（求高度、统计结点个数），清空二叉树
 
 #### 0121. best-time-to-buy-and-sell-stock [买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/) 
 * O(n)遍历，记录之前的数组最小值
@@ -287,6 +272,10 @@ def singleNumber(self, nums: List[int]) -> int:
     return seen_once
 
 ```
+
+#### 0138.copy-list-with-random-pointer [复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+* 《剑指offer》第35题
+* 思路值得学习，在原链表的主线上复制节点，进行删改操作。
 
 #### 0145.binary-tree-postorder-traversal [二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal)
 
@@ -685,9 +674,6 @@ public class Solution {
 
 * Boyer-Moore，[代码](https://leetcode.com/problems/majority-element-ii/discuss/466876/Python-O(N)-time-O(1)-Space-Explanation-in-Comments )
 
-#### 0234.palindrome-linked-list [回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
-* O(n)时间复杂度，O(1)空间复杂度，翻转前半部分链表，再做比较即可。思考过程中想过是否可以用位运算保存之前的信息，发现不可行。
-
 #### 0240.search-a-2d-matrix-ii [搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii) 
 
 * 《剑指offer》第4题，关键在于起点的选取，从左下角或者右上角开始
@@ -708,7 +694,7 @@ public class Solution {
 
 * 记录前缀和数组v[i]，
 
-<img src="https://www.zhihu.com/equation?tex=result%3D%5Csum_%7Bi%3D0%7D%5E%7Bi%3DK-1%7D%5Cbinom%7Bv%5Bi%5D%7D%7B2%7D%5Cnotag%0A" alt="result=\sum_{i=0}^{i=K-1}\binom{v[i]}{2}\notag
+<img src="https://www.zhihu.com/equation?tex=%5Crm%7Bresult%7D%3D%5Csum_%7Bi%3D0%7D%5E%7Bi%3DK-1%7D%5Cbinom%7Bv%5Bi%5D%7D%7B2%7D%5Cnotag%0A" alt="\rm{result}=\sum_{i=0}^{i=K-1}\binom{v[i]}{2}\notag
 " class="ee_img tr_noresize" eeimg="1">
 
 #### 1209.remove-all-adjacent-duplicates-in-string-ii [删除字符串中的所有相邻重复项 II](https://leetcode-cn.com/problems/remove-all-adjacent-duplicates-in-string-ii) 
