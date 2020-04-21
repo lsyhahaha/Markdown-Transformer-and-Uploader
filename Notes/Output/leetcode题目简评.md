@@ -40,7 +40,7 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 * 栈的使用  
 
 #### 0021.merge-two-sorted-lists [合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists)
-* 《剑指offer》，经典题，引入一个头节点
+* 《剑指offer》第25题，经典题，引入一个头节点
 * 代码模版：
 ```c++
 ListNode*head=new ListNode(0);
@@ -56,7 +56,7 @@ return head->next;
 * less is more，O(n)的简洁解法，也可用分治
 
 #### 0054.spiral-matrix [螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix)
-* 《剑指offer》
+* 《剑指offer》第29题
 * 简洁的写法
 ```c++
 vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -90,7 +90,7 @@ static bool cmp1(vector<int> &a, vector<int> &b){
 ```
 
 #### 0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number)
-* 《剑指offer》，书上的代码结构很简洁，值得学习
+* 《剑指offer》第20题，书上的代码结构很简洁，值得学习
 
 ```c++
 int pointer;
