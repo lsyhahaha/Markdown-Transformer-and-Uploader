@@ -173,13 +173,58 @@ fork()和vfork()的区别：
   * 概念：trap into the kernel        return-from-trap        trap table    trap handler
   * be wary of user inputs in secure systems
 * NOTE：
-  1. x86用per-process kernel stack，用于存进程的寄存器值，以便trap的时候寄存器够
+  1. x86用[per-process kernel stack](https://stackoverflow.com/questions/24413430/why-keep-a-kernel-stack-for-each-process-in-linux)，用于存进程的寄存器值，以便trap的时候寄存器够 
   2. 如何控制：set up trap table at boot time；直接进任何内核地址是very bad idea
   3. user mode不能I/O request
 
 * system call，包括accessing the file system, creating and destroying processes, communicating with other processes, and allocating more memory（POSIX standard）
-	* protection: system call number ~ user code
+	* protection: user code中存在的是system call number，避开内核地址
 	* 告诉硬件trap table在哪也是privileged operation
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/OSTEP-Operating-Systems-Three-Easy-Pieces/002.jpg" alt="LDE protocal" style="zoom:50%;" />
+
+[stub code](https://www.zhihu.com/question/24844900/answer/35126766)
+
+##### CRUX: how to regain control of the CPU
+* problem #2:switching between processes
+  * A cooperative approach: wait for system calls
+  * [MacOS9 Emulator](http://www.columbia.edu/~em36/macos9osx.html#summary)
+  * NOTE: only solution to infinite loops is to reboot the machine，reboot is useful
+  * A Non-Cooperative Approach: The OS Takes Control
+##### CRUX: how to gain control without cooperation
+* a timer interrupt    interrupt handler
+  * timer也可以关
+* deal with malfeasance: in modern systems, the way the OS tries to handle such malfeasance is to simply terminate the offender.
+
+* scheduler    context switch
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/OSTEP-Operating-Systems-Three-Easy-Pieces/003.jpg" alt="LDE protocal + timer interrupt" style="zoom:50%;" />
+
+注意有两种register saves/restores:
+* timer interrupt: 用hardware，kernel stack，implicitly，存user registers
+* OS switch：用software，process structure，explicitly，存kernel registers
+
+* e.g. xv6 context switch code
+
+NOTE:
+* 如何测time switch的成本：[LMbench](https://winddoing.github.io/post/54953.html)
+* 为何这么多年操作系统速度没有明显变快：memory bandwidth
+
+* 如何处理concurrency？=>    locking schemes，disable interrupts
+  * 思考：baby-proof
+
+HW: measurement
+    多核时代不宜用x86的RDTSC http://www.360doc.com/content/12/0827/17/7851074_232649576.shtml
+    system call需要0.3 microseconds; context switch 0.6 microseconds; 单次记录用时1 microseconds
+    MacOS上没有sched.h    https://yyshen.github.io/2015/01/18/binding_threads_to_cores_osx.html
+
+#### 7.Scheduling: Introduction
+
+##### CRUX: how to develop scheduling policy
+
+7.1 workload assumptions
+fully-operational scheduling discipline
+概念：jobs
+scheduling metrics：turnaround time
 
 
 ### Concurrency
