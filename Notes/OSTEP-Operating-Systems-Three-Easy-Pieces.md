@@ -412,12 +412,15 @@ support for sharing
 * code sharing    这是一个潜在的好处
 * protection bits (硬件支持)
 
+* fine-grained segmentation: segment table
+* coarse-grained
+
 OS support
 * segment registers
 * malloc
 * manage free space 
   * 问题：external fragmentation
-  * 方案1: compaction 消耗大，makes requests to grow existing segments hard to serve
+  * 方案1: compaction： 消耗大；makes requests to grow existing segments hard to serve
   * 方案2：free-list：best-fit，worst-fit，first-fit，[buddy algorithm](https://blog.csdn.net/wan_hust/article/details/12688017) 块链表，合并 
 
 ### Concurrency
