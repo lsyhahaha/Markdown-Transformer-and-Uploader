@@ -1,7 +1,7 @@
 ## leetcode题目简评
 
 ##### 言简意赅，持续更新，利于速览复习。有导航、有代码、有细节、有引申。
-已记录题目编号：1, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343, 653, 946, 974, 1209
+已记录题目编号：1, 3, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343, 653, 946, 974, 1209
 
 #### 0000.资料
 [leetcode精选题详解](https://github.com/azl397985856/leetcode)
@@ -14,6 +14,10 @@
 
 #### 0001.two-sum [两数之和](https://leetcode-cn.com/problems/two-sum) 
 * one-pass hash table
+
+#### 0003.longest-substring-without-repeating-characters [无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+* 滑窗：O(n)复杂度，可以用字典储存i跳转的位置，把计算量从2n降到n，类似KMP的思想。
 
 #### 0005.longest-palindromic-substring [最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring)
 * 法1:中心扩散
@@ -465,17 +469,17 @@ def reverseByte(byte):
 #### 0206.reverse-linked-list [反转链表](https://leetcode-cn.com/problems/reverse-linked-list) 
 ```c++
 ListNode* reverseList(ListNode* head) {
-    if(!head) return head;
-    ListNode *qprev=head; ListNode *qnext,*q;
-    q=qprev->next;
-    qprev->next=NULL;
+    if(!head||!head->next) return head;
+    ListNode *p=head,*q=head->next; 
+  	p->next=NULL;
+  	ListNode* temp;
     while(q!=NULL){
-        qnext=q->next;
-        q->next=qprev;
-        qprev=q;
-        q=qnext;
+    	temp=q->next;
+			q->next=p;
+			p=q;
+      q=temp;
     }
-    return qprev;
+    return p;
 }
 ```
 
