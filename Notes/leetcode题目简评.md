@@ -2,7 +2,7 @@
 
 **言简意赅，持续更新，利于速览复习。有导航、有代码、有细节、有引申。**
 
-已记录题目编号：1, 3, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343, 653, 946, 974, 1209
+已记录题目编号：1, 3, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 343,426,  653, 946, 974, 1209
 
 #### 0000.资料
 [leetcode精选题详解](https://github.com/azl397985856/leetcode)
@@ -686,6 +686,40 @@ public class Solution {
 #### 0343.integer-break [整数拆分](https://leetcode-cn.com/problems/integer-break) 
 
 * 简单DP
+
+#### 0426.convert-binary-search-tree-to-sorted-doubly-linked-list[将二叉搜索树转化为排序的双向链表](https://leetcode-cn.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/)
+* 方法一：二叉搜索树特性，中序遍历的递归/非递归实现，用nonlocal last记录上一次遍历的末尾节点
+* 方法二：用flag指示返回最左/最右节点，递归后序遍历操作
+```c++
+Node *treeToDoublyList(Node *root)
+{
+    root = treeToDoublyList(root, 0);
+    if (root == NULL)
+        return NULL;
+    Node *p = root;
+    while (p->right) p = p->right;
+    p->right = root;
+    root->left = p;
+    return root;
+}
+Node *treeToDoublyList(Node *root, int flag)
+{ //flag=0:left, flag=1:right
+    if (root == NULL)
+        return NULL;
+    Node *l = treeToDoublyList(root->left, 1);
+    Node *r = treeToDoublyList(root->right, 0);
+    root->left = l;
+    root->right = r;
+    if (l)
+        l->right = root;
+    if (r)
+        r->left = root;
+    Node *p = root;
+    if (!flag) while (p->left) p = p->left;
+    else while (p->right) p = p->right;
+    return p;
+}
+```
 
 #### 0653.two-sum-iv-input-is-a-bst [两数之和 IV - 输入 BST](https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst) 
 
