@@ -356,7 +356,7 @@ NOTE:
 * double free   ###
 * invalid frees
 * strcat的参数内存区域重复    ###
-* （valgrind：###）
+* （###：valgrind可检测的）
 
 * 用[purify](https://www.cnblogs.com/Leo_wl/p/7699489.html)和valgrind检查内存泄漏
 
@@ -452,7 +452,109 @@ Other Approaches: (这些approach的问题在于lack of scaling)
 * per thread arena
 * Fast Bin; Unsorted Bin; Small Bin; Large Bin; Top Chunk; Last Remainder Chunk
 
+#### 18.Paging: Introduction
 
+另一条路径，page frames，never allocating memory in variable-sized chunks
+
+##### CRUX: how to virtualize memory with pages
+* flexibility and simplicity
+* page table: store address translations
+  * inverted page table不是per-process结构，用哈希页表，可以配合TLB
+
+translate: virtual address= virtual page number(VPN) + offset
+
+ => PFN(PPN): physical frame(page) number
+
+18.2 Where are page tables stored?
+* page table大，仅用hardware MMU难以管理，作为virtualized OS memory，存在physical memory里，甚至可以存进swap space
+
+PTE: page table entry
+* valid bit：x86的实现中，没有valid bit，由OS利用额外的结构决定，present bit=0的page，是否valid，即是否需要swapped back in 
+* protection bits    
+* present bit (e.g. swapped out)    
+* dirty bit    
+* reference bit (accessed bit) ~ page replacement    
+
+<img src="OSTEP-Operating-Systems-Three-Easy-Pieces/006.jpg" alt="accessing memory with paging" style="zoom:80%;" />
+
+#### 19.Paging: Faster Translations(TLBs)
+
+##### CRUX: how to speed up address translation
+
+TLB: translation-lookaside buffer
+* 属于MMU，是address-translation cache
+* TLB hit/miss ：常见的长度4KB
+* cache：spatial and temporal locality ; locality是一种heuristic
+* [TLB是全相联cache](https://my.oschina.net/fileoptions/blog/1630855)
+
+TLB Control Flow Algorithm
+```c++
+VPN = (VirtualAddress & VPN_MASK) >> SHIFT
+(Success, TlbEntry) = TLB_Lookup(VPN) 
+if(Success == True) // TLB Hit
+    if (CanAccess(TlbEntry.ProtectBits) == True)
+        Offset   = VirtualAddress & OFFSET_MASK
+        PhysAddr = (TlbEntry.PFN << SHIFT) | Offset
+        Register = AccessMemory(PhysAddr)
+    else
+        RaiseException(PROTECTION_FAULT)
+else                  // TLB Miss
+    PTEAddr = PTBR + (VPN*sizeof(PTE))
+    PTE = AccessMemory(PTEAddr)
+    if (PTE.Valid == False)
+        RaiseException(SEGMENTATION_FAULT)
+    else if (CanAccess(PTE.ProtectBits) == False)
+        RaiseException(PROTECTION_FAULT)
+    else
+        TLB_Insert(VPN, PTE.PFN, PTE.ProtectBits)
+        RetryInstruction()
+```
+OS-handled，实现细节：
+* 普通的return-from-trap回到下条指令，TLB miss handler会retry，回到本条指令
+* 防止无限循环：trap handler放进physical memory，或者对部分entries设置wired translations
+
+```c++
+VPN = (VirtualAddress & VPN_MASK) >> SHIFT
+(Success, TlbEntry) = TLB_Lookup(VPN)
+if (Success == True)   // TLB Hit
+    if (CanAccess(TlbEntry.ProtectBits) == True)
+        Offset   = VirtualAddress & OFFSET_MASK
+        PhysAddr = (TlbEntry.PFN << SHIFT) | Offset
+        Register = AccessMemory(PhysAddr)
+    else
+        RaiseException(PROTECTION_FAULT)
+else                  // TLB Miss
+    RaiseException(TLB_MISS)
+```
+
+19.3 Who Handles The TLB Miss?
+
+* Aside: RISC vs CISC
+* CISC:    x86: hardware-managed    
+  * multi-level page table
+  * 硬件知道PTBR
+  *  the current page table is pointed to by the CR3 register [I09]
+* RISC:    MIPS: software-managed
+
+ASIDE: TLB Valid Bit和Page Table Valid Bit的区别：
+1. PTE和新进程密切相联。
+2. context switch时把TLB valid bit置0
+
+19.5 TLB Issue: Context Switches
+##### CRUX: how to manage TLB contents on a context switch
+* solution1: flush the TLB    
+  * 对于硬件实现，PTBR的变化后flush the TLB
+* solution2: ASID(address space identifier)  8bit ,性质上类似于32bit的PID 
+* NOTE: 可能存在进程间的sharing pages，比如库或者代码段
+
+
+Issue: cache replacement policy
+##### CRUX: how to design TLB replacement policy
+* LRU， 会有corner-case behaviors
+* random policy
+
+MIPS TLBs  software-managed  一个entry64bit，有32或64个entry，会给OS预留，比如用于TLB miss handler
+    TLBP    TLBR    TLBWI    TLBWR
 
 #### 24.Summary
 
@@ -548,7 +650,7 @@ pthread_mutex_unlock(&lock);
 * pthread_mutex_trylock和timedlock
 
 ##### conditional variables
-```c++
+​```c++
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  cond = PTHREAD_COND_INITIALIZER;
 Pthread_mutex_lock(&lock);
