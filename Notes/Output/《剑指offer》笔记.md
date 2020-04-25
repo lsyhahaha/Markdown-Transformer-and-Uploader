@@ -23,6 +23,21 @@
   * e.g. 空类1字节
 * 软件工程：常见的设计模式、UML图
 
+#### chpt3 高质量的代码
+
+#### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
+* [leetcode 10.](https://leetcode-cn.com/problems/regular-expression-matching)
+* 和0072.Edit-Space类似
+
+<img src="https://www.zhihu.com/equation?tex=d%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7D%0Ad%5Bi-1%5D%5Bj-1%5D%26%20p%5Bj%5D%3D%27.%27%5C%5C%0As%5Bi%5D%20%3D%3D%20p%5Bj%5D%5Cquad%20%5C%26%5C%26%20%5Cquad%20d%5Bi%20-%201%5D%5Bj%20-%201%5D%20%26%20p%5Bj%5D%3Da%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20d%5Bi-1%5D%5Bj%5D%20%26%20p%5Bj-1%3Aj%5D%3D%27.%2A%27%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20%28d%5Bi-1%5D%5Bj%5D%5Cquad%20%5C%26%5C%26%5Cquad%20s%5Bi%5D%3D%3Dp%5Bj-1%5D%29%20%20%20%20%20%20%26%20p%5Bj-1%3Aj%5D%3D%27a%2A%27%0A%5Cend%7Bcases%7D%0A%5Cnotag%0A" alt="d[i][j]=\begin{cases}
+d[i-1][j-1]& p[j]='.'\\
+s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
+d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
+d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]='a*'
+\end{cases}
+\notag
+" class="ee_img tr_noresize" eeimg="1">
+
 #### chpt4 解决面试题的思路
 解决复杂问题的三种方法：画图、举例、分解
 

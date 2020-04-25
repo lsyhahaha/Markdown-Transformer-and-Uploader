@@ -23,6 +23,21 @@
   * e.g. 空类1字节
 * 软件工程：常见的设计模式、UML图
 
+#### chpt3 高质量的代码
+
+#### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
+* [leetcode 10.](https://leetcode-cn.com/problems/regular-expression-matching)
+* 和0072.Edit-Space类似
+$$
+d[i][j]=\begin{cases}
+d[i-1][j-1]& p[j]='.'\\
+s[i] == p[j]\quad \&\& \quad d[i - 1][j - 1] & p[j]=a\\
+d[i][j - 2]\quad ||\quad d[i-1][j] & p[j-1:j]='.*'\\
+d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]='a*'
+\end{cases}
+\notag
+$$
+
 #### chpt4 解决面试题的思路
 解决复杂问题的三种方法：画图、举例、分解
 

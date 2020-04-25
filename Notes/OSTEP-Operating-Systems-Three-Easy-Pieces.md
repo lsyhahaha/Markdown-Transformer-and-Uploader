@@ -553,8 +553,20 @@ Issue: cache replacement policy
 * LRU， 会有corner-case behaviors
 * random policy
 
-MIPS TLBs  software-managed  一个entry64bit，有32或64个entry，会给OS预留，比如用于TLB miss handler
-    TLBP    TLBR    TLBWI    TLBWR
+* MIPS的TLBs是software-managed，一个entry64bit，有32或64个entry，会给OS预留，比如用于TLB miss handler
+
+<img src="OSTEP-Operating-Systems-Three-Easy-Pieces/007.jpg" alt="A MIPS TLB Entry" style="zoom:80%;" />
+
+* MIPS的TLB相关的四个privileged OS命令：TLBP(probe), TLBR(read), TLBWI(replace specific), TLBWR(replace random)
+* Culler's Law：TLB经常是性能瓶颈
+
+* Issue: exceeding the TLB converge => larger pages，应用于DBMS
+* Issue: physically-indexed cache成为bottleneck => virtually-indexed cache [W03]
+  * in the CPU pipeline, with such a cache, address translation has to take place before the cache is accessed（计组知识）
+
+* HW:测量NUMPAGES，UNIX: getpagesize()=4096
+
+
 
 #### 24.Summary
 
@@ -650,7 +662,7 @@ pthread_mutex_unlock(&lock);
 * pthread_mutex_trylock和timedlock
 
 ##### conditional variables
-​```c++
+```c++
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  cond = PTHREAD_COND_INITIALIZER;
 Pthread_mutex_lock(&lock);
@@ -668,7 +680,7 @@ HW:
 * 误判了main-deadlock-global-c，说明有瑕疵
 
 * main-signal-cv.c  条件变量的用法示例
-```c++
+​```c++
 #include <stdio.h>
 #include "mythreads.h"
 // 
@@ -763,7 +775,7 @@ target: prerequisite1 prerequisite2 ...
 	command2 (需要tab)
 ```
 * 知道什么需要regenerate
-```shell
+​```shell
 # specify all source files here
 SRCS = hw.c helper.c
 
@@ -798,6 +810,6 @@ $(TARG): $(OBJS)
 
 inbox：
 * hm5.8    g++ hm5.8.cpp -o hm5.8 -Wall && "/Users/huangrt01/Desktop/OSTEP/ostep-code/cpu-api/“hm5.8  同一个命令，用coderunner输出六行，用terminal输出五行 
-
-  
+* 双线程，全局变量i++100次，单核和多核的区别？是不是单核最小i=100，多核i=2，https://blog.csdn.net/autumn20080101/article/details/7770225
+* 19. physically-indexed cache
 
