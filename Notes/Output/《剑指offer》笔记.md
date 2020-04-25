@@ -38,6 +38,40 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 \notag
 " class="ee_img tr_noresize" eeimg="1">
 
+#### 25.[合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
+* [leetcode 21.](https://leetcode-cn.com/problems/merge-two-sorted-lists)，经典题，引入一个头节点
+* 代码模版：
+```c++
+ListNode*head=new ListNode(0);
+ListNode*p=head;
+...
+return head->next;
+```
+
+#### 29.[顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
+* [leetcode 54.](https://leetcode-cn.com/problems/spiral-matrix)
+* 最简洁的写法
+```c++
+vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int>ret;
+        int m=matrix.size();
+        if(!m)return ret;
+        int n=matrix[0].size();
+        int b=0,t=m-1,l=0,r=n-1;
+        while(1){
+            for(int j=l;j<=r;j++)ret.push_back(matrix[b][j]);
+            if(++b>t)break;
+            for(int i=b;i<=t;i++)ret.push_back(matrix[i][r]);
+            if(--r<l)break;
+            for(int j=r;j>=l;j--)ret.push_back(matrix[t][j]);
+            if(--t<b)break;
+            for(int i=t;i>=b;i--)ret.push_back(matrix[i][l]);
+            if(++l>r)break;
+        }
+        return ret;
+}
+```
+
 #### chpt4 解决面试题的思路
 解决复杂问题的三种方法：画图、举例、分解
 
