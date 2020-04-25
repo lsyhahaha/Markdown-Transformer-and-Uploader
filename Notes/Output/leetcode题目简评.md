@@ -39,13 +39,14 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 " class="ee_img tr_noresize" eeimg="1">
 
 #### 0015.3sum [三数之和](https://leetcode-cn.com/problems/3sum)
-* 先排序，在排序的基础上，虽然也是O(n^2)复杂度，但可以利用双指针尽量提高效率
+* 方法一：先排序，在排序的基础上，虽然也是O(n^2)复杂度，但可以利用双指针尽量提高效率
+* 方法二：hash，先预处理排序，并把重复元素合并
 
 #### 0020.valid-parentheses [有效的括号](https://leetcode-cn.com/problems/valid-parentheses) 
-* 栈的使用  
+* 栈的使用；利用map定义括号和反括号的映射关系
 
 #### 0021.merge-two-sorted-lists [合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists)
-* 《剑指offer》，经典题，引入一个头节点
+* [《剑指offer》第25题](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)，经典题，引入一个头节点
 * 代码模版：
 ```c++
 ListNode*head=new ListNode(0);
@@ -59,10 +60,31 @@ return head->next;
 
 #### 0053.maximum-sum-subarray [最大子序和](https://leetcode-cn.com/problems/maximum-subarray) 
 * less is more，O(n)的简洁解法，也可用分治
+```c++
+int maxSubArray(vector<int>& nums) {
+    if(nums.size()==0)return 0;
+    int i=1;
+    int maxsum=nums[0];
+    int sum=maxsum;
+    while(i<=nums.size()-1){
+        if(sum<0){  
+            sum=nums[i];
+        }
+        else
+            sum+=nums[i];
+        if(sum>=maxsum)
+        {
+            maxsum=sum;
+        } 
+        i++;
+    }
+    return maxsum;
+}
+```
 
 #### 0054.spiral-matrix [螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix)
-* 《剑指offer》
-* 简洁的写法
+* [《剑指offer》第29题](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
+* 最简洁的写法
 ```c++
 vector<int> spiralOrder(vector<vector<int>>& matrix) {
         vector<int>ret;
