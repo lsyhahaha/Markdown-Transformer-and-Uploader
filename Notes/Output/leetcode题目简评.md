@@ -26,7 +26,7 @@
 * 法3:[Manacher算法](https://www.cnblogs.com/cloudplankroader/p/10988844.html)
 
 #### 0010.regular-expression-matching [正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching) 
-* 《剑指offer》第10题
+* [《剑指offer》第19题](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/)
 * 和0072.Edit-Space类似
 
 <img src="https://www.zhihu.com/equation?tex=d%5Bi%5D%5Bj%5D%3D%5Cbegin%7Bcases%7D%0Ad%5Bi-1%5D%5Bj-1%5D%26%20p%5Bj%5D%3D%27.%27%5C%5C%0As%5Bi%5D%20%3D%3D%20p%5Bj%5D%5Cquad%20%5C%26%5C%26%20%5Cquad%20d%5Bi%20-%201%5D%5Bj%20-%201%5D%20%26%20p%5Bj%5D%3Da%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20d%5Bi-1%5D%5Bj%5D%20%26%20p%5Bj-1%3Aj%5D%3D%27.%2A%27%5C%5C%0Ad%5Bi%5D%5Bj%20-%202%5D%5Cquad%20%7C%7C%5Cquad%20%28d%5Bi-1%5D%5Bj%5D%5Cquad%20%5C%26%5C%26%5Cquad%20s%5Bi%5D%3D%3Dp%5Bj-1%5D%29%20%20%20%20%20%20%26%20p%5Bj-1%3Aj%5D%3D%27a%2A%27%0A%5Cend%7Bcases%7D%0A%5Cnotag%0A" alt="d[i][j]=\begin{cases}
