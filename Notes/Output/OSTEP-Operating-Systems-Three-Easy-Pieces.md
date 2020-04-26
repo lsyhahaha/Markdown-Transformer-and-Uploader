@@ -148,14 +148,16 @@ int main(int argc, char *argv[])
 * 谁可以发送SIGINT信号给process=>signal(), process group, 引入user的概念
 * RTFM：read the fucking manual* 
 
-##### HW
+**HW:**
+
 * 5.3 [用vfork()保证父进程后执行](https://www.cnblogs.com/zhangxuan/p/6387422.html)
 
-fork()和vfork()的区别：
+**fork()和vfork()的区别：**
+
 1. fork （）：子进程拷贝父进程的数据段，代码段
-  * vfork（ ）：子进程与父进程共享数据段
+    * vfork（ ）：子进程与父进程共享数据段
 2. fork （）父子进程的执行次序不确定
-  * vfork 保证子进程先运行，在调用exec 或exit之前与父进程数据是共享的,在它调用exec或exit 之后父进程才可能被调度运行。
+    * vfork 保证子进程先运行，在调用exec 或exit之前与父进程数据是共享的,在它调用exec或exit 之后父进程才可能被调度运行。
 3. vfork （）保证子进程先运行，在她调用exec 或exit 之后父进程才可能被调度运行。如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁。 
 
 * 5.4 [不同的exec](https://en.wikipedia.org/wiki/Exec_(system_call)#C_language_prototypes)
@@ -286,7 +288,8 @@ NOTE：
 
 如果对伪随机数限定范围，不要用rand，[用interval](https://stackoverflow.com/questions/2509679/how-to-generate-a-random-integer-number-from-within-a-range)
 
- 机制：
+**机制：**
+
 1. ticket currency，用户之间
 2. ticket transfer，用户与服务器
 3. ticket inflation，临时增加tickets，需要进程之间的信任
@@ -347,7 +350,8 @@ NOTE:
 * automatic memory management         ~ garbage collector
 * 其它calls：calloc()先置0，realloc()更大区域
 
-一些常见错误：
+**一些常见错误：**
+
 * segmentation fault    =>用strdup    ###
 * buffer overflow        e.g. 应该strlen(src)+1
 * uninitialized read/undefined value    ###
@@ -387,7 +391,8 @@ static (software-based) relocation: loader，不安全，难以再次换位
 一些硬件要素：寄存器，异常，内核态，privileged instructions
 * 硬件和protection联系紧密
 
-OS需要的数据结构：
+**OS需要的数据结构：**
+
 * free list(定长进程内存)
 * PCB(or process structure)            储存base和bounds信息
 * exception handlers: 掐掉过界的进程
@@ -408,14 +413,16 @@ OS需要的数据结构：
   * implicit：利用计组知识，比如PC生成的地址属于code区
   * 对于stack的特殊处理：negative offset
 
-support for sharing
+**support for sharing**
+
 * code sharing    这是一个潜在的好处
 * protection bits (硬件支持)
 
 * fine-grained segmentation: segment table
 * coarse-grained
 
-OS support
+**OS support**
+
 * segment registers
 * malloc
 * manage free space 
@@ -468,12 +475,15 @@ translate: virtual address= virtual page number(VPN) + offset
 18.2 Where are page tables stored?
 * page table大，仅用hardware MMU难以管理，作为virtualized OS memory，存在physical memory里，甚至可以存进swap space
 
-PTE: page table entry
+**PTE: page table entry**
+
 * valid bit：x86的实现中，没有valid bit，由OS利用额外的结构决定，present bit=0的page，是否valid，即是否需要swapped back in 
 * protection bits    
 * present bit (e.g. swapped out)    
 * dirty bit    
 * reference bit (accessed bit) ~ page replacement    
+
+* 实际存储：VirtualAddress：32=20(VPN)+12(Offset)；PTE内部：20(PFN)+3(empty)+9(flag)
 
 <img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/OSTEP-Operating-Systems-Three-Easy-Pieces/006.jpg" alt="accessing memory with paging" style="zoom:80%;" />
 
@@ -481,9 +491,10 @@ PTE: page table entry
 
 ##### CRUX: how to speed up address translation
 
-TLB: translation-lookaside buffer
+**TLB: translation-lookaside buffer**
+
 * 属于MMU，是address-translation cache
-* TLB hit/miss ：常见的长度4KB
+* TLB hit/miss 
 * cache：spatial and temporal locality ; locality是一种heuristic
 * [TLB是全相联cache](https://my.oschina.net/fileoptions/blog/1630855)
 
@@ -547,8 +558,7 @@ ASIDE: TLB Valid Bit和Page Table Valid Bit的区别：
 * solution2: ASID(address space identifier)  8bit ,性质上类似于32bit的PID 
 * NOTE: 可能存在进程间的sharing pages，比如库或者代码段
 
-
-Issue: cache replacement policy
+**Issue: cache replacement policy**
 ##### CRUX: how to design TLB replacement policy
 * LRU， 会有corner-case behaviors
 * random policy
@@ -565,6 +575,35 @@ Issue: cache replacement policy
   * in the CPU pipeline, with such a cache, address translation has to take place before the cache is accessed（计组知识）
 
 * HW:测量NUMPAGES，UNIX: getpagesize()=4096
+
+#### 20.Paging: Smaller Tables
+##### CRUX: how to make page tables smaller?
+bigger pages, multiple page sizes, DBMS
+
+**hybrid approach: paging and segments**
+* hybrid的思想，尤其针对看似对立的机制
+* e.g. Multics
+* base: physical address of the page table      , limit:how many valid pages
+* 有三个page tables=>三个base registers而不是一个
+* issue：
+  1. page table的大小可变，与内存相联系，重新产生了external segmentation
+  2. 不灵活，比如不针对堆很稀疏的情形
+
+```c++
+SN = (VirtualAddress & SEG_MASK) >> SN_SHIFT
+VPN = (VirtualAddress & VPN_MASK) >> VPN_SHIFT
+AddressOfPTE = Base[SN] + (VPN*sizeof(PTE))
+```
+**multi-level page tables**
+* page directory    好处：加入了level of indirection，更灵活    坏处：Time-space trade-off
+* PDE(page directory entry)
+* 如何分组：page size/PTE size ~ n位    n位一组即可
+
+**inverted page tables**
+* 本质上是个数据结构问题
+* size ～ 物理页数 < 进程数*虚拟页数
+* swapping the page tables to disk: VAX/VMS
+
 
 
 
