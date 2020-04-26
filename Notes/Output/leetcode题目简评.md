@@ -117,8 +117,7 @@ static bool cmp1(vector<int> &a, vector<int> &b){
 ```
 
 #### 0065.valid-number [有效数字](https://leetcode-cn.com/problems/valid-number)
-* 《剑指offer》，书上的代码结构很简洁，值得学习
-
+* [《剑指offer》第20题](https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof)，书上的代码结构很简洁，值得学习
 ```c++
 int pointer;
 bool isNumber(string s) {
@@ -138,7 +137,6 @@ bool isNumber(string s) {
     return numeric&&s[pointer]=='\0';
 }
 ```
-
 * 也可以用有限状态机来做
 
 #### 0072.edit-distance [编辑距离](https://leetcode-cn.com/problems/edit-distance) 
@@ -152,7 +150,7 @@ bool isNumber(string s) {
 * 经典回溯法
 
 #### 0084.largest-rectangle-in-histogram [柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram) 
-* 单调栈，[很好的文章，但有小错，纠正代码如下](https://blog.csdn.net/lucky52529/article/details/89155694)
+* 单调栈，[很好的文章](https://blog.csdn.net/lucky52529/article/details/89155694)，但有小错，纠正代码如下：
 
 ```c++
 int largestRectangleArea(vector<int> &heights)
