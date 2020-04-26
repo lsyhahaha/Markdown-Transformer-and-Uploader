@@ -514,11 +514,12 @@ else                  // TLB Miss
     PTE = AccessMemory(PTEAddr)
     if (PTE.Valid == False)
         RaiseException(SEGMENTATION_FAULT)
-    else if (CanAccess(PTE.ProtectBits) == False)
-        RaiseException(PROTECTION_FAULT)
-    else
-        TLB_Insert(VPN, PTE.PFN, PTE.ProtectBits)
-        RetryInstruction()
+    else 
+    		if (CanAccess(PTE.ProtectBits) == False)
+        		RaiseException(PROTECTION_FAULT)
+        else
+            TLB_Insert(VPN, PTE.PFN, PTE.ProtectBits)
+            RetryInstruction()
 ```
 OS-handled，实现细节：
 * 普通的return-from-trap回到下条指令，TLB miss handler会retry，回到本条指令
@@ -604,7 +605,70 @@ AddressOfPTE = Base[SN] + (VPN*sizeof(PTE))
 * size ～ 物理页数 < 进程数*虚拟页数
 * swapping the page tables to disk: VAX/VMS
 
+#### 21.Beyond Physical Memory: Mechanisms
+##### CRUX: how to go beyond physical memory
+* hard disk drive
+* 与single address space对立的旧机制：memory overlays
+* swap space：在硬盘上，disk address
+* the present bit
+  * 0的意义：page fault handler         
+  * 为什么称作fault？是因为硬件无法处理，需要raise an exception交给OS
 
+page replacement policy
+
+* Page-Fault Control Flow Algorithm (Hardware)
+```c++
+VPN = (VirtualAddress & VPN_MASK) >> SHIFT
+(Success, TlbEntry) = TLB_Lookup(VPN) 
+if(Success == True) // TLB Hit
+    if (CanAccess(TlbEntry.ProtectBits) == True)
+        Offset   = VirtualAddress & OFFSET_MASK
+        PhysAddr = (TlbEntry.PFN << SHIFT) | Offset
+        Register =AccessMemory(PhysAddr)
+    else
+        RaiseException(PROTECTION_FAULT)
+else                  // TLB Miss
+    PTEAddr = PTBR + (VPN*sizeof(PTE))
+    PTE =AccessMemory(PTEAddr)
+    if (PTE.Valid == False)
+        RaiseException(SEGMENTATION_FAULT)
+    else 
+        if (CanAccess(PTE.ProtectBits) == False)
+            RaiseException(PROTECTION_FAULT)
+        else if (PTE.Present == True)// assuming hardware-managed TLB
+            TLB_Insert(VPN, PTE.PFN, PTE.ProtectBits)
+            RetryInstruction()
+        else if (PTE.Present == False)
+            RaiseException(PAGE_FAULT)
+```
+
+* Page-Fault Control Flow Algorithm (Software)
+```c++
+PFN = FindFreePhysicalPage()
+if(PFN == -1) // no free page found
+    PFN = EvictPage()       // run replacement algorithm
+DiskRead(PTE.DiskAddr, PFN)// sleep (waiting for I/O)
+PTE.present = True          // update page table with present
+PTE.PFN     = PFN           // bit and translation (PFN)
+RetryInstruction()          // retry instruction 
+```
+
+when replacements really occurs
+* swap(page) daemon的任务：可用页数低于LW(low watermark)时free到HW
+  * cluster a number of pages
+* daemon：守护进程
+  * 可以救活coreaudiod这种进程
+* idle time: background，比如把文件写入memory而非disk
+* 总结：以上这些，对process是透明的
+
+HW:
+
+[vmstat命令](https://www.cnblogs.com/ftl1012/p/vmstat.html)
+* vmstat 1 显示每秒状态
+1. 运行多个，user time变大，idle time 变少
+2. 运行1024MB，swpd不变，free减少，exit之后还原
+3. 4.  cat /proc/meminfo 可用内存132GB，运行巨量mem会core dumped，       in(中断时间)明显增加    偶尔会有sy(system time)
+5. swapon -s，显示可供swap的大小 ，相当于 cat /proc/swaps
 
 
 #### 24.Summary
