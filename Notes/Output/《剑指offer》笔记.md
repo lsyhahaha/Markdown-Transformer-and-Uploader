@@ -38,6 +38,30 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 \notag
 " class="ee_img tr_noresize" eeimg="1">
 
+#### 20.[表示数值的字符串](https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof)
+* [leetcode 65.](https://leetcode-cn.com/problems/valid-number/)
+* 书上的代码结构很简洁，值得学习
+```c++
+int pointer;
+bool isNumber(string s) {
+    if(s=="")return -1;
+    scanSpace(s);
+    bool numeric=scanInteger(s);
+    if(s[pointer]=='.'){
+        ++pointer;
+        numeric=scanUnsignedInteger(s)||numeric;
+        //用||因为整数、小数部分有一即可
+    }
+    if(s[pointer]=='e'||s[pointer]=='E'){
+        ++pointer;
+        numeric=numeric&&scanInteger(s);
+    }
+    scanSpace(s);
+    return numeric&&s[pointer]=='\0';
+}
+```
+* 也可以用有限状态机来做
+
 #### 25.[合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
 * [leetcode 21.](https://leetcode-cn.com/problems/merge-two-sorted-lists)，经典题，引入一个头节点
 * 代码模版：
