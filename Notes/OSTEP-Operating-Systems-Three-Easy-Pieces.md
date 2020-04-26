@@ -783,7 +783,7 @@ HW:
 * 误判了main-deadlock-global-c，说明有瑕疵
 
 * main-signal-cv.c  条件变量的用法示例
-​```c++
+```c++
 #include <stdio.h>
 #include "mythreads.h"
 // 
@@ -878,7 +878,7 @@ target: prerequisite1 prerequisite2 ...
 	command2 (需要tab)
 ```
 * 知道什么需要regenerate
-​```shell
+```shell
 # specify all source files here
 SRCS = hw.c helper.c
 
@@ -916,3 +916,5 @@ inbox：
 * 双线程，全局变量i++100次，单核和多核的区别？是不是单核最小i=100，多核i=2，https://blog.csdn.net/autumn20080101/article/details/7770225
 * 19. physically-indexed cache
 
+
+```
