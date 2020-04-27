@@ -691,6 +691,16 @@ NOTE：
 * x86，变长指令，1-11个字节
 
 问题：线程之间会出现data race，e.g. counter的例子
+* 经典面试题：两个线程，全局变量i++各运行100次，问运行完i的最小值。
+  * 答案是2
+```
+进程2取 i=0
+进程1执行99次
+进程2算 i+1=0+1=1
+进程1取 i=1
+进程2执行99次
+进程1算 i+1=1+1=2
+```
 
 引入概念：critical section, race condition, indeterminate, mutual exclusion 
 
@@ -916,5 +926,7 @@ inbox：
 * 双线程，全局变量i++100次，单核和多核的区别？是不是单核最小i=100，多核i=2，https://blog.csdn.net/autumn20080101/article/details/7770225
 * 19. physically-indexed cache
 
+
+```
 
 ```
