@@ -133,6 +133,9 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
 * 法1:递归子树，直观的思路
 * 法2:参照leetcode84，利用单调栈，[一篇很好的文章](https://blog.csdn.net/lucky52529/article/details/89155694)（有小错，修正版见我的[leetcode题解](https://github.com/huangrt01/CS-Notes)）
 
+##### 35.[复杂链表的复制](https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/)
+* [leetcode 138.](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+* 思路值得学习，在原链表的主线上复制节点，进行删改操作。
 
 ##### 36.[二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 * leetcode 426.
