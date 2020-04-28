@@ -25,7 +25,7 @@
 
 #### chpt3 高质量的代码
 
-#### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
+##### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
 * [leetcode 10.](https://leetcode-cn.com/problems/regular-expression-matching)
 * 和0072.Edit-Space类似
 
@@ -38,7 +38,7 @@ d[i][j - 2]\quad ||\quad (d[i-1][j]\quad \&\&\quad s[i]==p[j-1])      & p[j-1:j]
 \notag
 " class="ee_img tr_noresize" eeimg="1">
 
-#### 20.[表示数值的字符串](https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof)
+##### 20.[表示数值的字符串](https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof)
 * [leetcode 65.](https://leetcode-cn.com/problems/valid-number/)
 * 书上的代码结构很简洁，值得学习
 ```c++
@@ -62,7 +62,7 @@ bool isNumber(string s) {
 ```
 * 也可以用有限状态机来做
 
-#### 25.[合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
+##### 25.[合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
 * [leetcode 21.](https://leetcode-cn.com/problems/merge-two-sorted-lists)，经典题，引入一个头节点
 * 代码模版：
 ```c++
@@ -72,7 +72,22 @@ ListNode*p=head;
 return head->next;
 ```
 
-#### 29.[顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
+##### 28.[对称的二叉树](https://leetcode-cn.com/problems/symmetric-tree)
+* [leetcode 101.](https://leetcode-cn.com/problems/symmetric-tree)
+* 递归
+```c++
+bool isSymmetric(TreeNode* root) {
+    if(!root)return 1;
+    else return isSymmetric1(root->left,root->right);
+}
+bool isSymmetric1(TreeNode* a,TreeNode* b) {
+    if(!(a||b))return 1;
+    else if(!(a&&b))return 0;
+    else return a->val==b->val&&isSymmetric1(a->left,b->right)&&isSymmetric1(a->right,b->left);
+}
+```
+
+##### 29.[顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
 * [leetcode 54.](https://leetcode-cn.com/problems/spiral-matrix)
 * 最简洁的写法
 ```c++
@@ -96,8 +111,17 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
 }
 ```
 
+
+
+
 #### chpt4 解决面试题的思路
 解决复杂问题的三种方法：画图、举例、分解
+
+##### 32.从上到下打印二叉树
+* [32-II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof): [leetcode 102.](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)，队列，设变量curNum和nextNum分别保存本层和下层的数的个数
+* 引申：析构vector的方法：
+  * `vector<int>().swap(num);`
+  * `{ vector<int> tmp = curLevel;   curLevel.swap(tmp);} `
 
 ##### 33.[二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
 * 法1:递归子树，直观的思路
@@ -215,6 +239,57 @@ public:
     }
 };
 ```
+
+##### 38.[字符串的排列](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
+* 回溯法，注意judge函数：排除重复的情形
+* 全排列的应用：针对按一定要求摆放数字的问题，比如八皇后问题、正方体顶点和问题
+```c++
+class Solution {
+public:
+    vector<string>res;
+    vector<string> permutation(string s) {
+        int cursor=0;
+        permutation(s,cursor);
+        return res;
+    }
+    void permutation(string &s,int cursor){
+        if(cursor==s.size()-1){
+            res.push_back(s);
+        }
+        else{
+            for(int i=cursor;i<s.size();i++){
+                if(judge(s,cursor,i))continue;  //从cursor开始，遍历不重复的字符
+                swap(s[cursor],s[i]);
+                permutation(s,cursor+1);
+                swap(s[cursor],s[i]);
+            }
+        }
+    }
+    bool judge(string& s, int start, int end) {
+        for (int i = start; i < end; ++i) {
+            if (s[i] == s[end]) return true;
+        }
+        return false;
+    }
+};
+```
+
+#### chpt5 优化时间和空间效率
+
+##### 41.[数据流中的中位数](https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/)
+
+* [leetcode 295.](https://leetcode-cn.com/problems/find-median-from-data-stream/)
+* 思路1: AVL树的平衡因子改为左、右子树节点数目之差
+* 思路2: 左边最大堆，右边最小堆
+  * 书上代码：push_heap和pop_heap
+  * 也可直接用priority_queue，注意小顶堆的定义：`priority_queue<int, vector<int>, greater<int>> hi;`
+
+```c++
+min.push_back(num);
+push_heap(min.begin(),min.end(),greater<int>());
+```
+
+* 字节AML后端开发终面：变式题，在本题基础上增加erase功能，需要把堆改成BST（即set），保证删除性能
 
 
 
