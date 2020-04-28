@@ -2,7 +2,7 @@
 
 **言简意赅，持续更新，利于速览复习。有导航、有代码、有细节、有引申。**
 
-已记录题目编号：1, 3, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 297, 343,426,  653, 946, 974, 1209
+已记录题目编号：1, 3, 5, 10, 15, 20, 21, 26, 53, 54, 56, 65, 72, 79, 84, 88, 101, 102, 103, 104, 105, 121, 122, 123, 125, 136, 137, 138, 145, 146, 153, 154, 155, 161, 167, 169, 170, 172, 190, 191, 198, 203, 206, 215, 217, 219, 220, 226, 229, 240, 295, 297, 343,426,  653, 946, 974, 1209
 
 #### 0000.资料
 [leetcode精选题详解](https://github.com/azl397985856/leetcode)
@@ -193,6 +193,7 @@ for (遍历这个数组)
 * 注意原地操作
 
 #### 0101.symmetric-tree [对称二叉树](https://leetcode-cn.com/problems/symmetric-tree)
+* [《剑指offer》第28题](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
 * 递归
 ```c++
 bool isSymmetric(TreeNode* root) {
@@ -207,9 +208,21 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 ```
 
 #### 0102.binary-tree-level-order-traversal [二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal)  (medium)
-* 《剑指offer》第32-II题
+* [《剑指offer》第32-II题](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
+
 * 队列，设变量curNum和nextNum分别保存本层和下层的数的个数
-* 析构vector：`vector<int>().swap(num);`
+
+* 引申：析构vector的方法：
+
+  * `vector<int>().swap(num);`
+
+  * `
+    { 
+    	vector<int> tmp = curLevel;   
+    	curLevel.swap(tmp); 
+  } 
+    `
+
 
 #### 0103.binary-tree-zigzag-level-order-traversal [二叉树的锯齿形层次遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal) 
 * 《剑指offer》第32-III题
@@ -279,7 +292,7 @@ def isPalindrome(self, s: str) -> bool:
 
 * 非常巧妙的方法，多设一个数记录状态，位运算与有限状态机的结合，本质上，位运算的意义在于将n位信息转化为O(1)
 
-```python
+​```python
 def singleNumber(self, nums: List[int]) -> int:
     seen_once = seen_twice = 0
     for num in nums:
@@ -702,6 +715,20 @@ public class Solution {
 #### 0240.search-a-2d-matrix-ii [搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii) 
 
 * 《剑指offer》第4题，关键在于起点的选取，从左下角或者右上角开始
+
+#### 0295.find-median-from-data-stream [数据流的中位数](https://leetcode-cn.com/problems/find-median-from-data-stream/)
+* [《剑指offer》第41题](https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/)
+* 思路1: AVL树的平衡因子改为左、右子树节点数目之差
+* 思路2: 左边最大堆，右边最小堆
+  * 书上代码：push_heap和pop_heap
+  * 也可直接用priority_queue，注意小顶堆的定义：`priority_queue<int, vector<int>, greater<int>> hi;`
+
+```c++
+min.push_back(num);
+push_heap(min.begin(),min.end(),greater<int>());
+```
+
+* 字节AML后端开发终面：变式题，在本题基础上增加erase功能，需要把堆改成BST（即set），保证删除性能
 
 #### 0297.serialize-and-deserialize-binary-tree [二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 
