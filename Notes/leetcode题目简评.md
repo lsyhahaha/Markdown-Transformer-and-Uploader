@@ -209,23 +209,14 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 
 #### 0102.binary-tree-level-order-traversal [二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal)  (medium)
 * [《剑指offer》第32-II题](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
-
 * 队列，设变量curNum和nextNum分别保存本层和下层的数的个数
-
 * 引申：析构vector的方法：
-
   * `vector<int>().swap(num);`
-
-  * `
-    { 
-    	vector<int> tmp = curLevel;   
-    	curLevel.swap(tmp); 
-  } 
-    `
+  * `{ vector<int> tmp = curLevel;   curLevel.swap(tmp);} `
 
 
 #### 0103.binary-tree-zigzag-level-order-traversal [二叉树的锯齿形层次遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal) 
-* 《剑指offer》第32-III题
+* [《剑指offer》第32-III题](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/)
 * 在0102的基础上保存层数的奇偶性
 
 #### 0104.maximum-depth-of-binary-tree [二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
@@ -234,13 +225,13 @@ bool isSymmetric1(TreeNode* a,TreeNode* b) {
 * 方法三：DFS，stack，[利用c++的pair](https://blog.csdn.net/sevenjoin/article/details/81937695)，或者python的tuple
 
 #### 0105. construct-binary-tree-from-preorder-and-inorder-traversal [从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
-* 《剑指offer》第7题
-
+* [《剑指offer》第7题](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+* 找到中间节点，递归
+  
 #### 0121. best-time-to-buy-and-sell-stock [买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/) 
 * O(n)遍历，记录之前的数组最小值
 
 #### 0122. best-time-to-buy-and-sell-stock-ii [买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/) 
-
 
 #### 0123. best-time-to-buy-and-sell-stock-iii [买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/) 
 * [超巧妙的方法](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/404387/Intuitive-Python-O(n)-Time-and-O(1)-Space)，本质上是贪心的思想，先记录maxp的位置，一定会取到股票的最大最小值high、low处，再做处理
@@ -292,7 +283,7 @@ def isPalindrome(self, s: str) -> bool:
 
 * 非常巧妙的方法，多设一个数记录状态，位运算与有限状态机的结合，本质上，位运算的意义在于将n位信息转化为O(1)
 
-​```python
+```python
 def singleNumber(self, nums: List[int]) -> int:
     seen_once = seen_twice = 0
     for num in nums:
@@ -301,7 +292,7 @@ def singleNumber(self, nums: List[int]) -> int:
 
         # second appearance: 
         # remove num from seen_once, add num to seen_twice
-
+    
         # third appearance: 
         # don't add to seen_once because of presence in seen_twice, remove num from seen_twice
         

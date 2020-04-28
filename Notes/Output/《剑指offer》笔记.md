@@ -23,6 +23,10 @@
   * e.g. 空类1字节
 * 软件工程：常见的设计模式、UML图
 
+##### 7. [重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+* [leetcode 105.](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
+* 找到中间节点，递归
+
 #### chpt3 高质量的代码
 
 ##### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
@@ -118,7 +122,9 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
 解决复杂问题的三种方法：画图、举例、分解
 
 ##### 32.从上到下打印二叉树
-* [32-II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof): [leetcode 102.](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)，队列，设变量curNum和nextNum分别保存本层和下层的数的个数
+* [32-I，直接存](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)：队列
+* [32-II，按层保存](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof): [leetcode 102.](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)，队列，设变量curNum和nextNum分别保存本层和下层的数的个数
+* [32-III，锯齿形](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/): [leetcode 103.](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)，在102的基础上保存层数的奇偶性
 * 引申：析构vector的方法：
   * `vector<int>().swap(num);`
   * `{ vector<int> tmp = curLevel;   curLevel.swap(tmp);} `
