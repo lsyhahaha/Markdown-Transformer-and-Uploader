@@ -265,8 +265,6 @@ class Solution:
         return profit + max(profit_left, profit_middle, profit_right)
 ```
 
-
-
 #### 0125.valid-palindrome [验证回文串](https://leetcode-cn.com/problems/valid-palindrome) 
 
 ``` python
@@ -303,12 +301,10 @@ def singleNumber(self, nums: List[int]) -> int:
 ```
 
 #### 0138.copy-list-with-random-pointer [复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
-* 《剑指offer》第35题
+* [《剑指offer》第35题](https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/)
 * 思路值得学习，在原链表的主线上复制节点，进行删改操作。
 
 #### 0145.binary-tree-postorder-traversal [二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal)
-
-两种方法：
 
 * 方法一：教科书，先一路向左，用tag记录节点的右子树是否遍历
 
@@ -348,10 +344,10 @@ vector<int> postorderTraversal(TreeNode* root) {
 
 ```c++
 while(!s.empty()||p){
-		if (p!=NULL){
-		}
-		else{
-		}
+	if (p!=NULL){
+	}
+	else{
+	}
 }
 ```
 
@@ -383,6 +379,7 @@ vector<int> postorderTraversal1(TreeNode* root) {
 * 二分法，注意相等的情况
 
 #### 0154.find-minimum-in-rotated-sorted-array-ii [寻找旋转排序数组中的最小值 II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii)
+* [《剑指offer》第11题](https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/)
 * 如果有重复数字，则难以判断mid是在左边还是右边，r-=1是解决这一问题的关键代码
 ```c++
 int findMin(vector<int>& numbers) {
