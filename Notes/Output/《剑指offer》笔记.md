@@ -27,6 +27,29 @@
 * [leetcode 105.](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
 * 找到中间节点，递归
 
+##### 11.[旋转数组的最小数字](https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/)
+* [leetcode 154.](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii)
+* 如果有重复数字，则难以判断mid是在左边还是右边，r-=1是解决这一问题的关键代码
+```c++
+int findMin(vector<int>& numbers) {
+    //if(numbers.size()==0)return -1;
+    int l=0,r=numbers.size()-1;
+    int mid;
+    while(l<r){
+        if(r-l==1)
+            return (numbers[l]<=numbers[r])?numbers[l]:numbers[r];
+        mid=(l+r)/2;
+        if(numbers[mid]>numbers[r]) l=mid;
+        else if(numbers[mid]<numbers[l])r=mid;
+        else
+            r-=1;
+            //return minArraySeq(numbers,l,r);
+    }
+    return 1;
+}
+```
+
+
 #### chpt3 高质量的代码
 
 ##### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
