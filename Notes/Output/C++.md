@@ -128,6 +128,9 @@ sort，自己定义cmp函数，注意cmp的定义：类内静态，传参引用
 }
 ```
 
+* clear虽然不会deallocate释放空间，但是会destroy执行析构函数，所以可以用同一个空间construct构造节点，如果swap了就要重新allocate空间在contruct节点
+* 如果要每次都释放空间，可以用`res.emplace_back(std::move(curLevel))`，涉及[emplace_back](https://www.cnblogs.com/ChrisCoder/p/9919646.html), [std::move](https://blog.csdn.net/p942005405/article/details/84644069/), [左值、右值引用](https://blog.csdn.net/p942005405/article/details/84644101), [这是一篇有关类定义的总结](https://blog.csdn.net/zzhongcy/article/details/86747794)
+
 #### 其它的库
 
 ##### \<exception>
