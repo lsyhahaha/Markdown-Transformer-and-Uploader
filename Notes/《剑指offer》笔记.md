@@ -49,8 +49,40 @@ int findMin(vector<int>& numbers) {
 }
 ```
 
+##### 15.[二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
+* [leetcode 191.](https://leetcode-cn.com/problems/number-of-1-bits) 
+* n=n&(n-1);
+* 易错点：`return n&1+hammingWeight(n>>=1);`
+  * 位运算优先级很低，n&1应该打括号
+* 复习[运算符优先级](https://baike.baidu.com/item/%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7/4752611?fr=aladdin#4)
+* 基本的优先级需要记住：
+  * 指针最优，单目运算优于双目运算，如正负号。
+  * 先算术运算，后移位运算，最后位运算。1 << 3 + 2 & 7等价于 (1 << (3 + 2))&7，逻辑运算最后结合。
 
 #### chpt3 高质量的代码
+
+##### 18.[删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
+* [leetcode 203.](https://leetcode-cn.com/problems/remove-linked-list-elements/)
+* 直接遍历，也可以用sentinel node简化操作（在LRU cache也有应用）
+
+```c++
+class Solution {
+public:
+    ListNode* deleteNode(ListNode* head, int val) {
+        if(head==NULL)return NULL;
+        if(head->val==val)return head->next;
+        ListNode *p=head;
+        while(p->next){
+            if(p->next->val==val){
+                p->next=p->next->next;
+                break;
+            }
+            p=p->next;
+        }
+        return head;
+    }
+};
+```
 
 ##### 19. [正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/) 
 * [leetcode 10.](https://leetcode-cn.com/problems/regular-expression-matching)
@@ -88,6 +120,24 @@ bool isNumber(string s) {
 }
 ```
 * 也可以用有限状态机来做
+
+##### 24.[翻转链表](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)
+* [leetcode 206.](https://leetcode-cn.com/problems/reverse-linked-list/)
+```c++
+ListNode* reverseList(ListNode* head) {
+    if(!head||!head->next) return head;
+    ListNode *p=head,*q=head->next; 
+  	p->next=NULL;
+  	ListNode* temp;
+    while(q!=NULL){
+    	temp=q->next;
+			q->next=p;
+			p=q;
+      q=temp;
+    }
+    return p;
+}
+```
 
 ##### 25.[合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
 * [leetcode 21.](https://leetcode-cn.com/problems/merge-two-sorted-lists)，经典题，引入一个头节点
@@ -143,6 +193,10 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
 
 #### chpt4 解决面试题的思路
 解决复杂问题的三种方法：画图、举例、分解
+
+##### 30.[包含min函数的栈](https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/)
+* [leetcode 155.](https://leetcode-cn.com/problems/min-stack)
+* 用另一个栈记录min的变化值
 
 ##### 32.从上到下打印二叉树
 * [32-I，直接存](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)：队列
