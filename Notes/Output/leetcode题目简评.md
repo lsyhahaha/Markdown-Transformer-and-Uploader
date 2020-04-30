@@ -403,7 +403,7 @@ int findMin(vector<int>& numbers) {
 ```
 
 #### 0155.min-stack [最小栈](https://leetcode-cn.com/problems/min-stack) 
-
+* [《剑指offer》第30题](https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/)
 * 用另一个栈记录min的变化值
 
 #### 0161.one-edit-distance [相隔为 1 的编辑距离](https://leetcode-cn.com/problems/one-edit-distance) 
@@ -473,24 +473,44 @@ def reverseByte(byte):
 ```
 
 #### 0191.number-of-1-bits [位1的个数](https://leetcode-cn.com/problems/number-of-1-bits) 
+* [《剑指offer》第15题](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
 * n=n&(n-1);
 * 易错点：`return n&1+hammingWeight(n>>=1);`
   * 位运算优先级很低，n&1应该打括号
 * 复习[运算符优先级](https://baike.baidu.com/item/%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7/4752611?fr=aladdin#4)
-
-基本的优先级需要记住：
-指针最优，单目运算优于双目运算，如正负号。
-先算术运算，后移位运算，最后位运算。1 << 3 + 2 & 7等价于 (1 << (3 + 2))&7，逻辑运算最后结合。
+* 基本的优先级需要记住：
+  * 指针最优，单目运算优于双目运算，如正负号。
+  * 先算术运算，后移位运算，最后位运算。1 << 3 + 2 & 7等价于 (1 << (3 + 2))&7，逻辑运算最后结合。
 
 #### 0198.house-robber [打家劫舍](https://leetcode-cn.com/problems/house-robber) 
 
 * 简单DP
 
 #### 0203.remove-linked-list-elements [移除链表元素](https://leetcode-cn.com/problems/remove-linked-list-elements) 
+* [《剑指offer》第18题](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
+* 直接遍历，也可以用sentinel node简化操作（在LRU cache也有应用）
 
-* sentinel node，简化操作，在LRU cache也有应用
+```c++
+class Solution {
+public:
+    ListNode* deleteNode(ListNode* head, int val) {
+        if(head==NULL)return NULL;
+        if(head->val==val)return head->next;
+        ListNode *p=head;
+        while(p->next){
+            if(p->next->val==val){
+                p->next=p->next->next;
+                break;
+            }
+            p=p->next;
+        }
+        return head;
+    }
+};
+```
 
 #### 0206.reverse-linked-list [反转链表](https://leetcode-cn.com/problems/reverse-linked-list) 
+* [《剑指offer》第24题](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)
 ```c++
 ListNode* reverseList(ListNode* head) {
     if(!head||!head->next) return head;
