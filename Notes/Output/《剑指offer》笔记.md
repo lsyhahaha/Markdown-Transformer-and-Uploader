@@ -379,7 +379,7 @@ min.push_back(num);
 push_heap(min.begin(),min.end(),greater<int>());
 ```
 
-* 字节AML后端开发终面：变式题，在本题基础上增加erase功能，需要把堆改成BST（即set），保证删除性能
+* 字节后端开发终面：变式题，在本题基础上增加erase功能，需要把堆改成BST（即set），保证删除性能
 
 
 
