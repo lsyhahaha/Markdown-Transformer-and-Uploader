@@ -858,7 +858,48 @@ Node *treeToDoublyList(Node *root, int flag)
 
 #### 0653.two-sum-iv-input-is-a-bst [两数之和 IV - 输入 BST](https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst) 
 
-* 用BST减少运算量
+* 我用的方法比较奇怪：分治的思想，利用BST特性减少运算量，直接递归即可通过。
+* 其它的常见方法：
+  * 方法一：使用HashSet
+  * 方法二：中序遍历BST树，转化为排序数组的两数之和问题
+```c++
+class Solution {
+public:
+    typedef TreeNode* Link;
+    bool searchR(Link p,int x){ //判断子树内是否存在x
+        if(p==NULL)return 0;
+        int key=p->val;
+        if(x==key)return 1;
+        if(x<key)return searchR(p->left,x);
+        else return searchR(p->right,x);
+    }
+    bool findTarget(TreeNode* root, int k) {
+        int result=0;
+        if(root==NULL)return 0;
+        if(k>2*root->val){  //利用BST特性减少运算量
+            if(findTarget(root->right,k))return 1;
+        }
+        else if(k<2*root->val){
+            if(findTarget(root->left,k))return 1;
+        }
+        if(searchR(root->left,k-root->val))return 1;
+        if(searchR(root->right,k-root->val))return 1;
+        if(findinAB(root->left,root->right,k))
+            return 1;
+        return 0;
+    }
+    
+    bool findinAB(TreeNode* A,TreeNode* B,int k){ //在A、B中各取一个节点
+        int result=0;
+        if(A==NULL||B==NULL)
+            return 0;
+        if(searchR(B,k-A->val))return 1;
+        if(findinAB(A->left,B,k))return 1;
+        if(findinAB(A->right,B,k))return 1;
+        return 0;
+    }
+};
+```
 
 #### 0946.validate-stack-sequences [验证栈序列](https://leetcode-cn.com/problems/validate-stack-sequences) 
 
