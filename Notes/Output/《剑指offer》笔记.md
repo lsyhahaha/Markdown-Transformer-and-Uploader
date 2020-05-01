@@ -23,6 +23,10 @@
   * e.g. 空类1字节
 * 软件工程：常见的设计模式、UML图
 
+##### 4.[二维数组中的查找](https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/)
+* [leetcode 240.](https://leetcode-cn.com/problems/search-a-2d-matrix-ii)
+* 关键在于起点的选取，从左下角或者右上角开始
+
 ##### 7. [重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
 * [leetcode 105.](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) 
 * 找到中间节点，递归
@@ -215,7 +219,7 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
 * 思路值得学习，在原链表的主线上复制节点，进行删改操作。
 
 ##### 36.[二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
-* leetcode 426.
+* [leetcode 426.](https://leetcode-cn.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/)
 * 方法一：二叉搜索树特性，中序遍历的递归/非递归实现，用nonlocal last记录上一次遍历的末尾节点
 * 方法二：用flag指示返回最左/最右节点，递归后序遍历操作
 ```c++
@@ -251,7 +255,7 @@ Node *treeToDoublyList(Node *root, int flag)
 
 
 ##### 37.[序列化二叉树](https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/)
-* leetcode 297.
+* [leetcode 297.](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 * 思路上可以使用DFS或者BFS
 * C++具体实现，利用stringstream
 ```c++

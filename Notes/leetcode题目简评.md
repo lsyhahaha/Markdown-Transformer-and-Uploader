@@ -724,7 +724,8 @@ public class Solution {
 
 #### 0240.search-a-2d-matrix-ii [搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii) 
 
-* 《剑指offer》第4题，关键在于起点的选取，从左下角或者右上角开始
+* [《剑指offer》第4题](https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/)
+* 关键在于起点的选取，从左下角或者右上角开始
 
 #### 0295.find-median-from-data-stream [数据流的中位数](https://leetcode-cn.com/problems/find-median-from-data-stream/)
 * [《剑指offer》第41题](https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/)
@@ -741,7 +742,7 @@ push_heap(min.begin(),min.end(),greater<int>());
 * 字节AML后端开发终面：变式题，在本题基础上增加erase功能，需要把堆改成BST（即set），保证删除性能
 
 #### 0297.serialize-and-deserialize-binary-tree [二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
-
+* [《剑指offer》第37题](https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/)
 * 思路上可以使用DFS或者BFS
 * C++具体实现，利用stringstream
 ```c++
@@ -821,6 +822,7 @@ public:
 * 简单DP
 
 #### 0426.convert-binary-search-tree-to-sorted-doubly-linked-list[将二叉搜索树转化为排序的双向链表](https://leetcode-cn.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/)
+* [《剑指offer》第36题](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 * 方法一：二叉搜索树特性，中序遍历的递归/非递归实现，用nonlocal last记录上一次遍历的末尾节点
 * 方法二：用flag指示返回最左/最右节点，递归后序遍历操作
 ```c++
