@@ -925,8 +925,3 @@ inbox：
 * hm5.8    g++ hm5.8.cpp -o hm5.8 -Wall && "/Users/huangrt01/Desktop/OSTEP/ostep-code/cpu-api/“hm5.8  同一个命令，用coderunner输出六行，用terminal输出五行 
 * 双线程，全局变量i++100次，单核和多核的区别？是不是单核最小i=100，多核i=2，https://blog.csdn.net/autumn20080101/article/details/7770225
 * 19. physically-indexed cache
-
-
-```
-
-```
