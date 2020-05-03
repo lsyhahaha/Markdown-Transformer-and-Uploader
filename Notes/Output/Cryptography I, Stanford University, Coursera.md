@@ -1,6 +1,6 @@
 ## Cryptography I, Stanford University, Dan Boneh
 
-* [coursera网站](https://www.coursera.org/learn/crypto/home/welcome)
+* [coursera课程](https://www.coursera.org/learn/crypto/home/welcome)
 * [密码学资源推荐](https://blog.cryptographyengineering.com/useful-cryptography-resources/)
 * [A Graduate Course In Applied Cryptography](https://toc.cryptobook.us/)
 * [A Computational Introduction to Number Theory and Algebra](https://www.shoup.net/ntb/)
@@ -22,7 +22,7 @@ return sum;
 
   2)  两个或三个的简单情形，可以利用pair和map
 
-  3)  对于每一个整数， 把0~7 、8~15、 16~23、 24~31的位置取出来变成char，cat之后再hash
+  3)  对于每一个整数， 把0\~7、8\~15、 16\~23、 24\~31的位置取出来变成char，cat之后再hash
 
 * 方法1）中取模用质数更好的原因
 
