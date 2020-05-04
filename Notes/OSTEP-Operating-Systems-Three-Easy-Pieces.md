@@ -921,8 +921,9 @@ void leave_region(int process)
 * 这是SPARC上的叫法，在x86上称作compare-and-exchange
 * 对于简单的同步问题，效果和test-and-set一样
 * [利用CAS实现lock-free和wait-free](https://www.jianshu.com/p/baaf53d69b51)
+  * 实现lock-free的ATM存钱问题
   * ABA(AtomicStampedReference)问题 
-  * 相关论文：Wait-Free Synchronization
+  * 相关论文：[Wait-Free Synchronization](http://www.cs.utexas.edu/users/lorenzo/corsi/cs380d/papers/p124-herlihy.pdf)
 
 
 
