@@ -926,7 +926,8 @@ void leave_region(int process)
   * 相关论文：[Wait-Free Synchronization](http://www.cs.utexas.edu/users/lorenzo/corsi/cs380d/papers/p124-herlihy.pdf)
 
 
-
+##### Load-Linked and Store-Conditional
+* [MIPS处理器](http://groups.csail.mit.edu/cag/raw/documents/R4400_Uman_book_Ed2.pdf)
 
 
 
