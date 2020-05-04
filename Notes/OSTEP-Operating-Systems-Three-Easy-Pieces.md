@@ -929,6 +929,38 @@ void leave_region(int process)
 ##### Load-Linked and Store-Conditional
 * [MIPS处理器](http://groups.csail.mit.edu/cag/raw/documents/R4400_Uman_book_Ed2.pdf)
 
+```c++
+typedef struct __lock_t{
+	int flag;
+} lock_t;
+
+void init(lock_t *lock){
+	//0:lock is available, 1:lock is held
+	lock->flag = 0;
+}
+
+int LoadLinked(int *ptr)
+{
+	return *ptr;
+}
+int StoreConditional(int*ptr, int value) {
+	if (no update to *ptr since LoadLinked to this address) {
+		*ptr = value;
+		return 1; // success!
+	} 
+	else {
+		return 0; // failed to update
+	}
+}
+void lock(lock_t *lock){
+	while (LoadLinked(&lock->flag) ||!StoreConditional(&lock->flag, 1));
+}
+void unlock(lock_t *lock){
+	lock->flag = 0;
+}
+```
+
+##### Fetch-And-Add
 
 
 #### Appendix
