@@ -1047,10 +1047,18 @@ void mutex_unlock (int*mutex) {
 #### 29.Lock-based Concurrent Data Structures
 ##### CRUX: how to add locks to data structures
 
-* 概念：thread safe
-
 Concurrent Counters
+* 概念：thread safe, perfect scaling
 
+Scalable Counting： [approximate counter](https://lwn.net/Articles/170003/)
+* local counter和global counter，一个CPU配一个锁，再加上一个global锁
+* threshold S: scalable的程度，local到global的transfer间隔
+* 实现见[书上本章P5](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks-usage.pdf)
+
+LWN上的文章：
+* atomic_t变量, SMP-safe (SMP:Symmetrical Multi-Processing)，缺点在于锁操作的损耗、cache line频繁在CPU之间跳动
+* approximate counter：缺点在于耗内存、低于实际值
+* 进一步引入 local\_t，每个GPU设两个counter
 
 #### Appendix
 
