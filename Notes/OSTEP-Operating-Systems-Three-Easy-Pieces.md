@@ -961,6 +961,86 @@ void unlock(lock_t *lock){
 ```
 
 ##### Fetch-And-Add
+* ticket lock
+  * 优点：ensure progress for all threads, 线程一定会被调度到
+```c++
+typedef struct __lock_t {
+    int ticket;
+    int turn;
+} lock_t;
+void lock_init(lock_t*lock) {
+    lock->ticket = 0;
+    lock->turn   = 0;
+}
+void lock(lock_t*lock) {
+    int myturn = FetchAndAdd(&lock->ticket);
+    while (lock->turn != myturn); // spin
+}
+void unlock(lock_t*lock) {
+    lock->turn = lock->turn + 1;
+}
+```
+
+##### CRUX: how to avoid spinning
+
+##### 方法一：just yield
+* 效率问题没解决，并且仍然有starvation问题
+
+```c++
+void lock() {
+    while (TestAndSet(&flag, 1) == 1)
+        yield(); // give up the CPU, running->ready
+}
+```
+
+##### 方法二：Using Queues: Sleeping Instead Of Spinning
+* OS support: park(), unpark() (Solaris)
+* 利用guard，虽然也有一定的spin lock损耗，但不涉及critical section，损耗较小
+* Q1：wakeup/waiting race：在park之前切换上下文
+* A1: 1）利用setpark(); 2)guard传入内核，可能类似后面futex的实现
+* Q2：priority inversion: 高优先级线程waiting低优先级线程，可能因为spin lock或者存在中优先级线程而无法运行。
+* A2: 1）priority inheritance; 2)所有线程平等
+
+##### 方法三：Linux的futex，更多内核特性
+* OS support: per-futex in-kernel queue
+* [nptl库](http://ftp.gnu.org/gnu/glibc/)中lowlevellock.h的代码片段：
+  * 
+
+```c++
+void mutex_lock (int*mutex) {
+    int v;
+    /*Bit 31 was clear, we got the mutex (the fastpath)*/
+    if (atomic_bit_test_set (mutex, 31) == 0)
+        return;
+    atomic_increment (mutex);
+    while (1) {
+        if (atomic_bit_test_set (mutex, 31) == 0) {
+            atomic_decrement (mutex);
+            return;
+        }
+        /*We have to wait
+        First make sure the futex value 
+        we are monitoring is truly negative (locked).*/
+        v =*mutex;
+        if (v >= 0)
+            continue;
+        futex_wait (mutex, v);
+    }
+}
+void mutex_unlock (int*mutex) {
+    /*Adding 0x80000000 to counter results in 0 if and
+    only if there are not other interested threads*/
+    if (atomic_add_zero (mutex, 0x80000000))
+        return;
+    /*There are other threads waiting for this mutex,
+    wake one of them up.*/
+    futex_wake (mutex);
+}
+```
+
+##### 方法四：Two-Phase Locks
+* 在futex之前spin不止一次，可以spin in a loop
+* 思考：这又是一个hybrid approach（上一个是paging and segments）
 
 
 #### Appendix
@@ -1032,5 +1112,4 @@ $(TARG): $(OBJS)
 
 inbox：
 * hm5.8    g++ hm5.8.cpp -o hm5.8 -Wall && "/Users/huangrt01/Desktop/OSTEP/ostep-code/cpu-api/“hm5.8  同一个命令，用coderunner输出六行，用terminal输出五行 
-* 双线程，全局变量i++100次，单核和多核的区别？是不是单核最小i=100，多核i=2，https://blog.csdn.net/autumn20080101/article/details/7770225
 * 19. physically-indexed cache
