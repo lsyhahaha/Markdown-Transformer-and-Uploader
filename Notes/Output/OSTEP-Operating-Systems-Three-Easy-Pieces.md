@@ -716,7 +716,7 @@ NOTE：
 * Not surprisingly, pagetables, process lists, file system structures, and virtually every kernel data structure has to be carefully accessed, with the proper synchronization primitives, to work correctly.
 
 HW26:
-* data race来源于线程保存的寄存器和stack，
+* data race来源于线程保存的寄存器和stack
 * 验证了忙等待的低效
 
 #### 27.Interlude: Thread API
@@ -889,8 +889,10 @@ lock=0;
 * Murphy's law
 
 ##### Building Working Spin Locks with Test-And-Set
+`while (TestAndSet(&lock->flag, 1) == 1);`
 * test-and-set(atomic exchange)：把返回原值+修改值这两个操作绑定
   * xchg(x86), ldstub(SPARC)
+  * 可以test-and-test-and-set，只有当flag为0才改变锁。
 * spin lock，要求preemptive scheduler，抢占式调度
   * 满足correctness
   * 不满足fairness和performance
@@ -921,8 +923,8 @@ void leave_region(int process)
 * 这是SPARC上的叫法，在x86上称作compare-and-exchange
 * 对于简单的同步问题，效果和test-and-set一样
 * [利用CAS实现lock-free和wait-free](https://www.jianshu.com/p/baaf53d69b51)
-  * 实现lock-free的ATM存钱问题
-  * ABA(AtomicStampedReference)问题 
+  * 实现了lock-free的ATM存钱问题
+  * ABA(AtomicStampedReference)问题：需要用版本戳version标记
   * 相关论文：[Wait-Free Synchronization](http://www.cs.utexas.edu/users/lorenzo/corsi/cs380d/papers/p124-herlihy.pdf)
 
 
@@ -1041,6 +1043,13 @@ void mutex_unlock (int*mutex) {
 ##### 方法四：Two-Phase Locks
 * 在futex之前spin不止一次，可以spin in a loop
 * 思考：这又是一个hybrid approach（上一个是paging and segments）
+
+#### 29.Lock-based Concurrent Data Structures
+##### CRUX: how to add locks to data structures
+
+* 概念：thread safe
+
+Concurrent Counters
 
 
 #### Appendix
