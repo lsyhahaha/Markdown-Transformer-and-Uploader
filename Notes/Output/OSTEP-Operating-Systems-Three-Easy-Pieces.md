@@ -1165,10 +1165,10 @@ void mutex_unlock (int*mutex) {
 #### 29.Lock-based Concurrent Data Structures
 ##### CRUX: how to add locks to data structures
 
-Concurrent Counters
+**Concurrent Counters**
 * 概念：thread safe, perfect scaling
 
-Scalable Counting： approximate counter
+**Scalable Counting： approximate counter**
 * local counter和global counter，一个CPU配一个锁，再加上一个global锁
 * threshold S: scalable的程度，local到global的transfer间隔
 * 实现见[书上本章P5](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks-usage.pdf)
@@ -1178,16 +1178,16 @@ Scalable Counting： approximate counter
 * approximate counter：缺点在于耗内存、低于实际值
 * 进一步引入 local\_t，每个GPU设两个counter
 
-Concurrent Linked Lists
+**Concurrent Linked Lists**
 * malloc error之后接unlock，这样的代码风格容易出问题。实际实现时推荐只在update数据结构的时候加锁，因为malloc具有thread safe特性。
 * TIP：be wary of control flow changes that lead to function returns, exits, or other similar error conditions that halt the execution of a function
 * hand-over-hand locking(lock coupling)：并发性强，但锁操作频繁，实际性能不见得好 
 
-Concurrent Queue
+**Concurrent Queue**
 * Michael and Scott Concurrent Queue: 1）两个锁；2）头节点法
 * A more fully developed bounded queue, that enables a thread to wait if the queue is either empty or overly full, is the subject of our intense study in the next chapter on condition variables.
 
-Concurrent Hash Table
+**Concurrent Hash Table**
 
 ```c++
 #define BUCKETS (101)
