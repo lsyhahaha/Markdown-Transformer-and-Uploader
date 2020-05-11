@@ -1251,6 +1251,21 @@ int main(int argc, char*argv[]) {
 * [关于条件变量需要互斥量保护的问题](https://www.zhihu.com/question/53631897)，pthread_cond_wait内部先解锁再等待，之所以加锁是防止cond_wait内部解锁后时间片用完。https://blog.csdn.net/zrf2112/article/details/52287915
 
 ##### The Producer/Consumer (Bounded Buffer) Problem
+* bounded buffer的应用场景：HTTP requests的work queue；pipe
+
+实现一：用一个条件变量+if实现
+* 问题：Mesa semantics: there is no guarantee that when the woken thread runs, the state will still be as desired <-> Hoare semantics；前者广泛采用
+
+实现二：一中的if改成**while**，尽量不被遗漏
+* 多线程程序尽量用while来check条件，还可以避免spurious wakeups(一次唤醒了多个线程)
+* 问题：signal不确定唤醒的是生产者还是消费者
+
+实现三：while+两个条件变量
+
+Covering Conditions：针对memory allocator问题，直接用`pthread_cond_broadcast`唤醒所有wait中的线程，这是最简洁有效的思路
+
+
+
 
 
 #### Appendix
