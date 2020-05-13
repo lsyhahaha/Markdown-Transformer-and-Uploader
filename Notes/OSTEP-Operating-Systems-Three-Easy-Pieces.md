@@ -1262,7 +1262,23 @@ int main(int argc, char*argv[]) {
 
 实现三：while+两个条件变量
 
-Covering Conditions：针对memory allocator问题，直接用`pthread_cond_broadcast`唤醒所有wait中的线程，这是最简洁有效的思路
+
+**Covering Conditions**：针对memory allocator问题，直接用`pthread_cond_broadcast`唤醒所有wait中的线程，这是最简洁有效的思路
+
+HW:
+
+2.`./main-two-cvs-while -l 10 -m 10 -p 1 -c 1 -v -t -C 0,0,0,0,0,0,1`
+
+3.Linux switchs more often between producer and consumer than Mac
+
+4.5.改m之后，由12/13秒到7秒
+
+6.7.均是5秒，因为睡眠的时候释放了锁
+
+9.`./main-one-cv-while -l 100 -p 1 -c 2 -m 1 -v -t`
+
+
+
 
 
 
