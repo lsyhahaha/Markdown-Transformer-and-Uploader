@@ -24,8 +24,9 @@ shell scripting
 * foo=bar, \$foo	注意等号前后不能有space，否则被当成参数
 * 单引号和双引号的区别：同样套在\$foo上，前者是literal meaning，而" "会替换成变量值
 * shell scripting也有if、case、while、for、function特性
-
+  * source mcd.sh后即可使用。cd如果在function内部使用，针对的是子shell，不影响外部，因此直接用./mcd.sh不合适
 ```shell
+#!/bin/bash
 mcd(){
 	mkdir -p "$1"
 	cd "$1"
@@ -87,14 +88,23 @@ done
 * “test command”， \[\[和\[的区别：http://mywiki.wooledge.org/BashFAQ/031 ，[[是compound command，存在special parsing context，寻找reserved words or control operators 
 
 **shell globbing 通配**
+
 * wildcard通配符：?和* 	`ls *.sh`
 * {}: `mv *{.py,.sh} folder`
 * `touch {foo,bar}/{a..h}`
 
 * 利用[shellcheck](https://github.com/koalaman/shellcheck)检查shell scripts的错误
+* https://en.wikipedia.org/wiki/Shebang_(Unix)
 
 #### zsh
-[zsh的10个优点](https://blog.csdn.net/rapheler/article/details/51505003)
+* [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
+* [zsh的10个优点](https://blog.csdn.net/rapheler/article/details/51505003)，[zsh介绍](https://www.cnblogs.com/dhcn/p/11666845.html)
+* [MacOS配置iTerm2+zsh+powerline](https://www.jianshu.com/p/2e8c340c9496)
+
+Aliases
+* pyfind
+* pyclean [dirs]
+* pygrep \<text\> 
 
 #### a
 #### b
