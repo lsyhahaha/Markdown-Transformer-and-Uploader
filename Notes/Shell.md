@@ -168,10 +168,10 @@ polo(){
 }
 ```
 
-3. 实用小工具，比如跑深度学习算法抢GPU
+3. 实用小工具，比如可以跑深度学习算法抢实验室GPU
 ```shell
 #!/usr/bin/env bash
-try_except(){
+debug(){
         echo "start capture the program failure log"
         cnt=-1
         ret=0
@@ -197,7 +197,8 @@ Aliases
 * pyfind
 * pyclean [dirs]
 * pygrep \<text\> 
-​```shell
+
+```shell
 alias python3="/Users/huangrt01/anaconda3/bin/python3"
 # alias base
 alias ll='ls -alGh'
@@ -207,6 +208,11 @@ alias cls='clear'
 alias gs='git status'
 alias gc='git commit'
 alias gqa='git add .'
+
+alias vfzf='vim $(fzf)' #vim打开搜索到的结果文件
+alias cdfzf='cd $(find * -type d | fzf)'
+alias gitfzf='git checkout $(git branch -r | fzf)'
+
 # alias docker
 alias dkst="docker stats"
 alias dkps="docker ps"
@@ -247,7 +253,7 @@ alias dkcpstop="docker-compose stop"
   * colorized output, default regex matching, Unicode support, more intuitive syntax
 * find：1）寻找文件； 2）机械式操作
   * -iname：大小写不敏感
-​```shell
+```shell
 # Find all directories named src
 find . -name src -type d
 # Find all python files that have a folder named test in their path
