@@ -22,7 +22,7 @@ https://missing.csail.mit.edu/ ，介绍了如何利用工具提升效率
 * [shell中不同类型quotes的含义](https://www.gnu.org/software/bash/manual/html_node/Quoting.html)
 
 ##### Lecture2. Shell Tools and Scripting
-shell scripting
+**shell scripting**
 * foo=bar, \$foo	注意等号前后不能有space，否则被当成参数
 * 单引号和双引号的区别：同样套在\$foo上，前者是literal meaning，而" "会替换成变量值
 * shell scripting也有if、case、while、for、function特性
@@ -64,8 +64,10 @@ false ; echo "This will always run"
 
 ```
 
-* command substitution: `for file in $(ls)`
-* $\lim_{n\to\intfy}\frac{\pi(n)}{\frac{n}{\log n}}=1$
+**[Linux-shell中各种替换的辨析](https://www.cnblogs.com/chengd/p/7803664.html)**
+
+* variable substitution：`$var, ${var}`
+* command substitution: `for file in $(ls)`，可以用`' '`代替`$( )`，但后者辨识度更高
 * process substitution: 生成返回temporary file，`diff <(ls foo) <(ls bar)`
 
 ```shell
@@ -110,8 +112,10 @@ done
   * 比如cd只能在function中影响到外界shell
 - As with any programming language functions are a powerful  construct to achieve modularity, code reuse and clarity of shell code.  Often shell scripts will include their own function definitions.
 
-** shell tools**
-帮助文档：
+**shell tools**
+
+**帮助文档**
+
 * XX -h
 * man XX
 * :help 或 ? (interactive)
@@ -163,8 +167,23 @@ polo(){
         cd "$MARCO" || echo "cd error"
 }
 ```
-3. 
 
+3. 实用小工具，比如跑深度学习算法抢GPU
+```shell
+#!/usr/bin/env bash
+try_except(){
+        echo "start capture the program failure log"
+        cnt=-1
+        ret=0
+        while [[ $ret -eq 0 ]]; do
+# let cnt++
+                sh "$1" 2>&1
+                ret=$?
+                cnt=$((cnt+1))
+        done
+        echo "failed after ${cnt} times"
+}
+```
 
 #### zsh
 * [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
