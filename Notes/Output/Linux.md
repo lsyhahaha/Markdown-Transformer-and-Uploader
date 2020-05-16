@@ -1,5 +1,7 @@
 ### Linux
 
+* [哪些命令行工具让你相见恨晚？ - Jackpop的回答 - 知乎](https://www.zhihu.com/question/41115077/answer/624385012)
+
 #### MIT 6.NULL课程
 https://missing.csail.mit.edu/ ，介绍了如何利用工具提升效率
 
@@ -94,17 +96,90 @@ done
 * `touch {foo,bar}/{a..h}`
 
 * 利用[shellcheck](https://github.com/koalaman/shellcheck)检查shell scripts的错误
-* https://en.wikipedia.org/wiki/Shebang_(Unix)
+
+* [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix))line 进行解释，可以利用env命令
+  * `#!/usr/bin/env python`
+  * ` #!/usr/bin/env -S /usr/local/bin/php -n -q -dsafe_mode=0`
+
+**shell函数和scripts的区别：**
+
+- Functions have to be in the same language as the shell, while  scripts can be written in any language. This is why including a shebang  for scripts is important.
+- Functions are loaded once when their definition is read. Scripts  are loaded every time they are executed. This makes functions slightly  faster to load but whenever you change them you will have to reload  their definition.
+- Functions are executed in the current shell environment whereas  scripts execute in their own process. Thus, functions can modify environment variables, e.g. change your current directory, whereas scripts can’t. Scripts will be passed by value environment variables  that have been exported using [`export`](http://man7.org/linux/man-pages/man1/export.1p.html)
+  * 比如cd只能在function中影响到外界shell
+- As with any programming language functions are a powerful  construct to achieve modularity, code reuse and clarity of shell code.  Often shell scripts will include their own function definitions.
+
+** shell tools**
+帮助文档：
+* XX -h
+* man XX
+* :help 或 ? (interactive)
+* [tldr](https://tldr.sh/)：比man好用！
+
+**shell中的查找**
+* 寻找文件：find, fd, locate
+* 寻找代码：grep, [ack](https://beyondgrep.com/), [ag](https://github.com/ggreer/the_silver_searcher) and [rg](https://github.com/BurntSushi/ripgrep)
+  * grep -R can be improved in many ways, such as ignoring .git folders, using multi CPU support, &c
+
+```shell
+# Find all python files where I used the requests library
+rg -t py 'import requests'
+# Find all files (including hidden files) without a shebang line
+rg -u --files-without-match "^#!"
+# Find all matches of foo and print the following 5 lines
+rg foo -A 5
+# Print statistics of matches (# of matched lines and files )
+rg --stats PATTERN
+```
+
+* 寻找shell指令
+  * `history | grep find`
+  
+  * ctrl+R，可结合[fzf](https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-r)，[教程](https://www.jianshu.com/p/d64553a37d69)：高效查找，手动选择
+  
+  * [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search): 键盘上下键寻找历史
+  
+  * [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)：键盘右键快速键入
+  * 如果输入命令有leading space，不会记入历史数据；如果不慎记入，可修改`.bash_history`或`.zsh_history`
+
+* 寻找目录
+  * [fasd](https://github.com/clvv/fasd): 用[frecency](https://developer.mozilla.org/en/The_Places_frecency_algorithm)(frequency+recency)这个指标排序，这一指标最早用于火狐浏览器
+  * [autojump](https://www.baidu.com/link?url=mmPr58MUREjyOpep_Bjba3FyOvqmlUlHSjwpit3kmUPWMWCrvvrUjx1-MKzWeBCsFBiJoXKF-A3Qk23C07rCTa&wd=&eqid=c4204f66000031cb000000065ebf6b15)
+
 
 #### zsh
 * [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 * [zsh的10个优点](https://blog.csdn.net/rapheler/article/details/51505003)，[zsh介绍](https://www.cnblogs.com/dhcn/p/11666845.html)
 * [MacOS配置iTerm2+zsh+powerline](https://www.jianshu.com/p/2e8c340c9496)
+* autojump: j, jc, jo, jco, j A B
+* [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+* [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
 
 Aliases
 * pyfind
 * pyclean [dirs]
 * pygrep \<text\> 
+```shell
+alias python3="/Users/huangrt01/anaconda3/bin/python3"
+# alias base
+alias ll='ls -alGh'
+alias la='ls -a'
+alias l='ls -CF'
+alias cls='clear'
+alias gs='git status'
+alias gc='git commit'
+alias gqa='git add .'
+# alias docker
+alias dkst="docker stats"
+alias dkps="docker ps"
+alias dklog="docker logs"
+alias dkpsa="docker ps -a"
+alias dkimgs="docker images"
+alias dkcpup="docker-compose up -d"
+alias dkcpdown="docker-compose down"
+alias dkcpstart="docker-compose start"
+alias dkcpstop="docker-compose stop"
+```
 
 #### a
 #### b
@@ -125,14 +200,39 @@ Aliases
 
 #### e
 * echo: 输出输入，空格分割
+* env: 进入环境
+  * 读man env，` #!/usr/bin/env -S /usr/local/bin/php -n -q -dsafe_mode=0`，利用env来传参。（FreeBSD 6.0之后不能直接传参，解释器会把多个参数合成一个参数）
+* [export](http://man7.org/linux/man-pages/man1/export.1p.html)
 
 #### f
+* [fd](https://github.com/sharkdp/fd)：作为find的替代品
+  * colorized output, default regex matching, Unicode support, more intuitive syntax
+* find：1）寻找文件； 2）机械式操作
+  * -iname：大小写不敏感
+```shell
+# Find all directories named src
+find . -name src -type d
+# Find all python files that have a folder named test in their path
+find . -path '**/test/**/*.py' -type f
+# Find all files modified in the last day
+find . -mtime -1
+# Find all zip files with size in range 500k to 10M
+find . -size +500k -size -10M -name '*.tar.gz'
+
+# Delete all files with .tmp extension
+find . -name '*.tmp' -exec rm {} \;
+# Find all PNG files and convert them to JPG
+find . -name '*.png' -exec convert {} {.}.jpg \;
+
+```
 #### g
 #### h
 #### i
 #### j
 #### k
 #### l
+* locate
+  * Most would agree that `find` and `fd` are good but some of you might be wondering about the efficiency of  looking for files every time versus compiling some sort of index or  database for quickly searching. That is what [`locate`](http://man7.org/linux/man-pages/man1/locate.1.html) is for. `locate` uses a database that is updated using [`updatedb`](http://man7.org/linux/man-pages/man1/updatedb.1.html). In most systems `updatedb` is updated daily via [`cron`](http://man7.org/linux/man-pages/man8/cron.8.html). Therefore one trade-off between the two is speed vs freshness. Moreover `find` and similar tools can also find files using attributes such as file size, modification time or file permissions while `locate` just uses the name. A more in depth comparison can be found [here](https://unix.stackexchange.com/questions/60205/locate-vs-find-usage-pros-and-cons-of-each-other).
 * ls
   * -l: long listing format; drwxr-xr-x，d代表文件夹，后面3*3代表owner、owning group、others的权限
   * r：read，w：modify，x：execute
