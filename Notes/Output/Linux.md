@@ -65,6 +65,7 @@ false ; echo "This will always run"
 ```
 
 * command substitution: `for file in $(ls)`
+*  <img src="https://www.zhihu.com/equation?tex=%5Clim_%7Bn%5Cto%5Cintfy%7D%5Cfrac%7B%5Cpi%28n%29%7D%7B%5Cfrac%7Bn%7D%7B%5Clog%20n%7D%7D%3D1" alt="\lim_{n\to\intfy}\frac{\pi(n)}{\frac{n}{\log n}}=1" class="ee_img tr_noresize" eeimg="1"> 
 * process substitution: 生成返回temporary file，`diff <(ls foo) <(ls bar)`
 
 ```shell
@@ -145,6 +146,24 @@ rg --stats PATTERN
 * 寻找目录
   * [fasd](https://github.com/clvv/fasd): 用[frecency](https://developer.mozilla.org/en/The_Places_frecency_algorithm)(frequency+recency)这个指标排序，这一指标最早用于火狐浏览器
   * [autojump](https://www.baidu.com/link?url=mmPr58MUREjyOpep_Bjba3FyOvqmlUlHSjwpit3kmUPWMWCrvvrUjx1-MKzWeBCsFBiJoXKF-A3Qk23C07rCTa&wd=&eqid=c4204f66000031cb000000065ebf6b15)
+  * More complex tools exist to quickly get an overview of a directory structure [`tree`](https://linux.die.net/man/1/tree), [`broot`](https://github.com/Canop/broot) or even full fledged file managers like [`nnn`](https://github.com/jarun/nnn) or [`ranger`](https://github.com/ranger/ranger)
+
+**Exercises**
+
+1. `alias ll='ls -aGhlt'`
+
+2. marco记录directory，polo前往
+```shell
+#!/bin/bash
+marco(){
+        foo=$(pwd)
+        export MARCO=$foo
+}
+polo(){
+        cd "$MARCO" || echo "cd error"
+}
+```
+3. 
 
 
 #### zsh
@@ -159,7 +178,7 @@ Aliases
 * pyfind
 * pyclean [dirs]
 * pygrep \<text\> 
-```shell
+​```shell
 alias python3="/Users/huangrt01/anaconda3/bin/python3"
 # alias base
 alias ll='ls -alGh'
@@ -209,7 +228,7 @@ alias dkcpstop="docker-compose stop"
   * colorized output, default regex matching, Unicode support, more intuitive syntax
 * find：1）寻找文件； 2）机械式操作
   * -iname：大小写不敏感
-```shell
+​```shell
 # Find all directories named src
 find . -name src -type d
 # Find all python files that have a folder named test in their path
