@@ -1,4 +1,4 @@
-### Shell
+###  Shell
 
 * [哪些命令行工具让你相见恨晚？ - Jackpop的回答 - 知乎](https://www.zhihu.com/question/41115077/answer/624385012)
 
@@ -36,14 +36,14 @@ mcd(){
 ```
 
 * **special variables**
-  * \$0 - Name of the script
-  * \$1 to \$9 - Arguments to the script. $1 is the first argument and so on.
-  * \$@ - All the arguments
-  * \$# - Number of arguments
-  * \$? - Return code of the previous command
-  * \$\$ - Process Identification number for the current script
-  * !! - Entire last command, including arguments. A common pattern is to execute a command only for it to fail due to missing permissions, then you can quickly execute it with sudo by doing sudo !!
-  * \$_ - Last argument from the last command. If you are in an interactive shell, you can also quickly get this value by typing Esc followed by .
+  * `$0` - Name of the script
+  * `$1 to \$9` - Arguments to the script. $1 is the first argument and so on.
+  * `$@` - All the arguments
+  * `$#` - Number of arguments
+  * `$?` - Return code of the previous command
+  * `$$` - Process Identification number for the current script
+  * `!!` - Entire last command, including arguments. A common pattern is to execute a command only for it to fail due to missing permissions, then you can quickly execute it with sudo by doing sudo !!
+  * `$_` - Last argument from the last command. If you are in an interactive shell, you can also quickly get this value by typing Esc followed by .
 
 * ||和&& operator：机制和error code联系，true和false命令返回固定的error code
 ```shell
@@ -168,22 +168,33 @@ polo(){
 }
 ```
 
-3. 实用小工具，比如可以跑深度学习算法抢实验室GPU
+3. 实用小工具，比如可以抢实验室GPU（实现的功能相对原题有改动）
 ```shell
 #!/usr/bin/env bash
 debug(){
         echo "start capture the program failure log"
         cnt=-1
-        ret=0
-        while [[ $ret -eq 0 ]]; do
-# let cnt++
+        ret=1
+        while [[ $ret -eq 1 ]]; do
                 sh "$1" 2>&1
                 ret=$?
                 cnt=$((cnt+1))
+                # let cnt++
+                if [[ $# -eq 2 ]];then
+                        sleep "$2"
+                fi
         done
-        echo "failed after ${cnt} times"
+        echo "succeed after ${cnt} times"
 }
 ```
+
+4.`fd -e html -0 | xargs -0 zip output.zip`
+
+5.返回文件夹下最近修改的文件：`fd . -0 -t f | xargs -0 stat -f '%m%t%Sm %N' | sort -n | cut -f2- | tail -n 1` (设成了我的fdrecent命令)
+
+  * [stackoverflow讨论](https://stackoverflow.com/questions/5566310/how-to-recursively-find-and-list-the-latest-modified-files-in-a-directory-with-s)
+  *  `find . -exec stat -f '%m%t%Sm %N' {} + | sort -n | cut -f2- | tail -n 1`
+  *  `find . -type f -print0 | xargs -0 stat -f '%m%t%Sm %N' | sort -n | cut -f2- | tail -n 1`
 
 #### zsh
 * [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
@@ -300,5 +311,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 #### w
 * which：找到程序路径
 #### x
+* xargs：[解决命令的输入来源问题](https://blog.csdn.net/vanturman/article/details/84325846)：命令参数有标准输入和命令行参数两大来源，有的命令只接受命令行参数，需要xargs来转换标准输入
+  * e.g. ` ls | xargs rm`
 #### y
 #### z
