@@ -1,3 +1,5 @@
+[toc]
+
 ###  Shell
 
 * [哪些命令行工具让你相见恨晚？ - Jackpop的回答 - 知乎](https://www.zhihu.com/question/41115077/answer/624385012)
@@ -249,10 +251,39 @@ Vim的设计逻辑：a modal editor
 - Visual (plain (v), line (V), block (C-v)) mode: for selecting blocks of text
 - Command-line (:): for running a command
 
+Vim基础
+* 插入，按i进入，Esc退出
+* 概念：Buffers, tabs, and windows
+  *  buffer和window关系：一对多
+* Command-line
+  * :q   quit (close window)
+  * :w   save (“write”)
+  * :wq   save and quit
+  * :e {name of file}   open file for editing
+  * :ls   show open buffers
+  * :help {topic}   open help
+
+##### Vim’s interface is a programming language
+Movement：也称作“nouns”，因为指代chunks of text
+* Basic movement: `hjkl`左下上右
+* Words: `w` (next word), `b` (beginning of word), `e` (end of word)
+* Lines: `0` (beginning of line), `^` (first non-blank character), `$` (end of line)
+* Screen: `H` (top of screen), `M` (middle of screen), `L` (bottom of screen)
+* Scroll: `Ctrl-u` (up), `Ctrl-d` (down)
+* File: `gg` (beginning of file), `G` (end of file)
+* Line numbers: `:{number}` or `{number}G` (line {number})
+* Misc: `%` (corresponding item)
+* Find: `f{character}`, `t{character}`, `F{character}`, `T{character}`
+  - find/to forward/backward {character} on the current line
+  - `,` / `;` for navigating matches
+* Search: `/{regex}`, `n` / `N` for navigating matches
 
 
+#### Vim的其它按键积累
+* gt：切换tab
 
 
+### Linux命令按字母分类
 #### a
 #### b
 #### c
