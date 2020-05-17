@@ -242,7 +242,15 @@ alias dkcpstop="docker-compose stop"
 *  [Vim emulation for VS code](https://github.com/VSCodeVim/Vim)
 
 
-Vim的设计逻辑：modal
+Vim的设计逻辑：a modal editor
+- Normal (ESC): for moving around a file and making edits
+- Insert (i): for inserting text
+- Replace (R): for replacing text
+- Visual (plain (v), line (V), block (C-v)) mode: for selecting blocks of text
+- Command-line (:): for running a command
+
+
+
 
 
 #### a
