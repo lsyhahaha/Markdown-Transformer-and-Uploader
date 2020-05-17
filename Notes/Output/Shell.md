@@ -278,9 +278,12 @@ Movement：也称作“nouns”，因为指代chunks of text
   - `,` / `;` for navigating matches
 * Search: `/{regex}`, `n` / `N` for navigating matches
 
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Shell/vim.png" alt="vim" style="zoom:100%;" />
+
 
 #### Vim的其它按键积累
 * gt：切换tab
+
 
 
 ### Linux命令按字母分类
