@@ -2,10 +2,10 @@
 
 * [哪些命令行工具让你相见恨晚？ - Jackpop的回答 - 知乎](https://www.zhihu.com/question/41115077/answer/624385012)
 
-#### MIT 6.NULL课程
+### MIT 6.NULL课程
 https://missing.csail.mit.edu/ ，介绍了如何利用工具提升效率
 
-##### Lecture1. Course overview + the shell
+#### Lecture1. Course overview + the shell
 * shell：空格分割输入，`~` is short for "home"
 * environment variable: `echo $PATH`; `vim ~/.zshrc`
   * `$PATH`可以作为输入
@@ -21,8 +21,8 @@ https://missing.csail.mit.edu/ ，介绍了如何利用工具提升效率
 
 * [shell中不同类型quotes的含义](https://www.gnu.org/software/bash/manual/html_node/Quoting.html)
 
-##### Lecture2. Shell Tools and Scripting
-**shell scripting**
+#### Lecture2. Shell Tools and Scripting
+##### shell scripting
 * foo=bar, \$foo	注意等号前后不能有space，否则被当成参数
 * 单引号和双引号的区别：同样套在\$foo上，前者是literal meaning，而" "会替换成变量值
 * shell scripting也有if、case、while、for、function特性
@@ -35,7 +35,7 @@ mcd(){
 }
 ```
 
-* **special variables**
+##### special variables
   * `$0` - Name of the script
   * ` <img src="https://www.zhihu.com/equation?tex=1%20to%20%5C" alt="1 to \" class="ee_img tr_noresize" eeimg="1"> 9` - Arguments to the script. $1 is the first argument and so on.
   * `$@` - All the arguments
@@ -64,7 +64,7 @@ false ; echo "This will always run"
 
 ```
 
-**[Linux-shell中各种替换的辨析](https://www.cnblogs.com/chengd/p/7803664.html)**
+##### [Linux-shell中各种替换的辨析](https://www.cnblogs.com/chengd/p/7803664.html)
 
 * variable substitution：` <img src="https://www.zhihu.com/equation?tex=var%2C%20" alt="var, " class="ee_img tr_noresize" eeimg="1"> {var}`
 * command substitution: `for file in  <img src="https://www.zhihu.com/equation?tex=%28ls%29%60%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%94%A8%60%27%20%27%60%E4%BB%A3%E6%9B%BF%60" alt="(ls)`，可以用`' '`代替`" class="ee_img tr_noresize" eeimg="1"> ( )`，但后者辨识度更高
@@ -92,8 +92,7 @@ done
 * -ne，更多的查看man test
 * “test command”， \[\[和\[的区别：http://mywiki.wooledge.org/BashFAQ/031 ，[[是compound command，存在special parsing context，寻找reserved words or control operators 
 
-**shell globbing 通配**
-
+##### shell globbing 通配
 * wildcard通配符：?和* 	`ls *.sh`
 * {}: `mv *{.py,.sh} folder`
 * `touch {foo,bar}/{a..h}`
@@ -112,7 +111,7 @@ done
   * 比如cd只能在function中影响到外界shell
 - As with any programming language functions are a powerful  construct to achieve modularity, code reuse and clarity of shell code.  Often shell scripts will include their own function definitions.
 
-**shell tools**
+##### shell tools
 
 **帮助文档**
 
@@ -122,8 +121,9 @@ done
 * [tldr](https://tldr.sh/)：比man好用！
 
 **shell中的查找**
-* 寻找文件：find, fd, locate
-* 寻找代码：grep, [ack](https://beyondgrep.com/), [ag](https://github.com/ggreer/the_silver_searcher) and [rg](https://github.com/BurntSushi/ripgrep)
+
+* 查找文件：find, fd, locate
+* 查找代码：grep, [ack](https://beyondgrep.com/), [ag](https://github.com/ggreer/the_silver_searcher) and [rg](https://github.com/BurntSushi/ripgrep)
   * grep -R can be improved in many ways, such as ignoring .git folders, using multi CPU support, &c
 
 ```shell
@@ -137,7 +137,7 @@ rg foo -A 5
 rg --stats PATTERN
 ```
 
-* 寻找shell指令
+* 查找shell指令
   * `history | grep find`
   
   * ctrl+R，可结合[fzf](https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-r)，[教程](https://www.jianshu.com/p/d64553a37d69)：高效查找，手动选择
@@ -147,7 +147,7 @@ rg --stats PATTERN
   * [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)：键盘右键快速键入
   * 如果输入命令有leading space，不会记入历史数据；如果不慎记入，可修改`.bash_history`或`.zsh_history`
 
-* 寻找目录
+* 查找目录
   * [fasd](https://github.com/clvv/fasd): 用[frecency](https://developer.mozilla.org/en/The_Places_frecency_algorithm)(frequency+recency)这个指标排序，这一指标最早用于火狐浏览器
   * [autojump](https://www.baidu.com/link?url=mmPr58MUREjyOpep_Bjba3FyOvqmlUlHSjwpit3kmUPWMWCrvvrUjx1-MKzWeBCsFBiJoXKF-A3Qk23C07rCTa&wd=&eqid=c4204f66000031cb000000065ebf6b15)
   * More complex tools exist to quickly get an overview of a directory structure [`tree`](https://linux.die.net/man/1/tree), [`broot`](https://github.com/Canop/broot) or even full fledged file managers like [`nnn`](https://github.com/jarun/nnn) or [`ranger`](https://github.com/ranger/ranger)
@@ -235,6 +235,15 @@ alias dkcpdown="docker-compose down"
 alias dkcpstart="docker-compose start"
 alias dkcpstop="docker-compose stop"
 ```
+
+#### Lecture3. Editors(Vim)
+* [Editor War](https://en.wikipedia.org/wiki/Editor_war)
+* [Stack Overflow survey](https://insights.stackoverflow.com/survey/2019/#development-environments-and-tools)
+*  [Vim emulation for VS code](https://github.com/VSCodeVim/Vim)
+
+
+Vim的设计逻辑：modal
+
 
 #### a
 #### b
