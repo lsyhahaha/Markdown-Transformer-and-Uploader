@@ -268,7 +268,7 @@ alias dkcpstop="docker-compose stop"
   * :e {name of file}   open file for editing
   * :ls   show open buffers
   * :help {topic}   open help
-  * buffer操作` :ls,:b num, :bn（下一个）, :bp（前一个）, :b#(上次的buffer) `
+  * buffer操作` :ls,:b num, :bn（下一个）, :bp（前一个）, :b#(上次的buffer) `
 
 ##### Vim’s interface is a programming language
 Movement：也称作“nouns”，因为指代chunks of text
@@ -325,21 +325,22 @@ Modifiers: 接在nouns后面，i=inside，a=around，t=to
 - `d2a` 删除到g之前
 
 ##### Vim拓展
-* ./vimrc: [课程推荐config](https://missing.csail.mit.edu/2020/files/vimrc), your instructors’ Vim configs ([Anish](https://github.com/anishathalye/dotfiles/blob/master/vimrc), [Jon](https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim) (uses [neovim](https://neovim.io/)), [Jose](https://github.com/JJGO/dotfiles/blob/master/vim/.vimrc))
+* ./vimrc: [课程推荐config](https://missing.csail.mit.edu/2020/files/vimrc), instructors’ Vim configs ([Anish](https://github.com/anishathalye/dotfiles/blob/master/vimrc), [Jon](https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim) (uses [neovim](https://neovim.io/)), [Jose](https://github.com/JJGO/dotfiles/blob/master/vim/.vimrc))
 
 
 ##### Vim-mode的其它应用
 * Shell：If you’re a Bash user, use `set -o vi`. If you use Zsh, `bindkey -v`. For Fish, `fish_vi_key_bindings`. Additionally, no matter what shell you use, you can `export EDITOR=vim`. This is the environment variable used to decide which editor is launched when a program wants to start an editor. For example, `git` will use this editor for commit messages.
 
+##### Vim的其它按键积累
+* `gt`: 切换tab
+* `y`操作符命令会把文本复制到一个寄存器3中。然后可以用`p`命令把它取回。因为`y`是一个操作符命令，所以可以用`yw`来复制一个word. 同样可以使用counting, 如用`y2w`命令复制两个word，`yy`命令复制一整行，`Y`也是复制整行的内容，复制当前光标至行尾的命令是`y$`
+{ }段首段尾
 
 
 <img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Shell/vim.png" alt="vim" style="zoom:100%;" />
 
 
-#### Vim的其它按键积累
-* `gt`: 切换tab
-* `y`操作符命令会把文本复制到一个寄存器3中。然后可以用`p`命令把它取回。因为`y`是一个操作符命令，所以可以用`yw`来复制一个word. 同样可以使用counting, 如用`y2w`命令复制两个word，`yy`命令复制一整行，`Y`也是复制整行的内容，复制当前光标至行尾的命令是`y$`
-{ }段首段尾
+
 
 
 ### Linux命令按字母分类
