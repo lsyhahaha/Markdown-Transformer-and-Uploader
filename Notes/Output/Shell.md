@@ -142,7 +142,7 @@ rg --stats PATTERN
 * 查找shell指令
   * `history | grep find`
   
-  * ctrl+R，可结合[fzf](https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-r)，[教程](https://www.jianshu.com/p/d64553a37d69)：高效查找，手动选择
+  * Ctrl-r，可结合[fzf](https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-r)，[教程](https://www.jianshu.com/p/d64553a37d69)：高效查找，手动选择
   
   * [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search): 键盘上下键寻找历史
   
@@ -153,6 +153,11 @@ rg --stats PATTERN
   * [fasd](https://github.com/clvv/fasd): 用[frecency](https://developer.mozilla.org/en/The_Places_frecency_algorithm)(frequency+recency)这个指标排序，这一指标最早用于火狐浏览器
   * [autojump](https://www.baidu.com/link?url=mmPr58MUREjyOpep_Bjba3FyOvqmlUlHSjwpit3kmUPWMWCrvvrUjx1-MKzWeBCsFBiJoXKF-A3Qk23C07rCTa&wd=&eqid=c4204f66000031cb000000065ebf6b15)
   * More complex tools exist to quickly get an overview of a directory structure [`tree`](https://linux.die.net/man/1/tree), [`broot`](https://github.com/Canop/broot) or even full fledged file managers like [`nnn`](https://github.com/jarun/nnn) or [`ranger`](https://github.com/ranger/ranger)
+
+**Shell编辑**
+* `Ctrl-a`光标移动到行前
+* ESC进入Vim-mode，ESC-v进入Vim直接编辑
+
 
 **Exercises**
 
@@ -241,49 +246,100 @@ alias dkcpstop="docker-compose stop"
 #### Lecture3. Editors(Vim)
 * [Editor War](https://en.wikipedia.org/wiki/Editor_war)
 * [Stack Overflow survey](https://insights.stackoverflow.com/survey/2019/#development-environments-and-tools)
-*  [Vim emulation for VS code](https://github.com/VSCodeVim/Vim)
+*  [Vim emulation for VS code](https://github.com/VSCodeVim/Vim)：个人觉得Vim+VSCode是绝配，Vim负责文本编辑，VSCode负责插件等高级功能
 
 
-Vim的设计逻辑：a modal editor
-- Normal (ESC): for moving around a file and making edits
+**Vim的设计逻辑：a modal editor，多模态的编辑器**
+- Normal (ESC): for moving around a file and making edits，ESC很重要，我用[Karabiner](https://mac.softpedia.com/get/System-Utilities/KeyRemap4MacBook.shtml)把MacOS的右Command键设成了ESC
 - Insert (i): for inserting text
-- Replace (R): for replacing text
+- Replace (R): for replacing text，感觉有用，无需删除，在文本上覆盖编辑
 - Visual (plain (v), line (V), block (C-v)) mode: for selecting blocks of text
+  * `^V = Ctrl-V = <C-V>`
 - Command-line (:): for running a command
 
-Vim基础
+**Vim基础**
 * 插入，按i进入，Esc退出
 * 概念：Buffers, tabs, and windows
   *  buffer和window关系：一对多
 * Command-line
   * :q   quit (close window)
   * :w   save (“write”)
-  * :wq   save and quit
+  * :wq   save and quit    = `ZZ`
   * :e {name of file}   open file for editing
   * :ls   show open buffers
   * :help {topic}   open help
+  * buffer操作` :ls,:b num, :bn（下一个）, :bp（前一个）, :b#(上次的buffer) `
 
 ##### Vim’s interface is a programming language
 Movement：也称作“nouns”，因为指代chunks of text
 * Basic movement: `hjkl`左下上右
-* Words: `w` (next word), `b` (beginning of word), `e` (end of word)
+* Words: `w` (下一个词开头), `b` (本词或上一个词开头), `e` (本词或下一个词末尾)
 * Lines: `0` (beginning of line), `^` (first non-blank character), `$` (end of line)
+* Paragraph (原文没写): `{ and }` 
 * Screen: `H` (top of screen), `M` (middle of screen), `L` (bottom of screen)
 * Scroll: `Ctrl-u` (up), `Ctrl-d` (down)
 * File: `gg` (beginning of file), `G` (end of file)
 * Line numbers: `:{number}` or `{number}G` (line {number})
-* Misc: `%` (corresponding item)
+* Misc: `%` (corresponding item，比如括号匹配)
 * Find: `f{character}`, `t{character}`, `F{character}`, `T{character}`
   - find/to forward/backward {character} on the current line
   - `,` / `;` for navigating matches
-* Search: `/{regex}`, `n` / `N` for navigating matches
+* [Search](https://www.cnblogs.com/wayneliu007/p/10322453.html): `/{regex}`向后搜索, `n` / `N` for navigating matches
+  * `？{regex}`向前搜索
+  * 退出查找状态：进入i再esc退出
+
+Selection：Visual modes 
+* plain (v) 
+* line (V)
+* block (Ctrl-v) 
+
+Edits: "Verbs"
+* `i`进入insert模式
+* `o` / `O` insert line below / above
+* `d{motion}` delete {motion}    
+  - e.g. `dw` is delete word, `d$` is delete to end of line, `d0` is delete  to beginning of line
+* `c{motion}` change {motion}    
+  - e.g. `cw` is change word
+  - like `d{motion}` followed by `i`
+* `x` delete character (equal do `dl`)
+* `s` substitute character (equal to `xi`)
+* visual mode + manipulation    
+  - select text, `d` to delete it or `c` to change it
+* `u` to undo, `<C-r>` to redo
+* `y` to copy / “yank” (some other commands like `d` also copy)
+* `p` to paste
+* Lots more to learn: e.g. `~` flips the case of a character
+* d, y, c均可双写，表示单行操作
+
+Counts:
+
+- `3w` move 3 words forward
+- `5j` move 5 lines down
+- `7dw` delete 7 words
+
+Modifiers: 接在nouns后面，i=inside，a=around，t=to
+
+- `ci(` change the contents inside the current pair of parentheses
+- `ci[` change the contents inside the current pair of square brackets
+- `da'` delete a single-quoted string, including the surrounding single quotes
+- `d2a` 删除到g之前
+
+##### Vim拓展
+* ./vimrc: [课程推荐config](https://missing.csail.mit.edu/2020/files/vimrc), your instructors’ Vim configs ([Anish](https://github.com/anishathalye/dotfiles/blob/master/vimrc), [Jon](https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim) (uses [neovim](https://neovim.io/)), [Jose](https://github.com/JJGO/dotfiles/blob/master/vim/.vimrc))
+
+
+##### Vim-mode的其它应用
+* Shell：If you’re a Bash user, use `set -o vi`. If you use Zsh, `bindkey -v`. For Fish, `fish_vi_key_bindings`. Additionally, no matter what shell you use, you can `export EDITOR=vim`. This is the environment variable used to decide which editor is launched when a program wants to start an editor. For example, `git` will use this editor for commit messages.
+
+
 
 <img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Shell/vim.png" alt="vim" style="zoom:100%;" />
 
 
 #### Vim的其它按键积累
-* gt：切换tab
-
+* `gt`: 切换tab
+* `y`操作符命令会把文本复制到一个寄存器3中。然后可以用`p`命令把它取回。因为`y`是一个操作符命令，所以可以用`yw`来复制一个word. 同样可以使用counting, 如用`y2w`命令复制两个word，`yy`命令复制一整行，`Y`也是复制整行的内容，复制当前光标至行尾的命令是`y$`
+{ }段首段尾
 
 
 ### Linux命令按字母分类
