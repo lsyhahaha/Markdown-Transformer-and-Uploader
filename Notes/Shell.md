@@ -267,7 +267,7 @@ alias dkcpstop="docker-compose stop"
   * :wq   save and quit    = `ZZ`
   * :e {name of file}   open file for editing
   * :ls   show open buffers
-  * :help {topic}   open help
+  * :help {topic}   open help，`Ctrl-D`显示补全命令列表
   * `:r`提取和合并文件；`:r !ls`可读取存放外部命令输出
 
 ##### Vim’s interface is a programming language
