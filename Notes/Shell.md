@@ -254,7 +254,7 @@ alias dkcpstop="docker-compose stop"
 - Insert (i): for inserting text
 - Replace (R): for replacing text，无需删除，在文本上覆盖编辑；`r`替换字符
 - Visual (plain (v), line (V), block (C-v)) mode: for selecting blocks of text
-  * `^V = Ctrl-V = <C-V>`
+  * `^V = Ctrl-v = <C-v>`
 - Command-line (:): for running a command
 
 **Vim基础**
@@ -279,7 +279,7 @@ alias dkcpstop="docker-compose stop"
 * Paragraph (原文没写): `{ and }` 
 * Screen: `H` (top of screen), `M` (middle of screen), `L` (bottom of screen)
 * Scroll: `Ctrl-U (up), Ctrl-D (down)`
-* File: `gg` (beginning of file), `G` (end of file), `Ctrl-G`显示行号信息
+* File: `gg` (beginning of file), `G` (end of file), `Ctrl-G`显示行号信息, `数字+G`移动到某一行
 * Line numbers: `:{number}` or `{number}G` (line {number})
 * Misc: `%` (corresponding item，比如括号匹配)
 * Find: `f{character}`, `t{character}`, `F{character}`, `T{character}`
@@ -330,7 +330,7 @@ alias dkcpstop="docker-compose stop"
 - `ci(` change the contents inside the current pair of parentheses
 - `ci[` change the contents inside the current pair of square brackets
 - `da'` delete a single-quoted string, including the surrounding single quotes
-- `d2a` 删除到g之前
+- `d2a` 删除到a之前
 
 ##### Vim拓展
 * ./vimrc: [课程推荐config](https://missing.csail.mit.edu/2020/files/vimrc), instructors’ Vim configs ([Anish](https://github.com/anishathalye/dotfiles/blob/master/vimrc), [Jon](https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim) (uses [neovim](https://neovim.io/)), [Jose](https://github.com/JJGO/dotfiles/blob/master/vim/.vimrc))
@@ -366,12 +366,65 @@ alias dkcpstop="docker-compose stop"
   * `:#,#s/...`表示对行号之间的内容操作
 * ` :%s/\[.*\](\(.*\))/\1/g`
   - replace named Markdown links with plain URLs
+* `:g/pattern/command`，对匹配行执行命令
 
-
-
+* `.`复制操作
 * 外部命令：`:!`
 
 
+##### Macros
+- `q{character}` to start recording a macro in register `{character}`
+
+- `q` to stop recording
+
+- `@{character}` replays the macro
+
+- Macro execution stops on error
+
+- `{number}@{character}` executes a macro {number} times
+
+- Macros can be recursive    
+
+  - first clear the macro with `q{character}q`
+  - record the macro, with `@{character}` to invoke the macro recursively  (will be a no-op until recording is complete)
+
+- Example: convert xml to json   ([file](https://missing.csail.mit.edu/2020/files/example-data.xml))    
+
+  - Array of objects with keys “name” / “email”
+
+  - Use a Python program?
+
+  - Use sed / regexes        
+
+    - `g/people/d`
+    - `%s/<person>/{/g`
+    - `%s/<name>\(.*\)<\/name>/"name": "\1",/g`
+    - …
+
+  - Vim commands / macros        
+
+    - `Gdd`, `ggdd` delete first and last lines
+
+    - Macro to format a single element (register `e`)            
+      - Go to line with `<name>`
+      - `qe^r"f>s": "<ESC>f<C"<ESC>q`
+
+    - Macro to format a person            
+
+      - Go to line with `<person>`
+      - `qpS{<ESC>j@eA,<ESC>j@ejS},<ESC>q`
+
+    - Macro to format a person and go to the next person            
+
+      - Go to line with `<person>`
+      - `qq@pjq`
+
+    - Execute macro until end of file            
+
+      - `999@q`
+
+    - Manually remove last `,` and add `[` and `]` delimiters
+  - [在vimrc中存宏](https://stackoverflow.com/questions/2024443/saving-vim-macros) 
 
 <img src="Shell/vim.png" alt="vim" style="zoom:100%;" />
 
