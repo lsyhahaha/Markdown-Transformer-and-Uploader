@@ -91,3 +91,16 @@
   * forwarding table
   * default router
 
+* wireshark: 
+  * [谈谈Linux中的TCP重传抓包分析](https://segmentfault.com/a/1190000019734707)
+
+##### 1-5 Principle: Packet switching principle
+* packet: self-contained
+* packet switching: independently for each arriving packet, pick its outgoing link. If the link is free, send it. Else hold the packet for later.
+* source packet: (Data, (dest, C, B, A))  => 只存destination，每个switch有table
+* two consequences
+  * simple packet forwarding: No per-flow state required，state不需要store/add/remove
+  * efficient sharing of links: busty data traffic; statistical multiplexing => 对packet一视同仁，可共享links
+
+##### 1-6 Principle: Layering
+
