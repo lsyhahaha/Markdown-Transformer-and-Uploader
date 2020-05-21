@@ -1,5 +1,6 @@
 ### Stanford CS144
-* [Stanford CS144视频（b站）](https://www.bilibili.com/video/BV1wt41167iN?from=search&seid=12807244912122184980)
+* [CS144视频（b站）](https://www.bilibili.com/video/BV1wt41167iN?from=search&seid=12807244912122184980)
+* [CS144课程网站（包括pdf、project）](https://github.com/CS144)
 
 #### What the Internet is
 ##### 1-0 The Internet and IP Introduction
