@@ -503,6 +503,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 #### n
 #### o 
 #### p
+* ping
 * pwd: print cwd
 #### q
 #### r
@@ -511,6 +512,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 * tail
   * `ls -l | tail -n1`
   * -f：不断读最新内容，实时监视
+* traceroute: -w 1
 #### u
 #### v
 #### w

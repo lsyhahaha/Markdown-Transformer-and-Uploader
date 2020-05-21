@@ -104,3 +104,6 @@
 
 ##### 1-6 Principle: Layering
 
+* 一种设计理念，layers are functional components, they communicate sequentially 
+* edit -> compile -> link -> execute
+  * compiler: self-contained, e.g. lexical analysis, parsing the code, preprocessing declarations, code generation and optimization
