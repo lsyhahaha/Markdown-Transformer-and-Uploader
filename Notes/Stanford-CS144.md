@@ -5,13 +5,17 @@
 #### What the Internet is
 ##### 1-0 The Internet and IP Introduction
 * internet layer: Internet Protocol, IP address, packet's path
+* 彩蛋：世一大惺惺相惜
+<img src="Stanford-CS144/005.jpg" alt="Stanford-THU" style="zoom:60%;" />
+
+* 用`ping`和`traceroute`看IP地址; 光纤2/3光速，8637km - RTT=86ms
 ##### 1-1 A day in the life of an application
 * Networked Applications: connectivity, bidirectional and reliable data stream
 * Byte Stream Model: A - Internet - B, server和A、B均可中断连接
 * World Wide Web(HTTP: HyperText Transfer Protocol)
   * request: GET, PUT, DELETE, INFO, 400(bad request) 
   * GET - response(200, OK)  , 200代表有效
-  * document-centric: "GET / HTTP/1.1", "HTTP/1.1 200 OK"
+  * document-centric: "GET/HTTP/1.1", "HTTP/1.1 200 OK \<contents of the index.html\>"
 * BitTorrent: peer-to-peer model
   * breaks files into "pieces" and the clients join and leave "swarms" of clients
   * 先下载torrent file -- tracker存储lists of other clients
@@ -39,9 +43,11 @@
     * must use the IP
     * may be out of order
   * Transport Layer: TCP(Transmission Control Protocol)负责上述Network的局限性，controls congestion
+    * sequence number -> 保序
+    * ACK(acknowledgement of receipt)，如果发信人没收到就resend
     * 比如视频传输不需要TCP，可以用UDP(User Datagram Protocol),不保证传输
-  * Application Layer
-
+* Application Layer
+  
 * two extra things
 
   * IP is the "thin waist"   
@@ -53,6 +59,35 @@
 * Link Frame (IP Datagram(IP Data(Data, Hdr), IP Hdr), Link Hdr )
 * The IP Service Model的特点
   * Datagram: (Data, IP SA, IP DA)，每个router有forwarding table，类比为postal service中的letter
-  * Unreliable
-  * Best effort
+  * Unreliable: 失去/损坏/复制，保证只在必要的时候不可靠（比如queue congestion）
+  * Best-effort attempt
   * Connectionless : no per-flow state, mis-sequenced
+* IP设计简单的原因
+  * minimal, faster, streamlined
+  * end-to-end(在end points implement features)
+  * build a variety of reliable/unreliable services on top
+  * works over any link layer
+
+* the IP Service Model
+  1. tries to prevent packets looping forever (实现：在每个datagram的header加hop-count field: time to live TTL field, 比如从128开始decrement)
+  2. will fragment packets if they're too long (e.g. Ethernet, 1500bytes)
+  3. header checksum：增强可靠性
+  4. allows for new versions of IP
+  5. allows for new options to be added to header (由router处理新特性，慎重使用)
+
+<img src="Stanford-CS144/004.jpg" alt="IPv4 Datagram" style="zoom:60%;" />
+
+* IPv4 Datagram
+  * Protocol ID: 6->TCP; IANA(Internet Assigned Numbers Authority)
+
+##### 1-4 A Day in the Life of a Packet
+* 3-way handshake
+  1. client: SYN 
+  2. server: SYN/ACK
+  3. client: ACK
+* IP packets
+  * IP address + TCP port(web server通常是80)
+  * hops, Routers: wireless access point (WiFi的第一次hop)
+  * forwarding table
+  * default router
+
