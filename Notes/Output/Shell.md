@@ -46,6 +46,7 @@ mcd(){
   * `$$` - Process Identification number for the current script
   * `!!` - Entire last command, including arguments. A common pattern is to execute a command only for it to fail due to missing permissions, then you can quickly execute it with sudo by doing sudo !!
   * `$_` - Last argument from the last command. If you are in an interactive shell, you can also quickly get this value by typing Esc followed by .
+  * `$!` - last backgrounded job
 
 * ||和&& operator：机制和error code联系，true和false命令返回固定的error code
 ```shell
@@ -440,9 +441,40 @@ alias dkcpstop="docker-compose stop"
 - [Vim Screencasts](http://vimcasts.org/)
 - [Practical Vim](https://pragprog.com/book/dnvim2/practical-vim-second-edition) (book)
 
+#### Lecture 5.Command-line Environment
+
+##### Job Control
+杀进程
+* signals: software interrupts
+
+* `Ctrl-C`:`SIGINT`; `Ctrl-\`:`SIGQUIT`; `kill -TERM PID` :`SIGTERM`
+* [SIGINT、SIGQUIT、 SIGTERM、SIGSTOP区别](https://blog.csdn.net/pmt123456/article/details/53544295)
+
+```python
+#!/usr/bin/env python
+import signal, time
+
+def handler(signum, time):
+    print("\nI got a SIGINT, but I am not stopping")
+
+signal.signal(signal.SIGINT, handler)
+i = 0
+while True:
+    time.sleep(.1)
+    print("\r{}".format(i), end="")
+    i += 1
+```
+
+Pausing and backgrounding processes
+* 暂停：`Ctrl-Z`,`SIGTSTP`
+* 继续暂停的job：`fg和bg`；`jobs`;搭配pgrep
+* `$!` - last backgrounded job
+* 
+
 ### Linux命令按字母分类
 #### a
 #### b
+* bg: resume后台暂停的命令
 #### c
 * cat
 * cd
@@ -467,6 +499,7 @@ alias dkcpstop="docker-compose stop"
 #### f
 * [fd](https://github.com/sharkdp/fd)：作为find的替代品
   * colorized output, default regex matching, Unicode support, more intuitive syntax
+* [fg](https://blog.csdn.net/carolzhang8406/article/details/51314894): Run jobs in foreground
 * find：1）寻找文件； 2）机械式操作
   * -iname：大小写不敏感
 ```shell
@@ -490,6 +523,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 #### i
 * ifconfig
 #### j
+* jobs
 #### k
 #### l
 * locate
@@ -505,6 +539,8 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 #### o 
 #### p
 * ping
+* pgrep: 配合jobs
+* pkill = pgrep + kill
 * pwd: print cwd
 #### q
 #### r
