@@ -2,7 +2,6 @@
 * [CS144视频（b站）](https://www.bilibili.com/video/BV1wt41167iN?from=search&seid=12807244912122184980)
 * [CS144课程网站（包括pdf、project）](https://github.com/CS144)
 
-#### What the Internet is
 ##### 1-0 The Internet and IP Introduction
 * internet layer: Internet Protocol, IP address, packet's path
 * 彩蛋：世一大惺惺相惜
@@ -49,8 +48,7 @@
 * Application Layer
   
 * two extra things
-
-  * IP is the "thin waist"   
+  * IP is the "thin waist"   ,这一层的选择最少
   * the 7-layer OSI Model
 
 <img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Stanford-CS144/002.jpg" alt="7-layer" style="zoom:60%;" />
@@ -92,7 +90,7 @@
 ##### 1-5 Principle: Packet switching principle
 * packet: self-contained
 * packet switching: independently for each arriving packet, pick its outgoing link. If the link is free, send it. Else hold the packet for later.
-* source packet: (Data, (dest, C, B, A))  => 只存destination，每个switch有table
+* source packet: (Data, (dest, C, B, A))  发展成只存destination，每个switch有table
 * two consequences
   * simple packet forwarding: No per-flow state required，state不需要store/add/remove
   * efficient sharing of links: busty data traffic; statistical multiplexing => 对packet一视同仁，可共享links
@@ -150,7 +148,7 @@ Address Structure
 
 Classless Inter-Domain Routing(CIDR，无类别域间路由)
 * address block is a pair: address, count
-* counts是2的次方?，表示netmask长度
+* counts是2的次方? 表示netmask长度
 * e.g. Stanford 5/16 blocks `5*2^(32-16)`
 * 前缀聚合，防止路由表爆炸
 * IANA(Internet Assigned Numbers Authority): give /8s to RIRs
@@ -162,9 +160,68 @@ Classless Inter-Domain Routing(CIDR，无类别域间路由)
 ##### 1-11 Address Resolution Protocol(ARP)
 * IP address(host) -> link address(Ethernet card, 48bits)
 * Addressing Problem: 一个host对应多个IP地址，不容易对应
-* 解决方案：gateway两侧ip地址不同，link address确定card，network address确定host
-* 这有点历史遗留问题，ip和link address的机制没有完全地分离开，decoupled logically but coupled in practice
-* 对于A，ip的目标是B，link的目标是gateway
+  * 解决方案：gateway两侧ip地址不同，link address确定card，network address确定host
+  * 这有点历史遗留问题，ip和link address的机制没有完全地分离开，decoupled logically but coupled in practice
+  * 对于A，ip的目标是B，link的目标是gateway
 
 * ARP，地址解析协议：由IP得到MAC地址 => 进一步可得到gateway address
-  
+  * 是一种request-reply protocol
+  * nodes cache mappings, cache entries expire
+  * 节点request a link layer broadcast address，然后收到回复，回复的packet有redundant data，看到它的节点都能生成mapping
+  * reply：原则上unicast，只回传给发送者=>实际更常见broadcast
+  * No "sharing" of state: bad state will die eventually
+  * MacOS保留20min
+  * gratuitous request: 要求不存在的mapping，推销自己
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Stanford-CS144/007.jpg" alt="ARP" style="zoom:60%;" />
+
+e.g. 
+* hardware:1(Ethernet)
+* protocol: 0x0800(IP)
+* hardware length:6 (48 bit Ethernet)
+* protocol length:4(32 bit IP)
+* opcode: 1(request) /2(reply)
+* Destination: broadcast (ff:ff:ff:ff:ff:ff)
+
+##### 1-12 recap
+
+##### 1-13 SIP, Jon Peterson Interview
+the intersection between technology and public policy
+* IETF ( The Internet Engineering Task Force)
+* ICANN（The Internet Corporation for Assigned Names and Numbers）
+
+SIP（Session Initiation Protocol，会话初始协议）
+* end-to-end的设计
+* soft switching: 将呼叫控制功能从传输层分离
+* PSTN ( Public Switched Telephone Network ) -> VOIP(Voice over Internet Protocol): telephony replacement
+
+SIP的应用场景
+* Skype内部协议转换成SIP
+* VOIP, FiOS( a telecom service offered over fiber-optic lines)
+
+现代技术
+* SDN (Software Defined Network)
+* I2RS(interface to the routing system)
+* CDN(Content Delivery Network): 1.express coverage areas 2.advertise services that they provide, in order to allow collaboration or peering among CDNs => optimal selections of CDNs
+* 识别robo calling
+
+##### 2-0 Transport (intro)
+
+* 关注TCP的correctness
+* detect errors的三个算法：checksums, cyclic redundancy checks, message authentication codes
+* TCP(Transmission Control Protocol)、UDP(User Datagram Protocol)、ICMP(Internet Control Message Protocol)
+
+##### 
+
+
+
+
+
+
+
+
+
+
+
+
+
