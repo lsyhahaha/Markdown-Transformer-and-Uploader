@@ -75,11 +75,6 @@
   4. allows for new versions of IP
   5. allows for new options to be added to header (由router处理新特性，慎重使用)
 
-<img src="Stanford-CS144/004.jpg" alt="IPv4 Datagram" style="zoom:60%;" />
-
-* IPv4 Datagram
-  * Protocol ID: 6->TCP; IANA(Internet Assigned Numbers Authority)
-
 ##### 1-4 A Day in the Life of a Packet
 * 3-way handshake
   1. client: SYN 
@@ -106,4 +101,70 @@
 
 * 一种设计理念，layers are functional components, they communicate sequentially 
 * edit -> compile -> link -> execute
+  
   * compiler: self-contained, e.g. lexical analysis, parsing the code, preprocessing declarations, code generation and optimization
+* 有时需要break layering: 比如Linux内核的部分代码C语言直接用汇编 => code不再layer-independent
+  
+  * a continual tension to improve the Internet by making cross-layer optimizations and the resulting loss of flexibility. e.g. NATs=>很难加其它类型的传输层
+  
+* layering的原因：1.modularity 2.well defined service 3.reuse 4.separation of concerns 5.continuous improvement 6.p2p communications
+
+##### 1-7 Principle: Encapsulation
+
+* TCP segment is the payload of the IP packet. IP packet encapsulates the TCP segment.
+
+* 一层层，套footer和header
+
+    * 两种写法，底层的写法(switch design)header在右边，software的写法(protocol)header在左边（IETF）
+    * VPN: (Eth, (IP, (TCP, (TLS, IP Packet))))，外层的TCP指向VPN gateway
+
+##### 1-8 Byte Order
+* 2^32 ~ 4GB ~  0x0100000000
+* 1024=0x0400	大端：0x04 0x00；小端: 0x00 0x04. 
+* Little endian: x86, big endian: ARM, network byte order
+* e.g. `uint16_t http_port=80; if(packet->port==http+port){...}` IPv4的packet_length注意大小端
+* 函数：`htons(),ntohs(),htonl(),ntohl()`
+  * host/network, short/long
+  * `#include<arpa/inet.h>`
+
+##### 1-9 IPv4 addresses
+
+goal:
+* stitch many different networks together
+* need network-independent, unique address
+
+IPv4:
+* layer 3 address
+* 4 octets  a.b.c.d
+* 子网掩码netmask: 255.128.0.0 前9位，1越少网络越大，same network不需要路由，直接link即可
+
+<img src="Stanford-CS144/004.jpg" alt="IPv4 Datagram" style="zoom:60%;" />
+
+IPv4 Datagram
+* Total Packet Length: 大端，最多65535bytes, 1400 -> 0x0578
+* Protocol ID: 6->TCP
+
+Address Structure
+* network+host
+* class A,B,C: 0,7+24; 10, 14+16; 110, 21+8
+
+Classless Inter-Domain Routing(CIDR，无类别域间路由)
+* address block is a pair: address, count
+* counts是2的次方?，表示netmask长度
+* e.g. Stanford 5/16 blocks `5*2^(32-16)`
+* 前缀聚合，防止路由表爆炸
+* IANA(Internet Assigned Numbers Authority): give /8s to RIRs
+
+##### 1-10 Longest Prefix Match(LPM)
+* forwarding table: CIDR entries
+  * default: 0.0.0.0/0
+
+##### 1-11 Address Resolution Protocol(ARP)
+* IP address(host) -> link address(Ethernet card, 48bits)
+* Addressing Problem: 一个host对应多个IP地址，不容易对应
+* 解决方案：gateway两侧ip地址不同，link address确定card，network address确定host
+* 这有点历史遗留问题，ip和link address的机制没有完全地分离开，decoupled logically but coupled in practice
+* 对于A，ip的目标是B，link的目标是gateway
+
+* ARP，地址解析协议：由IP得到MAC地址 => 进一步可得到gateway address
+  
