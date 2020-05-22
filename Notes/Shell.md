@@ -471,7 +471,10 @@ Pausing and backgrounding processes
 * 继续暂停的job：`fg和bg`；`jobs`搭配`pgrep`
 * `$!` - last backgrounded job
 * 命令行后缀`&`在背景运行命令
-* 关闭终端发出`SIGHUP`信号，解决方案：1.`nohup` 2.`disown` 3.`tmux`
+* 关闭终端发出`SIGHUP`信号，使子进程终止，解决方案：
+  1. 运行前`nohup` 
+  2. 运行后`disown` 
+  3. `tmux`
 * `SIGKILL`和`SIGSTOP`都不能被相关的系统调用阻塞，因此`SIGKILL`不会触发父进程的清理部分，可能导致子进程成为孤儿进程；如果是`SIGINT`，可能会有handler处理资源，比如有些数据还在内存，需要刷新到磁盘上。
 
 ##### Shells & Frameworks
