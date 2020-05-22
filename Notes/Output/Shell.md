@@ -569,10 +569,18 @@ fi
 * ssh可执行命令
   * `ssh foobar@server ls | grep PATTERN` 
   * `ls | ssh foobar@server grep PATTERN`
-
+* [用SSH连GitHub](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
 ```shell
-ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/id_ed25519
-ssh-keygen -y -f ~/.ssh/id_ed25519
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add -K ~/.ssh/id_rsa
+pbcopy < ~/.ssh/id_rsa.pub
+# 上github添加SSH Key
+ssh -T git@github.com
+
+
+
+ssh-keygen -y -f ~/.ssh/id_rsa
 ```
 
 
@@ -669,6 +677,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 * nohup
 #### o 
 #### p
+* pbcopy: 复制到剪贴板 `pbcopy < file`
 * ping
 * pgrep: 配合jobs
 * pkill = pgrep + kill
