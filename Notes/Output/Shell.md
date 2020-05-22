@@ -248,6 +248,7 @@ alias dkcpstop="docker-compose stop"
 * [Editor War](https://en.wikipedia.org/wiki/Editor_war)
 * [Stack Overflow survey](https://insights.stackoverflow.com/survey/2019/#development-environments-and-tools)
 *  [Vim emulation for VS code](https://github.com/VSCodeVim/Vim)：个人觉得Vim+VSCode是绝配，Vim负责文本编辑，VSCode负责插件等高级功能
+*  [在VSCode中使用Vim的正确方式](https://zhuanlan.zhihu.com/p/141248420)
 
 
 **Vim的设计逻辑：a modal editor，多模态的编辑器**
@@ -467,9 +468,11 @@ while True:
 
 Pausing and backgrounding processes
 * 暂停：`Ctrl-Z`,`SIGTSTP`
-* 继续暂停的job：`fg和bg`；`jobs`;搭配pgrep
+* 继续暂停的job：`fg和bg`；`jobs`搭配`pgrep`
 * `$!` - last backgrounded job
-* 
+* 命令行后缀`&`在背景运行命令
+* 关闭终端发出`SIGHUP`信号，解决方案：1.`nohup` 2.`disown` 3.`tmux`
+* `SIGKILL`和`SIGSTOP`都不能被相关的系统调用阻塞，因此`SIGKILL`不会触发父进程的清理部分，可能导致子进程成为孤儿进程
 
 ### Linux命令按字母分类
 #### a
@@ -488,6 +491,7 @@ Pausing and backgrounding processes
 #### d
 * d: zsh的特点，可显示最近10个目录，然后`cd -数字`进入
 * date：日期
+* disown
 * diff：[Linux中diff的渊源](https://www.cnblogs.com/moxiaopeng/articles/4853352.html)
 
 #### e
@@ -536,6 +540,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 * mkdir
 * mv
 #### n
+* nohup
 #### o 
 #### p
 * ping
@@ -549,6 +554,7 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 * tail
   * `ls -l | tail -n1`
   * -f：不断读最新内容，实时监视
+* tmux 
 * traceroute: -w 1
 #### u
 #### v
