@@ -104,6 +104,7 @@
 * 有时需要break layering: 比如Linux内核的部分代码C语言直接用汇编 => code不再layer-independent
   
   * a continual tension to improve the Internet by making cross-layer optimizations and the resulting loss of flexibility. e.g. NATs=>很难加其它类型的传输层
+  * epoll这个接口是linux独有的，FreeBSD里是kqueue
   
 * layering的原因：1.modularity 2.well defined service 3.reuse 4.separation of concerns 5.continuous improvement 6.p2p communications
 

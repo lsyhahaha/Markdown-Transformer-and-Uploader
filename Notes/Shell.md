@@ -472,7 +472,30 @@ Pausing and backgrounding processes
 * `$!` - last backgrounded job
 * 命令行后缀`&`在背景运行命令
 * 关闭终端发出`SIGHUP`信号，解决方案：1.`nohup` 2.`disown` 3.`tmux`
-* `SIGKILL`和`SIGSTOP`都不能被相关的系统调用阻塞，因此`SIGKILL`不会触发父进程的清理部分，可能导致子进程成为孤儿进程
+* `SIGKILL`和`SIGSTOP`都不能被相关的系统调用阻塞，因此`SIGKILL`不会触发父进程的清理部分，可能导致子进程成为孤儿进程；如果是`SIGINT`，可能会有handler处理资源，比如有些数据还在内存，需要刷新到磁盘上。
+
+##### Shells & Frameworks
+
+zsh的新特性
+- Smarter globbing, `**`: `**/README.md`可递归地列出相应文件
+- Inline globbing/wildcard expansion
+- Spelling correction
+- Better tab completion/selection (`XXX -`加`tab`会列出说明，很贴心)
+- Path expansion (`cd /u/lo/b` will expand as `/usr/local/bin`)
+
+
+##### Terminal Emulators
+[comparison](https://anarc.at/blog/2018-04-12-terminal-emulators-1/)
+
+重点：
+
+- Font choice
+- Color Scheme
+- Keyboard shortcuts
+- Tab/Pane support
+- Scrollback configuration
+- Performance (some newer terminals like [Alacritty](https://github.com/jwilm/alacritty) or [kitty](https://sw.kovidgoyal.net/kitty/) offer GPU acceleration).
+
 
 ### Linux命令按字母分类
 #### a
