@@ -524,7 +524,56 @@ alias dkcpstop="docker-compose stop"
 ```
 
 ##### Dotfiles
-[shell-startup的机理](https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html)
+* [很详尽的tutorial](https://www.anishathalye.com/2014/08/03/managing-your-dotfiles/)
+* [有关dotfile的种种](https://dotfiles.github.io/)
+* [shell-startup的机理](https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html)
+
+e.g.
+- `bash` - `~/.bashrc`, `~/.bash_profile`
+- `git` - `~/.gitconfig`
+- `vim` - `~/.vimrc` and the `~/.vim` folder
+- `ssh` - `~/.ssh/config`
+- `tmux` - `~/.tmux.conf`
+
+管理方法：单独的文件夹，版本控制，**symlinked** into place using a script"
+
+* **Easy installation**: if you log in to a new machine, applying your customizations will only take a minute.
+* **Portability**: your tools will work the same way everywhere.
+* **Synchronization**: you can update your dotfiles anywhere and keep them all in sync.
+* **Change tracking**: you’re probably going to be maintaining your dotfiles for your entire programming career, and version history is nice to have for long-lived projects.
+
+一些有用的构造代码块：
+```shell
+if [[ "$(uname)" == "Linux" ]]; then {do_something}; fi
+
+# Check before using shell-specific features
+if [[ "$SHELL" == "zsh" ]]; then {do_something}; fi
+
+# You can also make it machine-specific
+if [[ "$(hostname)" == "myServer" ]]; then {do_something}; fi
+
+# Test if ~/.aliases exists and source it
+if [ -f ~/.aliases ]; then
+    source ~/.aliases
+fi
+```
+
+在`~/.gitconfig`里加
+
+```
+[include]
+    path = ~/.gitconfig_local
+```
+
+##### Remote Machines
+* ssh可执行命令
+  * `ssh foobar@server ls | grep PATTERN` 
+  * `ls | ssh foobar@server grep PATTERN`
+
+```shell
+ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/id_ed25519
+ssh-keygen -y -f ~/.ssh/id_ed25519
+```
 
 
 ##### Shells & Frameworks
@@ -637,6 +686,8 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 #### v
 #### w
 * which：找到程序路径
+* [wget](https://blog.csdn.net/wangshuminjava/article/details/79916655): 断点续传-c    后台-b
+
 #### x
 * xargs：[解决命令的输入来源问题](https://blog.csdn.net/vanturman/article/details/84325846)：命令参数有标准输入和命令行参数两大来源，有的命令只接受命令行参数，需要xargs来转换标准输入
   * e.g. ` ls | xargs rm`
