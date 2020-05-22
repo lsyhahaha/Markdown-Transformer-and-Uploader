@@ -217,33 +217,6 @@ Aliases
 * pyclean [dirs]
 * pygrep \<text\> 
 
-```shell
-alias python3="/Users/huangrt01/anaconda3/bin/python3"
-# alias base
-alias ll='ls -alGh'
-alias la='ls -a'
-alias l='ls -CF'
-alias cls='clear'
-alias gs='git status'
-alias gc='git commit'
-alias gqa='git add .'
-
-alias vfzf='vim $(fzf)' #vim打开搜索到的结果文件
-alias cdfzf='cd $(find * -type d | fzf)'
-alias gitfzf='git checkout $(git branch -r | fzf)'
-
-# alias docker
-alias dkst="docker stats"
-alias dkps="docker ps"
-alias dklog="docker logs"
-alias dkpsa="docker ps -a"
-alias dkimgs="docker images"
-alias dkcpup="docker-compose up -d"
-alias dkcpdown="docker-compose down"
-alias dkcpstart="docker-compose start"
-alias dkcpstop="docker-compose stop"
-```
-
 #### Lecture3. Editors(Vim)
 * [Editor War](https://en.wikipedia.org/wiki/Editor_war)
 * [Stack Overflow survey](https://insights.stackoverflow.com/survey/2019/#development-environments-and-tools)
@@ -358,7 +331,7 @@ alias dkcpstop="docker-compose stop"
 
 * buffer操作：` :ls,:b num, :bn（下一个）, :bp（前一个）, :b#(上次的buffer) `
 * window操作： `:sp / :vsp` split window，`C-w + hjkl`切换
-* tab操作：`gt`: 切换tab
+* tab操作：`gt`切换tab
 * `Ctrl-O/I` 进入更旧/新的位置
 
 查找替换：
@@ -477,6 +450,83 @@ Pausing and backgrounding processes
   3. `tmux`
 * `SIGKILL`和`SIGSTOP`都不能被相关的系统调用阻塞，因此`SIGKILL`不会触发父进程的清理部分，可能导致子进程成为孤儿进程；如果是`SIGINT`，可能会有handler处理资源，比如有些数据还在内存，需要刷新到磁盘上。
 
+##### tmux: terminal multiplexer
+
+- Sessions - a session is an independent workspace with one or more windows    
+
+  - `tmux` starts a new session.
+  - `tmux new -s NAME` starts it with that name. `tmux rename-session -t 0 database` 重命名
+  - `tmux ls` lists the current sessions
+  - Within `tmux` typing `<C-b> d/D`  detaches the current session
+  - `tmux a` attaches the last session. You can use `-t` flag to specify which
+
+- Windows
+
+   \- Equivalent to tabs in editors or browsers, they are visually separate parts of the same session    
+
+  - `<C-b> c` Creates a new window. To close it you can just terminate the shells doing `<C-d> / exit`
+  - `<C-b> N` Go to the *N* th window. Note they are numbered
+  - `<C-b> p` Goes to the previous window
+  - `<C-b> n` Goes to the next window
+  - `<C-b> ,` Rename the current window
+  - `<C-b> w` List current windows
+
+- Panes
+
+   \- Like vim splits, panes let you have multiple shells in the same visual display.    
+
+  - `<C-b> "` Split the current pane horizontally
+  - `<C-b> %` Split the current pane vertically
+  - `<C-b> <direction>` Move to the pane in the specified *direction*. Direction here means arrow keys.
+  - `<C-b> z` make a pane go full screen. Hit `<C-b> z` again to shrink it back to its previous size
+  - `<C-b> [` Start scrollback. You can then press `<space>` to start a selection and `enter` to copy that selection.
+  - `<C-b> <space> ` Cycle through pane arrangements.
+
+* For further reading, [here](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is a quick tutorial on `tmux` and [this](http://linuxcommand.org/lc3_adv_termmux.php) has a more detailed explanation that covers the original `screen` command. You might also want to familiarize yourself with [`screen`](http://man7.org/linux/man-pages/man1/screen.1.html), since it comes installed in most UNIX systems.
+* tmux是client-server的实现模式
+
+##### Aliases
+* `alias ll`可print出alias的对象
+* `unalias ll`可解除alias
+```shell
+# alias base
+alias v='vim'
+alias ll='ls -aGhlt'
+alias la='ls -a'
+alias l='ls -CF'
+alias cls='clear'
+
+alias gs='git status'
+alias gc='git commit'
+alias gqa='git add .'
+
+alias v="vim"
+alias mv="mv -i" # -i prompts before overwrite
+alias mkdir="mkdir -p" # -p make parent dirs as needed
+alias df="df -h" # -h prints human readable format
+
+alias vfzf='vim $(fzf)' #vim打开搜索到的结果文件
+alias cdfzf='cd $(find * -type d | fzf)'
+alias gitfzf='git checkout $(git branch -r | fzf)'
+
+
+# alias docker
+alias dkst="docker stats"
+alias dkps="docker ps"
+alias dklog="docker logs"
+alias dkpsa="docker ps -a"
+alias dkimgs="docker images"
+alias dkcpup="docker-compose up -d"
+alias dkcpdown="docker-compose down"
+alias dkcpstart="docker-compose start"
+alias dkcpstop="docker-compose stop"
+
+```
+
+##### Dotfiles
+[shell-startup的机理](https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html)
+
+
 ##### Shells & Frameworks
 
 zsh的新特性
@@ -517,6 +567,7 @@ zsh的新特性
 #### d
 * d: zsh的特点，可显示最近10个目录，然后`cd -数字`进入
 * date：日期
+* df: disk情况
 * disown
 * diff：[Linux中diff的渊源](https://www.cnblogs.com/moxiaopeng/articles/4853352.html)
 
