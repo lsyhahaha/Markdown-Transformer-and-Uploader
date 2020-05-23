@@ -219,6 +219,9 @@ SIP的应用场景
 
 
 
+* [RFC 2606](https://datatracker.ietf.org/doc/rfc2606/): localhost
+
+
 
 
 

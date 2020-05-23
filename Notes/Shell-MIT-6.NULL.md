@@ -566,6 +566,11 @@ fi
 ```
 
 ##### Remote Machines
+* [装虚拟机](https://hibbard.eu/install-ubuntu-virtual-box/)
+  * `sudo apt-get install --reinstall lightdm && sudo systemctl start lightdm`图形界面
+  * `Ctrl+Alt+A`打开终端
+  * 自动/手动设置共享文件夹：`sudo mkdir -p /media/sf_<FolderName> && 
+sudo mount -t vboxsf -o rw,gid=vboxsf FolderName /media/sf_FolderName `
 * ssh可执行命令
   * `ssh foobar@server ls | grep PATTERN` 
   * `ls | ssh foobar@server grep PATTERN`
@@ -578,11 +583,13 @@ pbcopy < ~/.ssh/id_rsa.pub
 # 上github添加SSH Key
 ssh -T git@github.com
 
-
-
 ssh-keygen -y -f ~/.ssh/id_rsa
 ```
+* SSH连虚拟机
+```shell
+ssh -p 2222 cs144@localhost
 
+```
 
 ##### Shells & Frameworks
 
