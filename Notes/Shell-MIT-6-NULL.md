@@ -36,6 +36,18 @@ mcd(){
 	cd "$1"
 }
 ```
+  * for特性的实用例子
+```shell
+POLICIES=("FIFO" "LRU" "OPT" "UNOPT" "RAND" "CLOCK")
+for policy in "${POLICIES[@]}"
+do
+    for i in 1 2 3 4
+    do
+        ./paging-policy.py -c -f ./vpn.txt -p "$policy" -C "$i"
+    done
+    echo ""
+done
+```
 
 ##### special variables
   * `$0` - Name of the script
@@ -49,6 +61,7 @@ mcd(){
   * `$!` - last backgrounded job
 
 * ||和&& operator：机制和error code联系，true和false命令返回固定的error code
+  * [linux中，&和&&, |和|| ,&> 与 >的区别](https://blog.csdn.net/sunfengye/article/details/78973831)
 ```shell
 false || echo "Oops, fail"
 # Oops, fail
@@ -204,7 +217,7 @@ debug(){
   *  `find . -exec stat -f '%m%t%Sm %N' {} + | sort -n | cut -f2- | tail -n 1`
   *  `find . -type f -print0 | xargs -0 stat -f '%m%t%Sm %N' | sort -n | cut -f2- | tail -n 1`
 
-#### zsh
+##### zsh
 * [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 * [zsh的10个优点](https://blog.csdn.net/rapheler/article/details/51505003)，[zsh介绍](https://www.cnblogs.com/dhcn/p/11666845.html)
 * [MacOS配置iTerm2+zsh+powerline](https://www.jianshu.com/p/2e8c340c9496)
@@ -594,9 +607,38 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2222 cs144@localhost
 cat .ssh/id_ed25519.pub | ssh foobar@remote 'cat >> ~/.ssh/authorized_keys'
 ```
 * ssh传文件
-  - `ssh+tee`, the simplest is to use `ssh` command execution and STDIN input by doing `cat localfile | ssh remote_server tee serverfile`. Recall that [`tee`](http://man7.org/linux/man-pages/man1/tee.1.html) writes the output from STDIN into a file.
-  - [`scp`](http://man7.org/linux/man-pages/man1/scp.1.html) when copying large amounts of files/directories, the secure copy `scp` command is more convenient since it can easily recurse over paths. The syntax is `scp path/to/local_file remote_host:path/to/remote_file`
+  - `ssh+tee`, the simplest is to use `ssh` command execution and STDIN input by doing `cat localfile | ssh remote_server 'tee serverfile'`. Recall that [`tee`](http://man7.org/linux/man-pages/man1/tee.1.html) writes the output from STDIN into a file.
+  - [`scp`](http://man7.org/linux/man-pages/man1/scp.1.html) when copying large amounts of files/directories, the secure copy `scp` command is more convenient since it can easily recurse over paths. The syntax is `scp -P 2075 -r path/to/local_file remote_host:path/to/remote_file`
   - [`rsync`](http://man7.org/linux/man-pages/man1/rsync.1.html) improves upon `scp` by detecting identical files in local and remote, and preventing  copying them again. It also provides more fine grained control over  symlinks, permissions and has extra features like the `--partial` flag that can resume from a previously interrupted copy. `rsync` has a similar syntax to `scp`.
+
+* Port Forwarding: `localhost:PORT or 127.0.0.1:PORT`
+  * Local Port Forwarding: ssh端口重定向：`-L 9999:127.0.0.1:8097，比如在服务器开`jupyter notebook`
+    * <img src="Shell-MIT-6-NULL/001.png" alt="Local Port Forwarding" style="zoom:100%;" />
+  * Remote Port Forwarding
+    * <img src="Shell-MIT-6-NULL/002.png" alt="Remote Port Forwarding" style="zoom:100%;" />
+
+* ssh configuration: `~/.ssh/config`，server side: `/etc/ssh/sshd_config`，调端口、X11 forwarding等
+```shell
+Host vm
+    User foobar
+    HostName 172.16.174.141
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519
+    LocalForward 9999 localhost:8888
+
+# Configs can also take wildcards
+Host *.mit.edu
+    User foobaz
+```
+
+* 其它
+  * openconnect: `sudo openconnect --juniper  https://sslvpn.tsinghua.edu.cn -u 2015010356` 
+  
+  * vscode remote-ssh中[ssh_config的配置细节](https://linux.die.net/man/5/ssh_config) 
+  
+  * [Mosh](https://mosh.org/), the mobile shell, improves upon ssh, allowing roaming connections, intermittent connectivity and  providing intelligent local echo.
+  
+  * [sshfs](https://github.com/libfuse/sshfs) can mount a folder on a remote server locally, and then you can use a local editor.
 
 ##### Shells & Frameworks
 
@@ -703,6 +745,9 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 * tail
   * `ls -l | tail -n1`
   * -f：不断读最新内容，实时监视
+* tee: Read from standard input and write to standard output and files (or commands).
+  * 和`xargs`有相似之处，都是转化stdin用于他用
+  * `echo "example" | tee /dev/tty | xargs printf "[%s]"`
 * tmux 
 * traceroute: -w 1
 #### u
