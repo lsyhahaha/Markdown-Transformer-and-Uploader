@@ -401,7 +401,7 @@ Aliases
     - Manually remove last `,` and add `[` and `]` delimiters
   - [在vimrc中存宏](https://stackoverflow.com/questions/2024443/saving-vim-macros) 
 
-<img src="Shell/vim.png" alt="vim" style="zoom:100%;" />
+<img src="Shell-MIT-6-NULL/vim.png" alt="vim" style="zoom:100%;" />
 
 
 ##### Resources

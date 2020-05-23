@@ -5,7 +5,7 @@
 ##### 1-0 The Internet and IP Introduction
 * internet layer: Internet Protocol, IP address, packet's path
 * 彩蛋：世一大惺惺相惜
-<img src="Computer-Networking-Lecture-CS144-Stanford/005.jpg" alt="Stanford-THU" style="zoom:60%;" />
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/005.jpg" alt="Stanford-THU" style="zoom:60%;" />
 
 * 用`ping`和`traceroute`看IP地址; 光纤2/3光速，8637km - RTT=86ms
 ##### 1-1 A day in the life of an application
@@ -29,10 +29,10 @@
   * 如果模式是A -- NAT-- (Internet + Rendezvous server) -- NAT -- B，Skype用Relay来间接传递信息
   
 
-<img src="Computer-Networking-Lecture-CS144-Stanford/003.jpg" alt="Lego TCP/IP" style="zoom:60%;" />
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/003.jpg" alt="Lego TCP/IP" style="zoom:60%;" />
 
 ##### 1-2 The four layer Internet model
-<img src="Computer-Networking-Lecture-CS144-Stanford/001.jpg" alt="4-layer" style="zoom:60%;" />
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/001.jpg" alt="4-layer" style="zoom:60%;" />
 
 * 4 layer: 利于reuse
 * Internet: end-hosts, links and routers
@@ -51,7 +51,7 @@
   * IP is the "thin waist"   ,这一层的选择最少
   * the 7-layer OSI Model
 
-<img src="Computer-Networking-Lecture-CS144-Stanford/002.jpg" alt="7-layer" style="zoom:60%;" />
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/002.jpg" alt="7-layer" style="zoom:60%;" />
 
 ##### 1-3 The IP Service
 * Link Frame (IP Datagram(IP Data(Data, Hdr), IP Hdr), Link Hdr )
@@ -137,7 +137,7 @@ IPv4:
 * 4 octets  a.b.c.d
 * 子网掩码netmask: 255.128.0.0 前9位，1越少网络越大，same network不需要路由，直接link即可
 
-<img src="Computer-Networking-Lecture-CS144-Stanford/004.jpg" alt="IPv4 Datagram" style="zoom:60%;" />
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/004.jpg" alt="IPv4 Datagram" style="zoom:60%;" />
 
 IPv4 Datagram
 * Total Packet Length: 大端，最多65535bytes, 1400 -> 0x0578
@@ -174,7 +174,7 @@ Classless Inter-Domain Routing(CIDR，无类别域间路由)
   * MacOS保留20min
   * gratuitous request: 要求不存在的mapping，推销自己
 
-<img src="Computer-Networking-Lecture-CS144-Stanford/007.jpg" alt="ARP" style="zoom:60%;" />
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/007.jpg" alt="ARP" style="zoom:60%;" />
 
 e.g. 
 * hardware:1(Ethernet)
