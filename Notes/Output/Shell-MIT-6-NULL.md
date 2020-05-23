@@ -585,11 +585,18 @@ ssh -T git@github.com
 
 ssh-keygen -y -f ~/.ssh/id_rsa
 ```
-* SSH连虚拟机
+* ssh连虚拟机
 ```shell
 ssh -p 2222 cs144@localhost
-
+# ssh will look into .ssh/authorized_keys to determine which clients it should let in.
+ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2222 cs144@localhost
+# or
+cat .ssh/id_ed25519.pub | ssh foobar@remote 'cat >> ~/.ssh/authorized_keys'
 ```
+* ssh传文件
+  - `ssh+tee`, the simplest is to use `ssh` command execution and STDIN input by doing `cat localfile | ssh remote_server tee serverfile`. Recall that [`tee`](http://man7.org/linux/man-pages/man1/tee.1.html) writes the output from STDIN into a file.
+  - [`scp`](http://man7.org/linux/man-pages/man1/scp.1.html) when copying large amounts of files/directories, the secure copy `scp` command is more convenient since it can easily recurse over paths. The syntax is `scp path/to/local_file remote_host:path/to/remote_file`
+  - [`rsync`](http://man7.org/linux/man-pages/man1/rsync.1.html) improves upon `scp` by detecting identical files in local and remote, and preventing  copying them again. It also provides more fine grained control over  symlinks, permissions and has extra features like the `--partial` flag that can resume from a previously interrupted copy. `rsync` has a similar syntax to `scp`.
 
 ##### Shells & Frameworks
 
