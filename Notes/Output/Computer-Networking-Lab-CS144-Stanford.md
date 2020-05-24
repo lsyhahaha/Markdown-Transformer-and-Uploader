@@ -2,6 +2,12 @@
 ### CS144-Lab-Computer-Networking
 * 我的Lab仓库：https://github.com/huangrt01/sponge-CS144-Lab
 
+#### Lab结构
+* In Lab 1, you’ll implement astream reassembler—a module that stitches small piecesof the byte stream (known as substrings, or segments) back into a contiguous stream of bytes in the correct sequence.
+* In Lab 2, you’ll implement the part of TCP that handles the inbound byte-stream:  the **TCPReceiver**.  This involves thinking about how TCP will represent each byte’s place in the stream—known as a “sequence number.”  The **TCPReceiver** is responsible for telling the sender (a) how much of the inbound byte stream it’s been able to assemble successfully (this is called “acknowledgment”) and (b) how many more bytes the sender is allowed to send right now (“flow control”).
+* In Lab 3, you’ll implement the part of TCP that handles the outbound byte-stream:  the **TCPSender**.  How should the sender react when it suspects that a segment it transmitted was lost along the way and never made it to the receiver?  When should it try again and re-transmit a lost segment?
+* In Lab 4,  you’ll combine your work from the previous to labs to create a working TCP implementation:  a **TCPConnection** that contains a **TCPSender** and **TCPReceiver**.You’ll use this to talk to real servers around the world.
+
 #### Lab0: networking warmup
 ##### 1.配环境
 设虚拟机，[实验指导书](https://stanford.edu/class/cs144/vm_howto/vm-howto-image.html#connect) ，可参考[Shell笔记](https://github.com/huangrt01/Markdown-Transformer-and-Uploader/blob/master/Notes/Output/Shell-MIT-6-NULL.md)，迁移dotfiles
@@ -91,3 +97,7 @@ void get_URL(const string &host, const string &path) {
 ```
 
 3.5 An in-memory reliable byte stream
+* 数据结构deque，注意eof的判断条件即可
+
+#### lab1:stitching substrings into a byte stream
+##### 3.Putting substrings in sequence

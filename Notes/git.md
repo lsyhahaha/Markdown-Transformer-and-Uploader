@@ -1,6 +1,8 @@
 ### Git
 * Git的理念
+  * distributed version control system (DVCS) 
   *  The  Platonic  ideal  is  that  each  commit should compile and should move steadily towards more and more tests passing. 
+* [git handbook](https://guides.github.com/introduction/git-handbook/)
 * [resources to learn Git](https://try.github.io/)
 
 * git clone --depth=1：clone速度慢的时候可以试试只clone最后一次commit
@@ -22,3 +24,8 @@ ssh-keygen -y -f ~/.ssh/id_rsa
 * 如果设置ssh key后，git push仍然要求输入邮箱密码
   * `git remote -v`查看origin使用的是https还是ssh
   * 如果是https，替换成ssh即可 `git remote set-url origin git@github.com:huangrt01/XXX.git`
+
+#### 其它
+* [tig](https://jonas.github.io/tig/doc/manual.html)：图形化git历史
+  * 先安装[ncurses](https://blog.csdn.net/weixin_40123831/article/details/82490687)
+  * [使用指南](https://www.jianshu.com/p/d9f60c0abbf7)
