@@ -4,10 +4,26 @@
   *  The  Platonic  ideal  is  that  each  commit should compile and should move steadily towards more and more tests passing. 
 * [git handbook](https://guides.github.com/introduction/git-handbook/)
 * [resources to learn Git](https://try.github.io/)
-
-* git clone --depth=1：clone速度慢的时候可以试试只clone最后一次commit
 * [如何fork一个私库](https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private)
-* `git push origin lab1:lab1`
+
+#### 重要命令
+* `git clone` creates a local copy of a project that already exists remotely. The  clone includes all the project’s files, history, and branches.
+  * --depth=1：clone速度慢的时候只clone最后一次commit 
+
+* `git add` stages a change. Git tracks changes to a developer’s codebase, but it’s necessary to stage and take a snapshot of the changes to include them  in the project’s history. This command performs staging, the first part  of that two-step process. Any changes that are staged will become a part of the next snapshot and a part of the project’s history. Staging and  committing separately gives developers complete control over the history of their project without changing how they code and work.
+
+* `git commit` saves the snapshot to the project history and completes the  change-tracking process. In short, a commit functions like taking a  photo. Anything that’s been staged with `git add` will become a part of the snapshot with `git commit`.
+
+* `git status` shows the status of changes as untracked, modified, or staged.
+
+* `git branch` shows the branches being worked on locally.
+
+* `git merge` merges lines of development together. This command is typically used to combine changes made on two distinct branches. For example, a developer would merge when they want to combine changes from a feature branch  into the master branch for deployment.
+
+* `git pull` updates the local line of development with updates from its remote  counterpart. Developers use this command if a teammate has made commits  to a branch on a remote, and they would like to reflect those changes in their local environment.
+
+* `git push` updates the remote repository with any commits made locally to a branch.
+  * `git push origin lab1:lab1`
 
 #### 和Github联动
 * [用SSH连GitHub](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
