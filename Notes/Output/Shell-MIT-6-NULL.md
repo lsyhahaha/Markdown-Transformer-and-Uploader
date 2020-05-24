@@ -598,6 +598,7 @@ ssh -T git@github.com
 
 ssh-keygen -y -f ~/.ssh/id_rsa
 ```
+* [ssh agent及其forwarding特性](https://www.ssh.com/ssh/agent#ssh-agent-forwarding)
 * ssh连虚拟机
 ```shell
 ssh -p 2222 cs144@localhost
@@ -730,6 +731,9 @@ find . -name '*.png' -exec convert {} {.}.jpg \;
 * mkdir
 * mv
 #### n
+* [nc(netcat)](https://zhuanlan.zhihu.com/p/83959309): TCP/IP 的瑞士军刀
+  * 端口测试
+  * 
 * nohup
 #### o 
 #### p
