@@ -212,13 +212,15 @@ SIP的应用场景
 * detect errors的三个算法：checksums, cyclic redundancy checks, message authentication codes
 * TCP(Transmission Control Protocol)、UDP(User Datagram Protocol)、ICMP(Internet Control Message Protocol)
 
-##### 
 
 
 
 
 
 
+
+
+##### potpourri
 * [RFC 2606](https://datatracker.ietf.org/doc/rfc2606/): localhost
 
 
