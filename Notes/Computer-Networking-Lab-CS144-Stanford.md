@@ -1,6 +1,8 @@
 [toc]
 ### CS144-Lab-Computer-Networking
 * 我的Lab仓库：https://github.com/huangrt01/sponge-CS144-Lab
+* [CS144: Lab FAQs](https://cs144.github.io/lab_faq.html)
+* [Sponge: Class Hierarchy]()
 
 #### Lab结构
 * In Lab 1, you’ll implement astream reassembler—a module that stitches small piecesof the byte stream (known as substrings, or segments) back into a contiguous stream of bytes in the correct sequence.
@@ -101,3 +103,5 @@ void get_URL(const string &host, const string &path) {
 
 #### lab1:stitching substrings into a byte stream
 ##### 3.Putting substrings in sequence
+* 感觉可以用二分查找+hash
+* Q：未完成状态下，`_output`储存什么样的数据
