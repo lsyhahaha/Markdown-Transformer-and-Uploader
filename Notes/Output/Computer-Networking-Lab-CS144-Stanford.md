@@ -57,10 +57,6 @@ OS stream socket： ability to create areliable bidirectional in-order byte stre
 
 3.2 Modern C++: mostly safe but still fast and low-level
 
-* RAII原则：Resource acquisition is initialization
-  * [CppCoreGuidelines](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md)
-  * 用[CppCheck](http://cppcheck.net/)诊断，`make cppcheck`
-
 * 读文档：https://cs144.github.io/doc/lab0/inherits.html
   * a Socket is a type of FileDescriptor, and a TCPSocket is a type of Socket.
 
