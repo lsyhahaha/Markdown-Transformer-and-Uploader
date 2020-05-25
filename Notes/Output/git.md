@@ -2,7 +2,8 @@
 * Git的理念
   * distributed version control system (DVCS) 
   *  The  Platonic  ideal  is  that  each  commit should compile and should move steadily towards more and more tests passing. 
-* [git handbook](https://guides.github.com/introduction/git-handbook/)
+* [git handbook](https://guides.github.com/introduction/git-handbook/)，里面有一些资源
+* [完整doc文档](https://git-scm.com/docs)
 * [resources to learn Git](https://try.github.io/)
 * [如何fork一个私库](https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private)
 
@@ -26,6 +27,7 @@
   * `git push origin lab1:lab1`
 
 #### 和Github联动
+* GitHub is a Git hosting repository that provides developers with tools to ship better code through command line features, issues (threaded discussions), pull requests, code review, or the use of a collection of free and for-purchase apps in the GitHub Marketplace. 
 * [用SSH连GitHub](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
 ```shell
 ssh-keygen -t rsa -b 4096 -C "huangrt01@163.com"
