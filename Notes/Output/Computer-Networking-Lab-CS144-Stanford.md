@@ -1,8 +1,22 @@
 [toc]
 ### CS144-Lab-Computer-Networking
 * 我的Lab仓库：https://github.com/huangrt01/sponge-CS144-Lab
+* [CS144课程网站（包括pdf、project）](https://cs144.github.io/)
 * [CS144: Lab FAQs](https://cs144.github.io/lab_faq.html)
 * [Sponge: Class Hierarchy]()
+
+
+- [x] Lab 0: networking warmup
+
+- [x] Lab 1: stitching substrings into a byte stream
+
+- [ ] Lab 2: the TCP receiver
+
+- [ ] Lab 3: the TCP sender
+
+- [ ] Lab 4: the TCP connection
+- [ ] Lab 5: the network interface
+- [ ] Lab 6: the IP router  
 
 #### Lab结构
 * In Lab 1, you’ll implement astream reassembler—a module that stitches small piecesof the byte stream (known as substrings, or segments) back into a contiguous stream of bytes in the correct sequence.
@@ -110,7 +124,8 @@ void get_URL(const string &host, const string &path) {
 
 #### 工程细节
 * [注意迭代器的使用](https://www.cnblogs.com/blueoverflow/p/4923523.html)
-* 如果iterator重复erase，可能在初始化string时会发生未知的seg fault
+  * `container.erase(iter++)`, 同时完成删除和迭代
+* 如果iterator重复erase，可能在初始化string时发生未知的seg fault
 * 单元测试
   * 用generate生成随机数据
 ```c++
