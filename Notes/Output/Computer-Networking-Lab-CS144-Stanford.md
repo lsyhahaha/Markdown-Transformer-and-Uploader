@@ -134,3 +134,16 @@ const size_t size = 1024;
 string d(size, 0);
 generate(d.begin(), d.end(), [&] { return rd(); });
 ```
+
+
+* 类cmp函数的定义，适用 `lower_bound()`方法
+  * 两个**const**都不能掉！
+```c++
+class typeUnassembled {
+  public:
+    size_t index;
+    std::string data;
+    typeUnassembled(size_t _index, std::string _data) : index(_index), data(_data) {}
+    bool operator<(const typeUnassembled &t1) const { return index < t1.index; }
+};
+```
