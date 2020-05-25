@@ -103,5 +103,19 @@ void get_URL(const string &host, const string &path) {
 
 #### lab1:stitching substrings into a byte stream
 ##### 3.Putting substrings in sequence
-* 感觉可以用二分查找+hash
-* Q：未完成状态下，`_output`储存什么样的数据
+* 用set保存(index, data)数据，便于查找，可以用`lower_bound`查找，代码视线中省略了，采用的顺序遍历
+* `push_substring`的bytes接收范围图
+  * <img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lab-CS144-Stanford/reassembler.png" alt="reassembler" style="zoom:100%;" />
+
+
+#### 工程细节
+* [注意迭代器的使用](https://www.cnblogs.com/blueoverflow/p/4923523.html)
+* 如果iterator重复erase，可能在初始化string时会发生未知的seg fault
+* 单元测试
+  * 用generate生成随机数据
+```c++
+auto rd = get_random_generator();
+const size_t size = 1024;
+string d(size, 0);
+generate(d.begin(), d.end(), [&] { return rd(); });
+```
