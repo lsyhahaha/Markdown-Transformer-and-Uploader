@@ -298,9 +298,43 @@ SIP的应用场景
   * traceroute 发送的 UDP 数据报端口号是大于 30000 的。如果目的主机没有任何程序使用该端口，主机会产生一个3 3(端口不可达)ICMP报文给源主机。
 
 ##### 2-4 End-to-End Principle
+**Why Doesn't the Network Help?**
+* e.g.：压缩数据、Reformat/translate/improve requests、serve cached data、add security、migrate connections across the network
+* end-to-end principle: function的正确完整实现只依赖于通信系统的end points
+
+end-to-end check 
+* e.g. File Transfer: link layer的error detection只检测transmission错误，不检测error storage
+* e.g. TCP小概率会出错（stack）、BitTorrent
+* wireless link相比wire link功能复杂，可靠性低，所以在link layer重传，可提升TCP性能
+* RFC1958: "strong" end to end: 不推荐在middle实现任何功能，比如在link layer重传，假定了reliabilty的提升值得latency的牺牲
+
+##### 2-5 Error Detection: 3 schemes: 3 schemes
+
+* detect errors的三个算法：checksums, CRC(cyclic redundancy checks), MAC(message authentication codes)
+  * append: ethernet CRC, TLS MAC
+  * prepend: IP checksum
+* CRC: computes remainder of a polynomial (Ethernet)
+* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##### potpourri
 * RFC 792: ICMP Message
+* [RFC 1958](https://datatracker.ietf.org/doc/rfc1958/?include_text=1):Architectural Principles of the Internet
 * [RFC 2606](https://datatracker.ietf.org/doc/rfc2606/): localhost
 * [RFC 6335](https://tools.ietf.org/html/rfc6335): port number
 
