@@ -58,7 +58,7 @@
 * The IP Service Model的特点
   * Datagram: (Data, IP SA, IP DA)，每个router有forwarding table，类比为postal service中的letter
   * Unreliable: 失去/损坏/复制，保证只在必要的时候不可靠（比如queue congestion）
-  * Best-effort attempt
+  * **Best-effort** attempt
   * Connectionless : no per-flow state, mis-sequenced
 * IP设计简单的原因
   * minimal, faster, streamlined
@@ -101,10 +101,11 @@
 * edit -> compile -> link -> execute
   
   * compiler: self-contained, e.g. lexical analysis, parsing the code, preprocessing declarations, code generation and optimization
-* 有时需要break layering: 比如Linux内核的部分代码C语言直接用汇编 => code不再layer-independent
-  
+* 有时需要break layering
+  * 比如Linux内核的部分代码C语言直接用汇编 => code不再layer-independent
   * a continual tension to improve the Internet by making cross-layer optimizations and the resulting loss of flexibility. e.g. NATs=>很难加其它类型的传输层
   * epoll这个接口是linux独有的，FreeBSD里是kqueue
+  * UDP header的checksum计算用到IP header
   
 * layering的原因：1.modularity 2.well defined service 3.reuse 4.separation of concerns 5.continuous improvement 6.p2p communications
 
@@ -212,16 +213,96 @@ SIP的应用场景
 * detect errors的三个算法：checksums, cyclic redundancy checks, message authentication codes
 * TCP(Transmission Control Protocol)、UDP(User Datagram Protocol)、ICMP(Internet Control Message Protocol)
 
+##### 2-1 The TCP Service Model
+**The TCP Service Model**
+
+* reliable, end-to-end, bi-directional,in-sequence, bytestream service
+* Peer TCP layers communicate: connection
+* congestion control
+
+**过程**
+
+* 3-way handshake
+  1. client: SYN, 送base number to identify bytes
+  2. server: SYN/ACK, 也送base number
+  3. client: ACK
+* 传送TCP segment，最小可以1byte，比如在ssh session打字
+* connection teardown
+  1. A: FIN
+  2. B: (Data +) ACK
+  3. B: FIN
+  4. A; ACK
+
+**Techniques to manufacture reliability**
+
+* Remedies
+  * Sequence numbers: detect missing data
+  * Acknowledgments: correct delivery
+    * Acknowledgment (from receiver to sender)  
+    * Timer and timeout (at sender)
+    * Retransmission (by sender)
+  * Checksums/MACs: detect corrupted data
+    * Header checksum (IP)
+    * Data checksum (UDP)
+	* Window-based Flow-control: prevents overrunning receiver
+  * FEC
+  * Retransmission
+  * Heartbeats
+* Correlated failure
+* TCP/DNS
+* Paradox of airplanes
 
 
 
+**The TCP Segment Format**
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/008.jpg" alt="TCP header" style="zoom:60%;" />
 
+* [IANA port number](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml): ssh 22, smtp 23, web 80
+* source port: 初始化用不同的port避免冲突
+* PSH flag: push，比如键盘敲击
+* HLEN和(TCP options)联系
 
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/009.jpg" alt="TCP uniqueness" style="zoom:60%;" />
+* 五个部分，104bit
+* 唯一性
+  * 要求source port initiator每次increment:64k new connections
+  * TCP picks ISN to avoid overlap with previous connection with same ID, 多一个域，增加随机性
 
+##### 2-2 UDP service model
+不需要可靠性：app自己控制重传，比如早期版本的NFS(network file system)
 
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/010.jpg" alt="UDP header" style="zoom:60%;" />
+* Checksum对于IPv4可选，可以为全0
+* checksum用了IP header，违背layering principle，因为能detect错传
+* UDP header有length字段，而TCP没有，因为TCP对空间要求高，用隐含的方式计算length
+* port demultiplexing, connectionless, unreliable
+
+应用
+* DNS: domain name system，因为request全在datagram里
+* DHCP: Dynamic Host Configuration Protocol
+  * new host当join网络时找到IP
+  * 连WiFi
+* 对重传、拥塞控制、in-sequence delivery有special needs的应用，比如音频，但现在UDP不像以前用的那么多，因为很多是http，基于TCP。
+
+##### 2-3 The Internet Control Message Protocol (ICMP) Service Model
+* 用于report errors and diagnoise problems about network layer
+* 网络层work的三个因素：IP、Routing Tables、ICMP
+
+<img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/011.jpg" alt="ICMP" style="zoom:40%;" />
+
+* Message的意义见RFC 792
+* 应用于ping：先发送8 0( echo request)，再送回0 0(echo reply)
+* 应用于traceroute: 
+  * 核心思想：连续发送TTL从1开始递增的UDP，期待回复的11 0(TTL expires)
+  * 由于路由选择问题，traceroute 无法保证每次到同一个主机经过的路由都是相同的。
+  * traceroute 发送的 UDP 数据报端口号是大于 30000 的。如果目的主机没有任何程序使用该端口，主机会产生一个3 3(端口不可达)ICMP报文给源主机。
+
+##### 2-4 End-to-End Principle
 
 ##### potpourri
+* RFC 792: ICMP Message
 * [RFC 2606](https://datatracker.ietf.org/doc/rfc2606/): localhost
+* [RFC 6335](https://tools.ietf.org/html/rfc6335): port number
 
 
 
