@@ -313,8 +313,26 @@ end-to-end check
 * detect errors的三个算法：checksums, CRC(cyclic redundancy checks), MAC(message authentication codes)
   * append: ethernet CRC, TLS MAC
   * prepend: IP checksum
-* CRC: computes remainder of a polynomial (Ethernet)，见[通信与网络笔记]()
-* 
+
+* Checksum (IP, TCP)
+  * not very robust, 只能检1位错
+  * fast and cheap even in software
+  * IP, UDP, TCP use one's complement算法：16-bit word packet求和，进位加到底部，再取反码（特例：0xffff -> 0xffff，因为在TCP，checksum field为0意味着没有checksum）
+* CRC: computes remainder of a polynomial (Ethernet)，见[通信与网络笔记](https://github.com/huangrt01/CS-Notes/blob/master/Notes/%E9%80%9A%E4%BF%A1%E4%B8%8E%E7%BD%91%E7%BB%9C.md)
+  * 虽然more expensive，但支持硬件计算
+  * 可对抗2 bits error、奇数error、小于c bits的突发错(burst)
+  * 可incrementally计算
+  * e.g. USB(CRC-16): $\bf{M} = 0x8005 = x^{16}+x^{15}+x^2+1$，对于generator需要给左边pad 1
+* MAC: message authentication code: cryptographic transformation of data(TLS)
+  * robust to malicious modifications, but not errors
+  * 检错能力有局限，受随机性影响，不如CRC，no error detection guarantee
+  * $c=MAC(M,s)$，M + c意味着对方有secret或者replay
+  * 对于replay，`ctr++`, 具体见[我的密码学笔记](https://github.com/huangrt01/CS-Notes/blob/master/Notes/Output/Cryptography%20I%2C%20Stanford%20University%2C%20Coursera.md)的TLS部分
+  
+##### 2-6 Finite State Machines
+<img src="Computer-Networking-Lecture-CS144-Stanford/012.jpg" alt="HTTP Request" style="zoom:40%;" />
+
+<img src="Computer-Networking-Lecture-CS144-Stanford/013.jpg" alt="TCP Connection" style="zoom:100%;" />
 
 
 
