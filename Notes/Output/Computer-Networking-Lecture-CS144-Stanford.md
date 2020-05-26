@@ -313,7 +313,7 @@ end-to-end check
 * detect errors的三个算法：checksums, CRC(cyclic redundancy checks), MAC(message authentication codes)
   * append: ethernet CRC, TLS MAC
   * prepend: IP checksum
-* CRC: computes remainder of a polynomial (Ethernet)
+* CRC: computes remainder of a polynomial (Ethernet)，见[通信与网络笔记]()
 * 
 
 
