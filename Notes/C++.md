@@ -57,6 +57,10 @@ public:
 ```
 * 类的静态成员函数指针
 
+#### 编程习惯
+RAII原则：Resource acquisition is initialization
+* [CppCoreGuidelines](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md)
+* 用[CppCheck](http://cppcheck.net/)诊断，`make cppcheck`
 
 #### 输入输出
 

@@ -124,7 +124,25 @@ void get_URL(const string &host, const string &path) {
   * <img src="Computer-Networking-Lab-CS144-Stanford/reassembler.png" alt="reassembler" style="zoom:100%;" />
 
 #### lab2: the TCP receiver
-##### 
+##### 3.1 Sequence Numbers
+
+<img src="Computer-Networking-Lab-CS144-Stanford/001.jpg" alt="different index" style="zoom:100%;" />
+* 利用头文件中的函数简化代码
+* 计算出相对checkpoint的偏移量之后，再转化成离checkpoint最近的点，如果加多了就左移，注意返回值太小无法左移的情形。
+
+```c++
+uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
+    uint32_t offset = n - wrap(checkpoint, isn);
+    uint64_t ret = checkpoint + offset;
+    // 取距离checkpoint最近的值，因此判断的情况是否左移ret
+    //注意位置不够左移的情形！！！
+    if (offset >= (1u << 31) && ret >= UINT32_LEN)
+        ret -= (1ul << 32);
+    return ret;
+}
+```
+
+
 
 
 #### 工程细节
