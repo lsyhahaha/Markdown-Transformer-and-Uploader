@@ -1,6 +1,7 @@
 ### Stanford CS144
 * [CS144视频（b站）](https://www.bilibili.com/video/BV1wt41167iN?from=search&seid=12807244912122184980)
-* [CS144课程网站（包括pdf、project）](https://cs144.github.io/)
+* [CS144课程网站（包括Pdf、Lab）](https://cs144.github.io/)
+* [我的CS144 Lab分析]()(https://github.com/huangrt01/CS-Notes/blob/master/Notes/Output/Computer-Networking-Lab-CS144-Stanford.md)
 
 ##### 1-0 The Internet and IP Introduction
 * internet layer: Internet Protocol, IP address, packet's path
@@ -157,6 +158,7 @@ Classless Inter-Domain Routing(CIDR，无类别域间路由)
 
 ##### 1-10 Longest Prefix Match(LPM)
 * forwarding table: CIDR entries
+  * LPM的前提是必须先match，再看prefix
   * default: 0.0.0.0/0
 
 ##### 1-11 Address Resolution Protocol(ARP)
@@ -170,9 +172,9 @@ Classless Inter-Domain Routing(CIDR，无类别域间路由)
   * 是一种request-reply protocol
   * nodes cache mappings, cache entries expire
   * 节点request a link layer broadcast address，然后收到回复，回复的packet有redundant data，看到它的节点都能生成mapping
-  * reply：原则上unicast，只回传给发送者=>实际更常见broadcast
+  * reply：原则上unicast，只回传给发送者=>实际实现时更常见broadcast
   * No "sharing" of state: bad state will die eventually
-  * MacOS保留20min
+  * MacOS中保留20min
   * gratuitous request: 要求不存在的mapping，推销自己
 
 <img src="Computer-Networking-Lecture-CS144-Stanford/007.jpg" alt="ARP" style="zoom:60%;" />
@@ -220,7 +222,7 @@ SIP的应用场景
 * Peer TCP layers communicate: connection
 * congestion control
 
-**过程**
+**过程**：三次握手和四次挥手
 
 * 3-way handshake
   1. client: SYN, 送base number to identify bytes
@@ -228,10 +230,10 @@ SIP的应用场景
   3. client: ACK
 * 传送TCP segment，最小可以1byte，比如在ssh session打字
 * connection teardown
-  1. A: FIN
-  2. B: (Data +) ACK
-  3. B: FIN
-  4. A; ACK
+  1. client: FIN
+  2. server: (Data +) ACK
+  3. server: FIN
+  4. client: ACK
 
 **Techniques to manufacture reliability**
 
@@ -278,9 +280,9 @@ SIP的应用场景
 * port demultiplexing, connectionless, unreliable
 
 应用
-* DNS: domain name system，因为request全在datagram里
+* DNS: domain name system，因为request全在单个datagram里
 * DHCP: Dynamic Host Configuration Protocol
-  * new host当join网络时找到IP
+  * new host在join网络时得到IP
   * 连WiFi
 * 对重传、拥塞控制、in-sequence delivery有special needs的应用，比如音频，但现在UDP不像以前用的那么多，因为很多是http，基于TCP。
 
@@ -333,6 +335,25 @@ end-to-end check
 <img src="Computer-Networking-Lecture-CS144-Stanford/012.jpg" alt="HTTP Request" style="zoom:40%;" />
 
 <img src="Computer-Networking-Lecture-CS144-Stanford/013.jpg" alt="TCP Connection" style="zoom:100%;" />
+
+##### 2-7 Flow Control: Stop-and-Wait
+* 核心是receiver给sender反馈，让sender不要送太多packets
+* 基本方法
+  * stop and wait
+  * sliding window
+
+**stop and wait**
+* flight中最多一个packet
+* 针对ACK Delay（收到ACK的时间刚好在timeout之后）的情形，会有duplicates
+  * 解决方案：用一个1-bit counter提供信息
+  * assumptions：1）网络不产生重复packets；2）不delay multiple timeouts
+
+<img src="Computer-Networking-Lecture-CS144-Stanford/014.jpg" alt="stop-and-wait" style="zoom:100%;" />
+
+##### 2-7 Flow Control II: Sliding Window
+
+
+
 
 
 
