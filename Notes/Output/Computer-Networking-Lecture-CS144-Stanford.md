@@ -336,6 +336,8 @@ end-to-end check
 
 <img src="https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/master/Notes/Computer-Networking-Lecture-CS144-Stanford/013.jpg" alt="TCP Connection" style="zoom:100%;" />
 
+* 非常规路线的处理：比如对于第二个SYN或者FIN信号，接收机选择忽视，具体见`bool TCPReceiver::segment_received(const TCPSegment &seg)`的实现
+
 ##### 2-7 Flow Control I: Stop-and-Wait
 * 核心是receiver给sender反馈，让sender不要送太多packets
 * 基本方法
@@ -369,7 +371,7 @@ end-to-end check
 * Maintain 3 variables
   * Receive window size(RWS)
   * Last acceptable segment(LAS)
-  * Last segment receiver(LSR)
+  * Last segment received(LSR)
 * Maintain invariant:  <img src="https://www.zhihu.com/equation?tex=%28LAS%20-%20LSR%29%20%5Cleq%20RWS" alt="(LAS - LSR) \leq RWS" class="ee_img tr_noresize" eeimg="1"> 
 * 如果收到的packet比LAS小，则发送ack
   * 发送cumulative acks: 收到1, 2, 3, 5，发送3
