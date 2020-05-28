@@ -141,6 +141,19 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
     return ret;
 }
 ```
+##### 3.2 window
+* lower:ackno     
+* higher~window size
+* window size = capacity - ByteStream.buffer_size()
+
+##### 3.3 TCP receiver的实现
+1. receive segmentsfrom its peer
+2. reassemble the ByteStream using your StreamReassembler, and calculate the 
+3. acknowledgment number (ackno) 
+4. and the window size.
+
+* `_reassembler`忽视SYN，所以要手动对index减1、ackno()加1
+* 非常规路线的处理：比如对于第二个SYN或者FIN信号，接收机选择忽视，具体见`bool TCPReceiver::segment_received(const TCPSegment &seg)`的实现
 
 
 
@@ -158,7 +171,6 @@ string d(size, 0);
 generate(d.begin(), d.end(), [&] { return rd(); });
 ```
 
-
 * 类cmp函数的定义，适用 `lower_bound()`方法
   * 两个**const**都不能掉！
 ```c++
@@ -170,3 +182,4 @@ class typeUnassembled {
     bool operator<(const typeUnassembled &t1) const { return index < t1.index; }
 };
 ```
+* `urg = static_cast<bool>(fl_b & 0b0010'0000); // binary literals and ' digit separator since C++14!!!`
