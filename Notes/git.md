@@ -33,6 +33,7 @@
   * 更新：`git submodule update --init --remote`
   * 如果报错already exists in the index ，用`git rm -r --cached /path`解决此问题 
   * 这个特性很适合和[dotfiles](https://github.com/huangrt01/dotfiles)搭配，但如果用在项目里可能[出现问题](https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/)，尤其是需要commit模块代码的时候
+  * [使用时可能遇到的坑的集合](https://blog.csdn.net/a13271785989/article/details/42777793)
   * commit的时候有坑，需要先commit子模块，再commit主体，参考：https://stackoverflow.com/questions/8488887/git-error-changes-not-staged-for-commit
 
 #### 和Github联动
