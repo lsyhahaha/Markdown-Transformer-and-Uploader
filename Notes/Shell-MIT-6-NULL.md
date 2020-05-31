@@ -6,7 +6,8 @@
 https://missing.csail.mit.edu/ ，介绍了如何利用工具提升效率
 
 #### Lecture1. Course overview + the shell
-* shell：空格分割输入，`~` is short for "home"
+* shell：空格分割输入，`~` is short for "home"，`.`表示当前文件夹
+  * `.`在UNIX系统的[遗留问题](https://plus.google.com/101960720994009339267/posts/R58WgWwN9jp)
 * environment variable: `echo $PATH`; `vim ~/.zshrc`
   * `$PATH`可以作为输入
 * connecting programs：
@@ -14,7 +15,6 @@ https://missing.csail.mit.edu/ ，介绍了如何利用工具提升效率
   * `cat < hello.txt > hello2.txt`
   * wire: `ls -l | tail -n1`，``
   * `curl --head --silent baidu.com | grep --ignore-case content-length | cut -f2 -d ' '`
-
 * sudo: super user，linux系统可改/sys下面的sysfs
 
 `echo 1 | sudo tee /sys/class/leds/input6::scrolllock/brightness`
