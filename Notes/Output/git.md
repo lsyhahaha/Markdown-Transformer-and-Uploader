@@ -24,6 +24,14 @@
 
 * `git pull` updates the local line of development with updates from its remote  counterpart. Developers use this command if a teammate has made commits  to a branch on a remote, and they would like to reflect those changes in their local environment.
 
+* `git fetch`可以获取最新版本
+```shell
+git fetch origin master:tmp
+git diff tmp
+git merge tmp
+git branch -d tmp
+```
+
 * `git push` updates the remote repository with any commits made locally to a branch.
   * `git push origin lab1:lab1`
   * `git push --set-upstream origin my-branch`，本地关联远程分支，用来省略上面一行的分支标注
