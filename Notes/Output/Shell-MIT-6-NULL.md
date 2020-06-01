@@ -548,7 +548,7 @@ alias dkcpstop="docker-compose stop"
 ```
 
 ##### Dotfiles
-* [很详尽的tutorial](https://www.anishathalye.com/2014/08/03/managing-your-dotfiles/)
+* [Anish: 很详尽的tutorial](https://www.anishathalye.com/2014/08/03/managing-your-dotfiles/)
 * [有关dotfile的种种](https://dotfiles.github.io/)
 * [shell-startup的机理](https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html)
 
@@ -693,6 +693,7 @@ pidwait(){
 }
 ```
 * `history | awk '{ <img src="https://www.zhihu.com/equation?tex=1%3D%22%22%3Bprint%20substr%28" alt="1="";print substr(" class="ee_img tr_noresize" eeimg="1"> 0,2)}' | sort | uniq -c | sort -n | tail -n 10` 可得到使用频率最高的10个命令
+* [background port forwarding](https://mpharrigan.com/2016/05/17/background-ssh.html)
 
 
 #### Lecture 6.Version Control (Git)
