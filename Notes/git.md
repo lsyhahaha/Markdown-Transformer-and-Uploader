@@ -36,6 +36,9 @@ git branch -d tmp
   * `git push origin lab1:lab1`
   * `git push --set-upstream origin my-branch`，本地关联远程分支，用来省略上面一行的分支标注
 
+* `git reset`
+  * `git reset --hard` 回到上次commit的版本，配合`git pull` 
+
 * `git submodule add <url> /path`
   * clone之后初始化：`git submodule update --init --recursive`
   * 更新：`git submodule update --init --remote`

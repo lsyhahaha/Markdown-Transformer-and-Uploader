@@ -692,6 +692,7 @@ pidwait(){
 	done
 }
 ```
+* `history | awk '{$1="";print substr($0,2)}' | sort | uniq -c | sort -n | tail -n 10` 可得到使用频率最高的10个命令
 
 
 #### Lecture 6.Version Control (Git)
@@ -701,6 +702,7 @@ pidwait(){
 
 ### Linux命令按字母分类
 #### a
+* awk: 一种控制台编程工具，寻找和处理pattern
 #### b
 * bg: resume后台暂停的命令
 #### c
