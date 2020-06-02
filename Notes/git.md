@@ -114,7 +114,6 @@ git reset --hard XXXXXXXX
 git push origin HEAD --force # 回退remote敏感信息
 ```
 - `git checkout -- <file>`: discard changes
-  - `git checkout master`: 丢弃未commit的变化 
 
 ##### Advanced Git
 - `git cat-file -p`: 显示对象信息
