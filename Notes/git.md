@@ -64,6 +64,7 @@ def load(id):
 * 和`git add`相关
   * Git tracks changes to a developer’s codebase, but it’s necessary to stage and take a snapshot of the changes to include them  in the project’s history. `git add` performs staging, the first part  of that two-step process. Any changes that are staged will become a part of the next snapshot and a part of the project’s history. Staging and  committing separately gives developers complete control over the history of their project without changing how they code and work. 
 * 意义在于摆脱snapshot和当前状态的绝对联系，使commit操作更灵活
+* checkout在working directory之间切换；reset从staging area回复到working directory
 
 
 
@@ -76,7 +77,9 @@ def load(id):
   - [freenode](https://freenode.net/) 的`#git`和`#github`频道寻求帮助
 - `git init`: creates a new git repo, with data stored in the `.git` directory
 - `git status`: tells you what's going on
+  - `git status -s`: 左列是staging area，右列是working tree 
 - `git add <filename>`: adds files to staging area
+  - 对于同一文件，add之后有新改动要重新add
 - `git commit`: creates a new commit
   - Write [good commit messages](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) and Even more reasons to write [good commit messages](https://chris.beams.io/posts/git-commit/): 大写开头，祈使句，简短
   - saves the snapshot to the project history and completes the  change-tracking process. In short, a commit functions like taking a photo. Anything that’s been staged with `git add` will become a part of the snapshot with `git commit`.
@@ -84,9 +87,22 @@ def load(id):
 - `git log`: shows a flattened log of history
   - `git log --all --graph --decorate`: visualizes history as a DAG
   - `git shortlog/ git log --oneline`: 只显示标题
-- `git diff <filename>`: show differences since the last commit
-- `git diff <revision> <filename>`: shows differences in a file between snapshots
+- `git diff`: 比较working directory和staging area
+  - `git diff --staged'：比较staging area和last commit
+  - `git diff <filename>`: show differences since the last commit
+  - `git diff <revision> <filename>`: shows differences in a file between snapshots
+  - `git difftool`，图形界面
 - `git checkout <revision>`: updates HEAD and current branch
+- `git rm file`
+  - `git rm --cached`，只删除staging areas，不删除working tree
+  - `git rm log/\*.log` ，通配符，注意要加`\`，Git有自己的文件名拓展
+* `git mv file_from file_to`
+```shell
+mv README.md README
+git rm README.md
+git add README
+```
+
 
 ##### Branching and merging
 - `git branch`: shows branches
@@ -113,6 +129,7 @@ git branch -d tmp
 ```
 - `git pull`: same as `git fetch; git merge`
 - `git clone`: download repository from remote
+  - 在最后可加文件夹名参数 
 
 ##### Undo
 - `git commit --amend`: edit a commit's contents/message
@@ -151,6 +168,26 @@ git push origin HEAD --force # 回退remote敏感信息
     * commit的时候有坑，需要先commit子模块，再commit主体，参考：https://stackoverflow.com/questions/8488887/git-error-changes-not-staged-for-commit
 - `.gitignore`: [specify](https://git-scm.com/docs/gitignore) intentionally untracked files to ignore
 
+```
+# ignore all .a files
+*.a
+
+# but do track lib.a, even though you're ignoring .a files above
+!lib.a
+
+# only ignore the TODO file in the current directory, not subdir/TODO
+/TODO
+
+# ignore all files in any directory named build
+build/
+
+# ignore doc/notes.txt, but not doc/server/arch.txt
+doc/*.txt
+
+# ignore all .pdf files in the doc/ directory and any of its subdirectories
+doc/**/*.pdf
+```
+
 #### Miscellaneous
 - **GUIs**: there are many [GUI clients](https://git-scm.com/downloads/guis)
 out there for Git. We personally don't use them and use the command-line
@@ -173,25 +210,6 @@ requests](https://help.github.com/en/github/collaborating-with-issues-and-pull-r
 - **Other Git providers**: GitHub is not special: there are many Git repository
 hosts, like [GitLab](https://about.gitlab.com/) and
 [BitBucket](https://bitbucket.org/).
-
-#### Other Resources
-- [Oh Shit, Git!?!](https://ohshitgit.com/) is a short guide on how to recover
-from some common Git mistakes.
-- [Git for Computer
-Scientists](https://eagain.net/articles/git-for-computer-scientists/) is a
-short explanation of Git's data model, with less pseudocode and more fancy
-diagrams than these lecture notes.
-- [Git from the Bottom Up](https://jwiegley.github.io/git-from-the-bottom-up/)
-is a detailed explanation of Git's implementation details beyond just the data
-model, for the curious.
-- [How to explain git in simple
-words](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
-
-* [git handbook](https://guides.github.com/introduction/git-handbook/)，里面有一些资源
-* [完整doc文档](https://git-scm.com/docs)
-* [resources to learn Git](https://try.github.io/)
-* [如何fork一个私库](https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private)
-
 
 #### 和Github联动
 * GitHub is a Git hosting repository that provides developers with tools to ship better code through command line features, issues (threaded discussions), pull requests, code review, or the use of a collection of free and for-purchase apps in the GitHub Marketplace. 
@@ -224,7 +242,23 @@ git pull --rebase origin master
 git push --set-upstream origin master
 ```
 
-#### 其它
+#### Other Resources
+- [Oh Shit, Git!?!](https://ohshitgit.com/) is a short guide on how to recover
+from some common Git mistakes.
+- [Git for Computer
+Scientists](https://eagain.net/articles/git-for-computer-scientists/) is a
+short explanation of Git's data model, with less pseudocode and more fancy
+diagrams than these lecture notes.
+- [Git from the Bottom Up](https://jwiegley.github.io/git-from-the-bottom-up/)
+is a detailed explanation of Git's implementation details beyond just the data
+model, for the curious.
+- [How to explain git in simple
+words](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
+
+* [git handbook](https://guides.github.com/introduction/git-handbook/)，里面有一些资源
+* [完整doc文档](https://git-scm.com/docs)
+* [resources to learn Git](https://try.github.io/)
+* [如何fork一个私库](https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private)
 * [tig](https://jonas.github.io/tig/doc/manual.html)：图形化git历史
   * >Tig是一个基于ncurses的git文本模式接口。它的功能主要是作为一个Git存储库浏览器，但也可以帮助在块级别上分段提交更改，并充当各种Git命令输出的分页器。
   * 先[安装ncurses](https://blog.csdn.net/weixin_40123831/article/details/82490687)
