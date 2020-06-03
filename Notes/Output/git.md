@@ -173,6 +173,7 @@ git push origin HEAD --force # 回退remote敏感信息
     * [使用时可能遇到的坑的集合](https://blog.csdn.net/a13271785989/article/details/42777793)
     * commit的时候有坑，需要先commit子模块，再commit主体，参考：https://stackoverflow.com/questions/8488887/git-error-changes-not-staged-for-commit
 - `.gitignore`: [specify](https://git-scm.com/docs/gitignore) intentionally untracked files to ignore
+  - `.gitignore_global`，[我的设定](https://github.com/huangrt01/dotfiles/blob/master/gitignore_global)
 
 ```
 # ignore all .a files
@@ -182,16 +183,16 @@ git push origin HEAD --force # 回退remote敏感信息
 !lib.a
 
 # only ignore the TODO file in the current directory, not subdir/TODO
-/TODO
+# /TODO
 
 # ignore all files in any directory named build
-build/
+# build/
 
 # ignore doc/notes.txt, but not doc/server/arch.txt
-doc/*.txt
+# doc/*.txt
 
 # ignore all .pdf files in the doc/ directory and any of its subdirectories
-doc/**/*.pdf
+# doc/**/*.pdf
 ```
 
 #### Miscellaneous
