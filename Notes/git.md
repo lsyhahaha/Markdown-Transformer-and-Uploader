@@ -85,8 +85,11 @@ def load(id):
   - saves the snapshot to the project history and completes the  change-tracking process. In short, a commit functions like taking a photo. Anything that’s been staged with `git add` will become a part of the snapshot with `git commit`.
   - `git commit -am "m"`可以先add再commit，但前提是commit的文件都是tracked状态
 - `git log`: shows a flattened log of history
-  - `git log --all --graph --decorate`: visualizes history as a DAG
+  - `git log --pretty=format:"%h %s" --all --graph --decorate --no-merges`: visualizes history as a DAG
   - `git shortlog/ git log --oneline`: 只显示标题
+  - `-p`显示全部信息，`-3`显示三条
+  - `--stat`显示统计信息
+  - `-S function_name --since=2.weeks --before="2008-11-01" --grep --author --committer --no-merges`
 - `git diff`: 比较working directory和staging area
   - `git diff --staged'：比较staging area和last commit
   - `git diff <filename>`: show differences since the last commit
@@ -134,7 +137,8 @@ git branch -d tmp
 ##### Undo
 - `git commit --amend`: edit a commit's contents/message
 - `git reset HEAD <file>`: unstage a file
-  * `git reset --hard` 回到上次commit的版本，配合`git pull/push` 
+  * `git reset --hard` 回到上次commit的版本，配合`git pull/push`
+  * [Github如何回退敏感信息](https://help.github.com/en/github/authenticating-to-github/removing-sensitive-data-from-a-repository) 
 ```shell
 git log
 git reset --hard XXXXXXXX
@@ -157,7 +161,9 @@ git push origin HEAD --force # 回退remote敏感信息
 - `git add -p`: interactive staging
 - `git rebase -i`: interactive rebasing
 - `git blame`: show who last edited which line
+  - `git blame -L :collection _config.yml`
 - `git stash`: temporarily remove modifications to working directory
+	- `git stash show -p | git apply -R`
 - `git bisect`: binary search history (e.g. for regressions)
 - `git submodule add <url> /path`
     * clone之后初始化：`git submodule update --init --recursive`
