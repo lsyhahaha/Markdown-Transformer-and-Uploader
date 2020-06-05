@@ -92,6 +92,18 @@ For web development, the Chrome/Firefox developer tools are quite handy. They fe
 - Storage - Look into the Cookies and local application storage.
 
 #### Static Analysis
+* [Static Analysis介绍](https://en.wikipedia.org/wiki/Static_program_analysis)
+  
+  * formal methods 
+  
+* [Static Analysis仓库整理](https://github.com/analysis-tools-dev/static-analysis#go)
+* [awesome linters整理](https://github.com/caramelomartins/awesome-linters#go)
+  
+* Python: [`pyflakes`](https://pypi.org/project/pyflakes) , [`mypy`](http://mypy-lang.org/), [`shellcheck`](https://www.shellcheck.net/),
+
+* English也有静态分析！[writegood]
+
+* 静态分析可以融入编辑器
 
 
 **内存泄露问题**
