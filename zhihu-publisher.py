@@ -1,5 +1,3 @@
-
-
 # Usage: This program aims to transfer your markdown file into a way zhihu.com can recognize correctly.
 #        It will mainly deal with your local images and the formulas inside.
 
@@ -21,7 +19,7 @@ from shutil import copyfile
 ## Please change the GITHUB_REPO_PREFIX value according to your own GitHub user name and relative directory. ##
 ###############################################################################################################
 # Your image folder remote link
-GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/Markdown-Transformer-and-Uploader/mynote/Notes/"
+GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/lsyhahaha/Markdown-Transformer-and-Uploader/mynote/Notes/"
 COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 
 # The main function for this program
@@ -44,14 +42,6 @@ def process_for_zhihu():
 
 # Deal with the formula and change them into Zhihu original format
 def formula_ops(_lines):
-     # _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
-    #                 '\n<img src="http://latex.codecogs.com/gif.latex?\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
-    # _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
-    #                 ' <img src="http://latex.codecogs.com/gif.latex?\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
-
-    # pattern=re.compile('')
-    # pattern.findall(_lines)
-
     _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n',
                     '\n<img src="https://www.zhihu.com/equation?tex=\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
     _lines = re.sub('(\$)(?!\$)(.*?)(\$)',
