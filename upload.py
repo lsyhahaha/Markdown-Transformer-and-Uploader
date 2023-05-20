@@ -8,6 +8,7 @@ import subprocess
 import chardet
 import functools
 import time
+from datetime import datetime
 
 from urllib.parse import quote
 
@@ -114,7 +115,7 @@ def reduce_image_size():
 # Push your new change to github remote end
 def git_ops():
     subprocess.run(["git","add","-A"])
-    subprocess.run(["git", "commit", "-m", "update file "+curfile.stem])
+    subprocess.run(["git", "commit", "-m", "update file on {}".format(datetime.now())+curfile.stem])
     subprocess.run(["git","push", "-u", "origin", "master"])
 
 if __name__ == "__main__":
